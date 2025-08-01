@@ -25,7 +25,7 @@ public class VehicleServiceImp implements VehicleService {
   }
 
   @Override
-  public List<VehicleDto> findVehiclesById(Integer id) {
-    return vehicleRequestRepository.findVehicleById(id).stream().map(vehicleApplicationMapper::vehicleToVehicleDto).toList();
+  public List<VehicleDto> findAllVehhicle() {
+    return vehicleRequestRepository.findAllVehhicle().stream().map(vehicleApplicationMapper::vehicleToVehicleDto).toList();
   }
 }

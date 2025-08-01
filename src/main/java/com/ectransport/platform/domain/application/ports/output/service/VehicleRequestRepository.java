@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface VehicleRequestRepository {
   List<VehicleBrand> findAllVehicleBrand();
-  List<Vehicle> findVehicleById(Integer id);
+  List<Vehicle> findAllVehhicle();
 }

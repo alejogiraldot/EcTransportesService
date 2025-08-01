@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface VehicleJpaRepository extends JpaRepository<VehicleEntity, Integer> {
-  List<VehicleEntity> findByVehicleBrandEntity_Id(Integer brandId);
 }

@@ -30,7 +30,7 @@ public class VehicleJpaRepositoryImp implements VehicleRequestRepository {
   }
 
   @Override
-  public List<Vehicle> findVehicleById(Integer id) {
-    return vehicleJpaRepository.findByVehicleBrandEntity_Id(id).stream().map(vehicleInfrastructureMapper::vehicleEntityToVehicle).toList();
+  public List<Vehicle> findAllVehhicle() {
+    return vehicleJpaRepository.findAll().stream().map(vehicleInfrastructureMapper::vehicleEntityToVehicle).toList();
   }
 }

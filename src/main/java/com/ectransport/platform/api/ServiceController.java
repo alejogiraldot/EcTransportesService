@@ -46,8 +46,8 @@ public class ServiceController {
     return ResponseEntity.ok(vehicleService.findAllVehiclesBrand());
   }
 
-  @GetMapping("/vehicles/{id}")
-  public ResponseEntity<List<VehicleDto>> getAllVehicles(@PathVariable("id") Integer id) {
-    return ResponseEntity.ok(vehicleService.findVehiclesById(id));
+  @GetMapping("/vehicles")
+  public ResponseEntity<List<VehicleDto>> getAllVehicles() {
+    return ResponseEntity.ok(vehicleService.findAllVehhicle());
   }
 }
