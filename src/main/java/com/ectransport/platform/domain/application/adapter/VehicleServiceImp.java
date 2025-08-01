@@ -1,6 +1,7 @@
 package com.ectransport.platform.domain.application.adapter;
 
 import com.ectransport.platform.domain.application.dto.VehicleBrandDto;
+import com.ectransport.platform.domain.application.dto.VehicleDto;
 import com.ectransport.platform.domain.application.mapper.VehicleApplicationMapper;
 import com.ectransport.platform.domain.application.ports.input.service.VehicleService;
 import com.ectransport.platform.domain.application.ports.output.service.VehicleRequestRepository;
@@ -21,5 +22,10 @@ public class VehicleServiceImp implements VehicleService {
   @Override
   public List<VehicleBrandDto> findAllVehiclesBrand() {
     return vehicleRequestRepository.findAllVehicleBrand().stream().map(vehicleApplicationMapper::vehicleBrandToVehicleBrandDto).toList();
+  }
+
+  @Override
+  public List<VehicleDto> findVehiclesById(Integer id) {
+    return vehicleRequestRepository.findVehicleById(id).stream().map(vehicleApplicationMapper::vehicleToVehicleDto).toList();
   }
 }
