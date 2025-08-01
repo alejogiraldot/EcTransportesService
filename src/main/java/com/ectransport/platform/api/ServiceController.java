@@ -2,7 +2,7 @@ package com.ectransport.platform.api;
 
 import com.ectransport.platform.domain.application.dto.*;
 import com.ectransport.platform.domain.application.ports.input.service.PaymentService;
-import com.ectransport.platform.domain.application.ports.input.service.ServiceTypeService;
+import com.ectransport.platform.domain.application.ports.input.service.ServiceRequestService;
 import com.ectransport.platform.domain.application.ports.input.service.TransportService;
 import com.ectransport.platform.domain.application.ports.input.service.VehicleService;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +14,13 @@ import java.util.List;
 @RequestMapping("services")
 @CrossOrigin("*")
 public class ServiceController {
-  private final ServiceTypeService serviceTypeService;
+  private final ServiceRequestService serviceRequestService;
   private final TransportService transportService;
   private final PaymentService paymentService;
   private final VehicleService vehicleService;
 
-  public ServiceController(ServiceTypeService serviceTypeService, TransportService transportService, PaymentService paymentService, VehicleService vehicleService) {
-    this.serviceTypeService = serviceTypeService;
+  public ServiceController(ServiceRequestService serviceRequestService, TransportService transportService, PaymentService paymentService, VehicleService vehicleService) {
+    this.serviceRequestService = serviceRequestService;
     this.transportService = transportService;
     this.paymentService = paymentService;
     this.vehicleService = vehicleService;
@@ -28,7 +28,7 @@ public class ServiceController {
 
   @GetMapping(value = "/service-type")
   public ResponseEntity<List<ServiceTypeDto>> getServiceTypes() {
-    return ResponseEntity.ok(serviceTypeService.findAllServiceTypes());
+    return ResponseEntity.ok(serviceRequestService.findAllServiceTypes());
   }
 
   @GetMapping("/transfer/{id}")
@@ -49,5 +49,9 @@ public class ServiceController {
   @GetMapping("/vehicles")
   public ResponseEntity<List<VehicleDto>> getAllVehicles() {
     return ResponseEntity.ok(vehicleService.findAllVehhicle());
+  }
+  @PostMapping("/create-service")
+  public ResponseEntity<CreateServiceDto> saveService(@RequestBody RequestCreateServiceDto createServiceRequest){
+    return ResponseEntity.ok(serviceRequestService.createService(createServiceRequest));
   }
 }

@@ -1,7 +1,5 @@
 package com.ectransport.platform.domain.core.entity;
 
-import com.ectransport.platform.infrastructure.entity.ServiceOrder;
-
 public class Transport {
   private Integer id;
   private String name;
