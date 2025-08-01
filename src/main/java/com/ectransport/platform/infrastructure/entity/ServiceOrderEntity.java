@@ -21,7 +21,7 @@ public class ServiceOrderEntity {
   @Column(name = "id_service")
   private UUID idService;
 
-  @Column(name = "service_type", nullable = false)
+  @Column(name = "service_type")
   private String serviceType;
 
   @Column(name = "fk_client", nullable = false)
@@ -36,40 +36,43 @@ public class ServiceOrderEntity {
   @Column(name = "hour_service", nullable = false)
   private LocalTime hourService;
 
-  @Column(name = "bran_vehicle", nullable = false)
+  @Column(name = "brand_vehicle", nullable = false)
   private String branVehicle;
 
-  @Column(name = "fk_transport", nullable = false)
+  @Column(name = "fk_transport")
   private Integer fkTransport;
 
-  @Column(name = "origin", nullable = false)
+  @Column(name = "origin")
   private String origin;
 
-  @Column(name = "destination", nullable = false)
+  @Column(name = "destination")
   private String destination;
 
-  @Column(name = "people_number", nullable = false)
+  @Column(name = "people_number")
   private Integer peopleNumber;
 
-  @Column(name = "service_ammount", nullable = false)
+  @Column(name = "service_ammount")
   private BigDecimal serviceAmmount;
 
   @Column(name = "observations")
   private String observations;
 
-  @Column(name = "user_name", nullable = false)
+  @Column(name = "user_name")
   private String userName;
 
-  @Column(name = "user_number", nullable = false)
+  @Column(name = "flight_number")
+  private String flightNumber;
+
+  @Column(name = "user_number")
   private String userNumber;
 
-  @Column(name = "user_email", nullable = false)
+  @Column(name = "user_email")
   private String userEmail;
 
   @Column(name = "creation_service")
   private LocalDateTime creationService;
 
-  @Column(name = "method_of_payment", nullable = false)
+  @Column(name = "method_of_payment")
   private String methodOfPayment;
 
   @Column(name = "voucher")
@@ -78,9 +81,9 @@ public class ServiceOrderEntity {
   @Column(name = "fk_driver")
   private Integer fkDriver;
 
-  @Column(name = "plate", nullable = false)
+  @Column(name = "plate")
   private String plate;
 
-  @Column(name = "service_number", nullable = false)
+  @Column(name = "service_number")
   private String serviceNumber;
 }

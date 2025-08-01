@@ -20,7 +20,7 @@ public class RequestCreateServiceDto {
   private Integer fkClientType;
   private LocalDate serviceDate;
   private LocalTime hourService;
-  private String branVehicle;
+  private String brandVehicle;
   private Integer fkTransport;
   private String origin;
   private String destination;
@@ -36,4 +36,6 @@ public class RequestCreateServiceDto {
   private Integer fkDriver;
   private String plate;
   private String serviceNumber;
+  private String flightNumber;
+
 }

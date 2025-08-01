@@ -1,7 +1,7 @@
 package com.ectransport.platform.infrastructure.mapper;
 
 import com.ectransport.platform.domain.application.dto.RequestCreateServiceDto;
-import com.ectransport.platform.domain.core.entity.CreateService;
+import com.ectransport.platform.domain.core.entity.Service;
 import com.ectransport.platform.domain.core.entity.ServiceType;
 import com.ectransport.platform.infrastructure.entity.ServiceOrderEntity;
 import com.ectransport.platform.infrastructure.entity.ServiceTypeEntity;
@@ -26,7 +26,7 @@ public class ServiceInfrastructureMapper {
         .fkClientType(requestCreateServiceDto.getFkClientType())
         .serviceDate(requestCreateServiceDto.getServiceDate())
         .hourService(requestCreateServiceDto.getHourService())
-        .branVehicle(requestCreateServiceDto.getBranVehicle())
+        .branVehicle(requestCreateServiceDto.getBrandVehicle())
         .fkTransport(requestCreateServiceDto.getFkTransport())
         .origin(requestCreateServiceDto.getOrigin())
         .destination(requestCreateServiceDto.getDestination())
@@ -41,11 +41,19 @@ public class ServiceInfrastructureMapper {
         .voucher(requestCreateServiceDto.getVoucher())
         .fkDriver(requestCreateServiceDto.getFkDriver())
         .plate(requestCreateServiceDto.getPlate())
+        .flightNumber(requestCreateServiceDto.getFlightNumber())
         .serviceNumber(requestCreateServiceDto.getServiceNumber())
+        .fkTransport(requestCreateServiceDto.getFkTransport())
         .build();
   }
 
-  public CreateService serviceEntityToCreateService(ServiceOrderEntity serviceOrderEntity) {
-    return null;
+  public Service serviceEntityToService(ServiceOrderEntity serviceOrderEntity) {
+    return Service.builder()
+        .hourService(serviceOrderEntity.getHourService())
+        .serviceDate(serviceOrderEntity.getServiceDate())
+        .origin(serviceOrderEntity.getOrigin())
+        .destination(serviceOrderEntity.getDestination())
+        .idService(serviceOrderEntity.getIdService())
+        .build();
   }
 }

@@ -2,7 +2,7 @@ package com.ectransport.platform.infrastructure.adapter;
 
 import com.ectransport.platform.domain.application.dto.RequestCreateServiceDto;
 import com.ectransport.platform.domain.application.ports.output.service.ServiceRequestRepository;
-import com.ectransport.platform.domain.core.entity.CreateService;
+import com.ectransport.platform.domain.core.entity.Service;
 import com.ectransport.platform.domain.core.entity.ServiceType;
 import com.ectransport.platform.infrastructure.entity.ServiceOrderEntity;
 import com.ectransport.platform.infrastructure.mapper.ServiceInfrastructureMapper;
@@ -35,8 +35,13 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
   }
 
   @Override
-  public CreateService saveService(RequestCreateServiceDto requestCreateServiceDto) {
+  public Service saveService(RequestCreateServiceDto requestCreateServiceDto) {
     ServiceOrderEntity serviceOrderEntity = serviceInfrastructureMapper.requestCreateServiceDtoToServiceOrderEntity(requestCreateServiceDto);
-    return serviceInfrastructureMapper.serviceEntityToCreateService(serviceJpaRepository.save(serviceOrderEntity));
+    return serviceInfrastructureMapper.serviceEntityToService(serviceJpaRepository.save(serviceOrderEntity));
+  }
+
+  @Override
+  public List<Service> findServiceByUser(Integer id) {
+    return serviceJpaRepository.findByFkDriver(id).stream().map(serviceInfrastructureMapper::serviceEntityToService).toList();
   }
 }

@@ -13,14 +13,14 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @Builder
-public class CreateService {
+public class Service {
   private UUID idService;
   private String serviceType;
   private UUID fkClient;
   private Integer fkClientType;
   private LocalDate serviceDate;
   private LocalTime hourService;
-  private String branVehicle;
+  private String brandVehicle;
   private Integer fkTransport;
   private String origin;
   private String destination;
@@ -37,14 +37,14 @@ public class CreateService {
   private String plate;
   private String serviceNumber;
 
-  private CreateService(Builder builder) {
+  private Service(Builder builder) {
     setIdService(builder.idService);
     setServiceType(builder.serviceType);
     setFkClient(builder.fkClient);
     setFkClientType(builder.fkClientType);
     setServiceDate(builder.serviceDate);
     setHourService(builder.hourService);
-    setBranVehicle(builder.branVehicle);
+    setBrandVehicle(builder.brandVehicle);
     setFkTransport(builder.fkTransport);
     setOrigin(builder.origin);
     setDestination(builder.destination);
@@ -86,8 +86,8 @@ public class CreateService {
     return hourService;
   }
 
-  public String getBranVehicle() {
-    return branVehicle;
+  public String getBrandVehicle() {
+    return brandVehicle;
   }
 
   public Integer getFkTransport() {
@@ -157,7 +157,7 @@ public class CreateService {
     private Integer fkClientType;
     private LocalDate serviceDate;
     private LocalTime hourService;
-    private String branVehicle;
+    private String brandVehicle;
     private Integer fkTransport;
     private String origin;
     private String destination;
@@ -211,8 +211,8 @@ public class CreateService {
       return this;
     }
 
-    public Builder branVehicle(String val) {
-      branVehicle = val;
+    public Builder brandVehicle(String val) {
+      brandVehicle = val;
       return this;
     }
 
@@ -291,8 +291,8 @@ public class CreateService {
       return this;
     }
 
-    public CreateService build() {
-      return new CreateService(this);
+    public Service build() {
+      return new Service(this);
     }
   }
 }
