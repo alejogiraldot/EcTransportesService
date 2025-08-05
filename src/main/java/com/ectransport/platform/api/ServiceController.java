@@ -56,8 +56,8 @@ public class ServiceController {
     return ResponseEntity.ok(serviceRequestService.createService(createServiceRequest));
   }
 
-  @GetMapping("/find-service-by-id/{id}")
-  public ResponseEntity<List<ServicesByUserDto>> saveService(@PathVariable("id") Integer id){
-    return ResponseEntity.ok(serviceRequestService.findServiceByUser(id));
+  @PostMapping("/find-service-by-user")
+  public ResponseEntity<List<ServicesByUserDto>> saveService(FindServiceByUser findServiceByUser){
+    return ResponseEntity.ok(serviceRequestService.findServiceByUser(findServiceByUser));
   }
 }

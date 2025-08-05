@@ -37,5 +37,5 @@ public class RequestCreateServiceDto {
   private String plate;
   private String serviceNumber;
   private String flightNumber;
-
+  private Integer status;
 }

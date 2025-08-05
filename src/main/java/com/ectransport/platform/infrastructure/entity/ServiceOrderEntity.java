@@ -86,4 +86,7 @@ public class ServiceOrderEntity {
 
   @Column(name = "service_number")
   private String serviceNumber;
+
+  @Column(name = "fk_service_status")
+  private Integer fkServiceStatus;
 }

@@ -1,8 +1,10 @@
 package com.ectransport.platform.infrastructure.mapper;
 
 import com.ectransport.platform.domain.application.dto.RequestCreateServiceDto;
+import com.ectransport.platform.domain.core.entity.DailyCounter;
 import com.ectransport.platform.domain.core.entity.Service;
 import com.ectransport.platform.domain.core.entity.ServiceType;
+import com.ectransport.platform.infrastructure.entity.DailyCounterEntity;
 import com.ectransport.platform.infrastructure.entity.ServiceOrderEntity;
 import com.ectransport.platform.infrastructure.entity.ServiceTypeEntity;
 import org.springframework.stereotype.Component;
@@ -41,19 +43,36 @@ public class ServiceInfrastructureMapper {
         .voucher(requestCreateServiceDto.getVoucher())
         .fkDriver(requestCreateServiceDto.getFkDriver())
         .plate(requestCreateServiceDto.getPlate())
+        .serviceDate(requestCreateServiceDto.getServiceDate())
         .flightNumber(requestCreateServiceDto.getFlightNumber())
         .serviceNumber(requestCreateServiceDto.getServiceNumber())
         .fkTransport(requestCreateServiceDto.getFkTransport())
+        .fkServiceStatus(requestCreateServiceDto.getStatus())
         .build();
   }
 
   public Service serviceEntityToService(ServiceOrderEntity serviceOrderEntity) {
     return Service.builder()
+        .serviceNumber(serviceOrderEntity.getServiceNumber())
         .hourService(serviceOrderEntity.getHourService())
         .serviceDate(serviceOrderEntity.getServiceDate())
         .origin(serviceOrderEntity.getOrigin())
         .destination(serviceOrderEntity.getDestination())
         .idService(serviceOrderEntity.getIdService())
+        .build();
+  }
+
+  public DailyCounter dailyCounterEntityToDailyCounter(DailyCounterEntity dailyCounterEntity){
+    return DailyCounter.builder()
+        .date(dailyCounterEntity.getDate())
+        .counter(dailyCounterEntity.getCounter())
+        .build();
+  }
+
+  public DailyCounterEntity dailyCounterToDailyCounterDto(DailyCounter dailyCounter){
+    return DailyCounterEntity.builder()
+        .counter(dailyCounter.getCounter())
+        .date(dailyCounter.getDate())
         .build();
   }
 }

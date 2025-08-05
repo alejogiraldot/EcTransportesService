@@ -19,7 +19,7 @@ public class ServiceApplicationMapper {
 
   public CreateServiceDto createServiceToCreateServiceDto(Service service) {
     return CreateServiceDto.builder()
-        .serviceId(service.getIdService())
+        .serviceId(service.getServiceNumber())
         .build();
   }
 

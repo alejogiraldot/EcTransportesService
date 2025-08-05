@@ -11,6 +11,5 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class CreateServiceDto {
-  private UUID serviceId;
-  private LocalDate startTime;
+  private String serviceId;
 }
