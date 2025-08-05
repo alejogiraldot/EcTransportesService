@@ -57,7 +57,7 @@ public class ServiceController {
   }
 
   @PostMapping("/find-service-by-user")
-  public ResponseEntity<List<ServicesByUserDto>> saveService(FindServiceByUser findServiceByUser){
+  public ResponseEntity<List<ServiceDto>> saveService(@RequestBody FindServiceByUser findServiceByUser){
     return ResponseEntity.ok(serviceRequestService.findServiceByUser(findServiceByUser));
   }
 }

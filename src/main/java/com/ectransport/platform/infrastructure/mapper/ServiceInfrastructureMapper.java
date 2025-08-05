@@ -1,8 +1,10 @@
 package com.ectransport.platform.infrastructure.mapper;
 
 import com.ectransport.platform.domain.application.dto.RequestCreateServiceDto;
+import com.ectransport.platform.domain.application.ports.repository.ServiceReport;
 import com.ectransport.platform.domain.core.entity.DailyCounter;
 import com.ectransport.platform.domain.core.entity.Service;
+import com.ectransport.platform.domain.core.entity.ServiceByUser;
 import com.ectransport.platform.domain.core.entity.ServiceType;
 import com.ectransport.platform.infrastructure.entity.DailyCounterEntity;
 import com.ectransport.platform.infrastructure.entity.ServiceOrderEntity;
@@ -62,17 +64,41 @@ public class ServiceInfrastructureMapper {
         .build();
   }
 
-  public DailyCounter dailyCounterEntityToDailyCounter(DailyCounterEntity dailyCounterEntity){
+  public DailyCounter dailyCounterEntityToDailyCounter(DailyCounterEntity dailyCounterEntity) {
     return DailyCounter.builder()
         .date(dailyCounterEntity.getDate())
         .counter(dailyCounterEntity.getCounter())
         .build();
   }
 
-  public DailyCounterEntity dailyCounterToDailyCounterDto(DailyCounter dailyCounter){
+  public DailyCounterEntity dailyCounterToDailyCounterDto(DailyCounter dailyCounter) {
     return DailyCounterEntity.builder()
         .counter(dailyCounter.getCounter())
         .date(dailyCounter.getDate())
+        .build();
+  }
+
+  public ServiceByUser serviceReportToService(ServiceReport serviceReport) {
+    return ServiceByUser.builder()
+        .serviceType(serviceReport.getServiceType())
+        .serviceDate(serviceReport.getServiceDate())
+        .hourService(serviceReport.getHourService())
+        .brandVehicle(serviceReport.getBrandVehicle())
+        .origin(serviceReport.getOrigin())
+        .destination(serviceReport.getDestination())
+        .peopleNumber(serviceReport.getPeopleNumber())
+        .serviceAmmount(serviceReport.getServiceAmmount())
+        .observations(serviceReport.getObservations())
+        .userName(serviceReport.getUserName())
+        .userNumber(serviceReport.getUserNumber())
+        .userEmail(serviceReport.getUserEmail())
+        .flightNumber(serviceReport.getFlightNumber())
+        .serviceNumber(serviceReport.getServiceNumber())
+        .methodOfPayment(serviceReport.getMethodOfPayment())
+        .voucher(serviceReport.getVoucher())
+        .driverName(serviceReport.getDriverName())
+        .driverLastName(serviceReport.getDriverLastName())
+        .clientName(serviceReport.getClientName())
         .build();
   }
 }

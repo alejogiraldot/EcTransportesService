@@ -40,8 +40,8 @@ public class ServiceImp implements ServiceRequestService {
   }
 
   @Override
-  public List<ServicesByUserDto> findServiceByUser(FindServiceByUser findServiceByUser) {
-    return serviceRequestRepository.findServiceByUser(findServiceByUser).stream().map(serviceApplicationMapper::serviceToServiceByUserDto).toList();
+  public List<ServiceDto> findServiceByUser(FindServiceByUser findServiceByUser) {
+    return serviceRequestRepository.findServiceByUser(findServiceByUser).stream().map(serviceApplicationMapper::serviceByUserToServiceDto).toList();
   }
 
 

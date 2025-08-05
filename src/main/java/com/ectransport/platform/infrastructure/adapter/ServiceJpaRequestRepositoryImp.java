@@ -5,6 +5,7 @@ import com.ectransport.platform.domain.application.dto.RequestCreateServiceDto;
 import com.ectransport.platform.domain.application.ports.output.service.ServiceRequestRepository;
 import com.ectransport.platform.domain.core.entity.DailyCounter;
 import com.ectransport.platform.domain.core.entity.Service;
+import com.ectransport.platform.domain.core.entity.ServiceByUser;
 import com.ectransport.platform.domain.core.entity.ServiceType;
 import com.ectransport.platform.infrastructure.entity.DailyCounterEntity;
 import com.ectransport.platform.infrastructure.entity.ServiceOrderEntity;
@@ -48,13 +49,13 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
   }
 
   @Override
-  public List<Service> findServiceByUser(FindServiceByUser findServiceByUser) {
+  public List<ServiceByUser> findServiceByUser(FindServiceByUser findServiceByUser) {
     return serviceJpaRepository.findServiceByUser(
         findServiceByUser.getClientId(),
         findServiceByUser.getFinalDate(),
         findServiceByUser.getInitialDate(),
         findServiceByUser.getPlate()
-    ).stream().map(serviceInfrastructureMapper::serviceEntityToService).toList();
+    ).stream().map(serviceInfrastructureMapper::serviceReportToService).toList();
   }
 
   @Override

@@ -1,9 +1,7 @@
 package com.ectransport.platform.domain.application.ports.input.service;
 
 import com.ectransport.platform.domain.application.dto.*;
-import com.ectransport.platform.domain.core.entity.DailyCounter;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface ServiceRequestService {
@@ -11,6 +9,6 @@ public interface ServiceRequestService {
 
   CreateServiceDto createService(RequestCreateServiceDto requestCreateServiceDto);
 
-  List<ServicesByUserDto> findServiceByUser(FindServiceByUser findServiceByUser);
+  List<ServiceDto> findServiceByUser(FindServiceByUser findServiceByUser);
 
 }

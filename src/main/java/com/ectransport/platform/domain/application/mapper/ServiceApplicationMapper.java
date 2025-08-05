@@ -1,10 +1,13 @@
 package com.ectransport.platform.domain.application.mapper;
 
 import com.ectransport.platform.domain.application.dto.CreateServiceDto;
+import com.ectransport.platform.domain.application.dto.ServiceDto;
 import com.ectransport.platform.domain.application.dto.ServiceTypeDto;
 import com.ectransport.platform.domain.application.dto.ServicesByUserDto;
 import com.ectransport.platform.domain.core.entity.Service;
+import com.ectransport.platform.domain.core.entity.ServiceByUser;
 import com.ectransport.platform.domain.core.entity.ServiceType;
+import com.ectransport.platform.infrastructure.entity.ServiceOrderEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -31,5 +34,30 @@ public class ServiceApplicationMapper {
         .destination(services.getDestination())
         .origin(services.getOrigin())
         .build();
+  }
+
+  public ServiceDto serviceByUserToServiceDto(ServiceByUser serviceByUser) {
+    return ServiceDto.builder()
+        .serviceType(serviceByUser.getServiceType())
+        .serviceDate(serviceByUser.getServiceDate())
+        .hourService(serviceByUser.getHourService())
+        .brandVehicle(serviceByUser.getBrandVehicle())
+        .origin(serviceByUser.getOrigin())
+        .destination(serviceByUser.getDestination())
+        .peopleNumber(serviceByUser.getPeopleNumber())
+        .serviceAmmount(serviceByUser.getServiceAmmount())
+        .observations(serviceByUser.getObservations())
+        .userName(serviceByUser.getUserName())
+        .userNumber(serviceByUser.getUserNumber())
+        .userEmail(serviceByUser.getUserEmail())
+        .flightNumber(serviceByUser.getFlightNumber())
+        .serviceNumber(serviceByUser.getServiceNumber())
+        .methodOfPayment(serviceByUser.getMethodOfPayment())
+        .voucher(serviceByUser.getVoucher())
+        .driverName(serviceByUser.getDriverName())
+        .driverLastName(serviceByUser.getDriverLastName())
+        .clientName(serviceByUser.getClientName())
+        .build();
+
   }
 }
