@@ -79,7 +79,7 @@ public class ServiceInfrastructureMapper {
   }
 
   public ServiceByUser serviceReportToService(ServiceReport serviceReport) {
-    return ServiceByUser.builder()
+    ServiceByUser serviceByUser= ServiceByUser.builder()
         .serviceType(serviceReport.getServiceType())
         .serviceDate(serviceReport.getServiceDate())
         .hourService(serviceReport.getHourService())
@@ -100,5 +100,7 @@ public class ServiceInfrastructureMapper {
         .driverLastName(serviceReport.getDriverLastName())
         .clientName(serviceReport.getClientName())
         .build();
+    System.out.println(serviceByUser);
+    return serviceByUser;
   }
 }

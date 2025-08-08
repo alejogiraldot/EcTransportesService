@@ -52,8 +52,8 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
   public List<ServiceByUser> findServiceByUser(FindServiceByUser findServiceByUser) {
     return serviceJpaRepository.findServiceByUser(
         findServiceByUser.getClientId(),
-        findServiceByUser.getFinalDate(),
         findServiceByUser.getInitialDate(),
+        findServiceByUser.getFinalDate(),
         findServiceByUser.getPlate()
     ).stream().map(serviceInfrastructureMapper::serviceReportToService).toList();
   }
