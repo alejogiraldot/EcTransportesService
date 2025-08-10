@@ -1,9 +1,6 @@
 package com.ectransport.platform.domain.application.mapper;
 
-import com.ectransport.platform.domain.application.dto.CreateServiceDto;
-import com.ectransport.platform.domain.application.dto.ServiceDto;
-import com.ectransport.platform.domain.application.dto.ServiceTypeDto;
-import com.ectransport.platform.domain.application.dto.ServicesByUserDto;
+import com.ectransport.platform.domain.application.dto.*;
 import com.ectransport.platform.domain.core.entity.Service;
 import com.ectransport.platform.domain.core.entity.ServiceByUser;
 import com.ectransport.platform.domain.core.entity.ServiceType;
@@ -63,6 +60,11 @@ public class ServiceApplicationMapper {
         .statusId(serviceByUser.getStatusId())
         .driverId(serviceByUser.getDriverId())
         .build();
+  }
 
+  public ServiceUpdatedDto serviceToServiceUpdatedDto(Service service){
+    return ServiceUpdatedDto.builder()
+        .plate(service.getPlate())
+        .build();
   }
 }

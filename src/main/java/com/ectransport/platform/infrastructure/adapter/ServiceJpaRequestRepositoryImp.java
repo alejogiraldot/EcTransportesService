@@ -1,8 +1,6 @@
 package com.ectransport.platform.infrastructure.adapter;
 
-import com.ectransport.platform.domain.application.dto.FindServiceByUser;
-import com.ectransport.platform.domain.application.dto.RequestCreateServiceDto;
-import com.ectransport.platform.domain.application.dto.UpdateStatus;
+import com.ectransport.platform.domain.application.dto.*;
 import com.ectransport.platform.domain.application.ports.output.service.ServiceRequestRepository;
 import com.ectransport.platform.domain.core.entity.DailyCounter;
 import com.ectransport.platform.domain.core.entity.Service;
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository {
@@ -77,10 +76,28 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
   }
 
   @Override
-  public void updateStatusService(UpdateStatus updateStatus) {
+  public void updateStatusService(UpdateStatusDto updateStatusDto) {
     serviceJpaRepository.updateServiceStatus(
-        updateStatus.getServiceId(),
-        updateStatus.getId()
+        updateStatusDto.getServiceId(),
+        updateStatusDto.getId()
     );
   }
+
+  @Override
+  public int updateDriverByService(UpdateDriverDto updateDriverDto) {
+    return serviceJpaRepository.updateDriverByService(
+        updateDriverDto.getServiceId(),
+        updateDriverDto.getDriverId(),
+        updateDriverDto.getPlate(),
+        updateDriverDto.getIdStatus()
+    );
+  }
+
+  @Override
+  public Service findServiceById(UUID id) {
+    return serviceJpaRepository.findById(id)
+        .map(serviceInfrastructureMapper::serviceEntityToService)
+        .orElse(null);
+  }
+
 }

@@ -6,9 +6,8 @@ import java.util.List;
 
 public interface ServiceRequestService {
   List<ServiceTypeDto> findAllServiceTypes();
-
   CreateServiceDto createService(RequestCreateServiceDto requestCreateServiceDto);
-
   List<ServiceDto> findServiceByUser(FindServiceByUser findServiceByUser);
-  StatusUpdated updateStatusService(UpdateStatus updateStatus);
+  StatusUpdatedDto updateStatusService(UpdateStatusDto updateStatusDto);
+  ServiceUpdatedDto updateDriverByService(UpdateDriverDto updateDriverDto);
 }

@@ -61,6 +61,7 @@ public class ServiceInfrastructureMapper {
         .origin(serviceOrderEntity.getOrigin())
         .destination(serviceOrderEntity.getDestination())
         .idService(serviceOrderEntity.getIdService())
+        .plate(serviceOrderEntity.getPlate())
         .build();
   }
 

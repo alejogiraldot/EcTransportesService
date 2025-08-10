@@ -4,12 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.UUID;
-
-@Data
 @Builder
+@Data
 @AllArgsConstructor
-public class UpdateStatus {
-  private Integer id;
-  private UUID serviceId;
+public class StatusUpdatedDto {
+  private String status;
 }

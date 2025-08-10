@@ -70,5 +70,20 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
       """, nativeQuery = true)
   int updateServiceStatus(@Param("idService") UUID idService, @Param("newStatusId") Integer newStatusId);
 
+  @Modifying
+  @Transactional
+  @Query(value = """
+    UPDATE services.service_orders
+    SET fk_driver = :idDriver,
+        plate = :plate,
+        fk_service_status = :statusId
+    WHERE id_service = :idService
+    """, nativeQuery = true)
+  int updateDriverByService(
+      @Param("idService") UUID idService,
+      @Param("idDriver") Integer idDriver,
+      @Param("plate") String plate,
+      @Param("statusId") Integer statusId
+  );
 
 }

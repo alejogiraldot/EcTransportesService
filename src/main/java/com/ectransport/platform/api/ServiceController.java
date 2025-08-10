@@ -61,7 +61,12 @@ public class ServiceController {
     return ResponseEntity.ok(serviceRequestService.findServiceByUser(findServiceByUser));
   }
   @PatchMapping("/updateStatus")
-  public ResponseEntity<StatusUpdated> updateStatusService(@RequestBody UpdateStatus updateStatus){
-    return ResponseEntity.ok(serviceRequestService.updateStatusService(updateStatus));
+  public ResponseEntity<StatusUpdatedDto> updateStatusService(@RequestBody UpdateStatusDto updateStatusDto){
+    return ResponseEntity.ok(serviceRequestService.updateStatusService(updateStatusDto));
+  }
+
+  @PatchMapping("/updateDriver")
+  public ResponseEntity<ServiceUpdatedDto> updateDriverByService(@RequestBody UpdateDriverDto updateDriverDto){
+    return ResponseEntity.ok(serviceRequestService.updateDriverByService(updateDriverDto));
   }
 }

@@ -45,11 +45,21 @@ public class ServiceImp implements ServiceRequestService {
   }
 
   @Override
-  public StatusUpdated updateStatusService(UpdateStatus updateStatus) {
-    serviceRequestRepository.updateStatusService(updateStatus);
-    return StatusUpdated.builder()
+  public StatusUpdatedDto updateStatusService(UpdateStatusDto updateStatusDto) {
+    serviceRequestRepository.updateStatusService(updateStatusDto);
+    return StatusUpdatedDto.builder()
         .status("El estado fue actualizado con exito")
         .build();
+  }
+
+  @Override
+  public ServiceUpdatedDto updateDriverByService(UpdateDriverDto updateDriverDto) {
+    int statusUpdated = serviceRequestRepository.updateDriverByService(updateDriverDto);
+    if (statusUpdated == 1) {
+      return serviceApplicationMapper.serviceToServiceUpdatedDto(serviceRequestRepository.findServiceById(updateDriverDto.getServiceId()));
+    }else{
+      return null;
+    }
   }
 
 
