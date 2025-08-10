@@ -3,6 +3,7 @@ package com.ectransport.platform.domain.application.ports.repository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 public interface ServiceReport {
   String getServiceType();
@@ -25,4 +26,8 @@ public interface ServiceReport {
   String getDriverName();
   String getDriverLastName();
   String getClientName();
+  Integer getStatusId();
+  UUID getIdService();
+  Integer getStatusIdentifier();
+  Integer getDriverId();
 }

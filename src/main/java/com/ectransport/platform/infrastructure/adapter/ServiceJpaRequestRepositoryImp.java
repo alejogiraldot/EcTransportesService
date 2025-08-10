@@ -2,6 +2,7 @@ package com.ectransport.platform.infrastructure.adapter;
 
 import com.ectransport.platform.domain.application.dto.FindServiceByUser;
 import com.ectransport.platform.domain.application.dto.RequestCreateServiceDto;
+import com.ectransport.platform.domain.application.dto.UpdateStatus;
 import com.ectransport.platform.domain.application.ports.output.service.ServiceRequestRepository;
 import com.ectransport.platform.domain.core.entity.DailyCounter;
 import com.ectransport.platform.domain.core.entity.Service;
@@ -51,10 +52,11 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
   @Override
   public List<ServiceByUser> findServiceByUser(FindServiceByUser findServiceByUser) {
     return serviceJpaRepository.findServiceByUser(
-        findServiceByUser.getClientId(),
         findServiceByUser.getInitialDate(),
         findServiceByUser.getFinalDate(),
-        findServiceByUser.getPlate()
+        findServiceByUser.getPlate(),
+        findServiceByUser.getUserId(),
+        findServiceByUser.getClientId()
     ).stream().map(serviceInfrastructureMapper::serviceReportToService).toList();
   }
 
@@ -72,5 +74,13 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
   public void saveCounter(DailyCounter dailyCounter) {
     DailyCounterEntity dailyCounterEntity = serviceInfrastructureMapper.dailyCounterToDailyCounterDto(dailyCounter);
     dailyCounterRepository.save(dailyCounterEntity);
+  }
+
+  @Override
+  public void updateStatusService(UpdateStatus updateStatus) {
+    serviceJpaRepository.updateServiceStatus(
+        updateStatus.getServiceId(),
+        updateStatus.getId()
+    );
   }
 }

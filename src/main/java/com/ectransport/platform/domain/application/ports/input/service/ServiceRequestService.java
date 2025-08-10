@@ -10,5 +10,5 @@ public interface ServiceRequestService {
   CreateServiceDto createService(RequestCreateServiceDto requestCreateServiceDto);
 
   List<ServiceDto> findServiceByUser(FindServiceByUser findServiceByUser);
-
+  StatusUpdated updateStatusService(UpdateStatus updateStatus);
 }

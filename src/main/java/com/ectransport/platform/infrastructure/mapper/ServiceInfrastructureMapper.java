@@ -79,7 +79,9 @@ public class ServiceInfrastructureMapper {
   }
 
   public ServiceByUser serviceReportToService(ServiceReport serviceReport) {
-    ServiceByUser serviceByUser= ServiceByUser.builder()
+    return ServiceByUser.builder()
+        .statusIdentifier(serviceReport.getStatusIdentifier())
+        .idService(serviceReport.getIdService())
         .serviceType(serviceReport.getServiceType())
         .serviceDate(serviceReport.getServiceDate())
         .hourService(serviceReport.getHourService())
@@ -96,11 +98,12 @@ public class ServiceInfrastructureMapper {
         .serviceNumber(serviceReport.getServiceNumber())
         .methodOfPayment(serviceReport.getMethodOfPayment())
         .voucher(serviceReport.getVoucher())
+        .plate(serviceReport.getPlate())
         .driverName(serviceReport.getDriverName())
         .driverLastName(serviceReport.getDriverLastName())
         .clientName(serviceReport.getClientName())
+        .statusId(serviceReport.getStatusId())
+        .driverId(serviceReport.getDriverId())
         .build();
-    System.out.println(serviceByUser);
-    return serviceByUser;
   }
 }

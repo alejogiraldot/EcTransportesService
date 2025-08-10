@@ -44,6 +44,14 @@ public class ServiceImp implements ServiceRequestService {
     return serviceRequestRepository.findServiceByUser(findServiceByUser).stream().map(serviceApplicationMapper::serviceByUserToServiceDto).toList();
   }
 
+  @Override
+  public StatusUpdated updateStatusService(UpdateStatus updateStatus) {
+    serviceRequestRepository.updateStatusService(updateStatus);
+    return StatusUpdated.builder()
+        .status("El estado fue actualizado con exito")
+        .build();
+  }
+
 
   private void validateDriver(RequestCreateServiceDto requestCreateServiceDto) {
     if ((requestCreateServiceDto.getStatus() == null)) {

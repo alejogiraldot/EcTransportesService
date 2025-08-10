@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 public class FindServiceByUser {
   private LocalDate initialDate;
   private LocalDate finalDate;
-  private Integer clientId;
+  private UUID clientId;
   private String plate;
+  private Integer userId;
 }

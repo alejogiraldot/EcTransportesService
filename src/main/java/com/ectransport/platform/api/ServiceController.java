@@ -60,4 +60,8 @@ public class ServiceController {
   public ResponseEntity<List<ServiceDto>> saveService(@RequestBody FindServiceByUser findServiceByUser){
     return ResponseEntity.ok(serviceRequestService.findServiceByUser(findServiceByUser));
   }
+  @PatchMapping("/updateStatus")
+  public ResponseEntity<StatusUpdated> updateStatusService(@RequestBody UpdateStatus updateStatus){
+    return ResponseEntity.ok(serviceRequestService.updateStatusService(updateStatus));
+  }
 }

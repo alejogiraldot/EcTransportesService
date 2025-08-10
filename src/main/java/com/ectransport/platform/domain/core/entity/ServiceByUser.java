@@ -3,6 +3,7 @@ package com.ectransport.platform.domain.core.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 public class ServiceByUser {
   private String serviceType;
@@ -25,36 +26,14 @@ public class ServiceByUser {
   private String driverName;
   private String driverLastName;
   private String clientName;
-
-  public static ServiceByUser.Builder builder() {
-    return new ServiceByUser.Builder();
-  }
-
-  public ServiceByUser(String serviceType, LocalDate serviceDate, LocalTime hourService, String brandVehicle, String origin, String destination, Integer peopleNumber, BigDecimal serviceAmmount, String observations, String userNumber, String userName, String userEmail, String flightNumber, String methodOfPayment, String voucher, String plate, String serviceNumber, String driverName, String driverLastName, String clientName) {
-    this.serviceType = serviceType;
-    this.serviceDate = serviceDate;
-    this.hourService = hourService;
-    this.brandVehicle = brandVehicle;
-    this.origin = origin;
-    this.destination = destination;
-    this.peopleNumber = peopleNumber;
-    this.serviceAmmount = serviceAmmount;
-    this.observations = observations;
-    this.userNumber = userNumber;
-    this.userName = userName;
-    this.userEmail = userEmail;
-    this.flightNumber = flightNumber;
-    this.methodOfPayment = methodOfPayment;
-    this.voucher = voucher;
-    this.plate = plate;
-    this.serviceNumber = serviceNumber;
-    this.driverName = driverName;
-    this.driverLastName = driverLastName;
-    this.clientName = clientName;
-  }
+  private Integer statusId;
+  private UUID idService;
+  private Integer statusIdentifier;
+  private Integer driverId;
 
   private ServiceByUser(Builder builder) {
-    setServiceType(builder.serviceType);
+    statusIdentifier = builder.statusIdentifier;
+    serviceType = builder.serviceType;
     serviceDate = builder.serviceDate;
     hourService = builder.hourService;
     brandVehicle = builder.brandVehicle;
@@ -67,85 +46,31 @@ public class ServiceByUser {
     userName = builder.userName;
     userEmail = builder.userEmail;
     flightNumber = builder.flightNumber;
-    setMethodOfPayment(builder.methodOfPayment);
-    setVoucher(builder.voucher);
-    setPlate(builder.plate);
-    setServiceNumber(builder.serviceNumber);
-    setDriverName(builder.driverName);
-    setDriverLastName(builder.driverLastName);
-    setClientName(builder.clientName);
+    methodOfPayment = builder.methodOfPayment;
+    voucher = builder.voucher;
+    plate = builder.plate;
+    serviceNumber = builder.serviceNumber;
+    driverName = builder.driverName;
+    driverLastName = builder.driverLastName;
+    clientName = builder.clientName;
+    statusId = builder.statusId;
+    idService = builder.idService;
+    driverId = builder.driverId;
   }
 
-  public String getClientName() {
-    return clientName;
+  public static Builder builder() {
+    return new Builder();
   }
 
-  public String getUserEmail() {
-    return userEmail;
-  }
-
-  public String getFlightNumber() {
-    return flightNumber;
-  }
-
-  public String getVoucher() {
-    return voucher;
-  }
-
-  public String getMethodOfPayment() {
-    return methodOfPayment;
-  }
-
-  public String getPlate() {
-    return plate;
-  }
-
-  public String getServiceNumber() {
-    return serviceNumber;
-  }
-
-  public String getDriverName() {
-    return driverName;
-  }
-
-  public String getDriverLastName() {
-    return driverLastName;
-  }
-
-  public void setServiceType(String serviceType) {
-    this.serviceType = serviceType;
-  }
-
-  public void setClientName(String clientName) {
-    this.clientName = clientName;
-  }
-
-  public void setDriverLastName(String driverLastName) {
-    this.driverLastName = driverLastName;
-  }
-
-  public void setDriverName(String driverName) {
-    this.driverName = driverName;
-  }
-
-  public void setServiceNumber(String serviceNumber) {
-    this.serviceNumber = serviceNumber;
-  }
-
-  public void setPlate(String plate) {
-    this.plate = plate;
-  }
-
-  public void setVoucher(String voucher) {
-    this.voucher = voucher;
-  }
-
-  public void setMethodOfPayment(String methodOfPayment) {
-    this.methodOfPayment = methodOfPayment;
+  public Integer getDriverId() {
+    return driverId;
   }
 
   public String getServiceType() {
     return serviceType;
+  }
+  public Integer getStatusIdentifier() {
+    return statusIdentifier;
   }
 
   public LocalDate getServiceDate() {
@@ -168,12 +93,12 @@ public class ServiceByUser {
     return destination;
   }
 
-  public Integer getPeopleNumber() {
-    return peopleNumber;
-  }
-
   public BigDecimal getServiceAmmount() {
     return serviceAmmount;
+  }
+
+  public Integer getPeopleNumber() {
+    return peopleNumber;
   }
 
   public String getObservations() {
@@ -188,7 +113,79 @@ public class ServiceByUser {
     return userName;
   }
 
+  public String getUserEmail() {
+    return userEmail;
+  }
+
+  public String getFlightNumber() {
+    return flightNumber;
+  }
+
+  public String getMethodOfPayment() {
+    return methodOfPayment;
+  }
+
+  public String getVoucher() {
+    return voucher;
+  }
+
+  public String getPlate() {
+    return plate;
+  }
+
+  public String getServiceNumber() {
+    return serviceNumber;
+  }
+
+  public String getDriverName() {
+    return driverName;
+  }
+
+  public String getDriverLastName() {
+    return driverLastName;
+  }
+
+  public String getClientName() {
+    return clientName;
+  }
+
+  public Integer getStatusId() {
+    return statusId;
+  }
+
+  public UUID getIdService() {
+    return idService;
+  }
+
+  public ServiceByUser(Integer driverId, Integer statusIdentifier, String serviceType, LocalDate serviceDate, LocalTime hourService, String brandVehicle, String origin, String destination, Integer peopleNumber, BigDecimal serviceAmmount, String observations, String userNumber, String userName, String userEmail, String flightNumber, String methodOfPayment, String voucher, String plate, String serviceNumber, String driverName, String driverLastName, String clientName, Integer statusId, UUID idService) {
+    this.statusIdentifier = statusIdentifier;
+    this.serviceType = serviceType;
+    this.serviceDate = serviceDate;
+    this.hourService = hourService;
+    this.brandVehicle = brandVehicle;
+    this.origin = origin;
+    this.destination = destination;
+    this.peopleNumber = peopleNumber;
+    this.serviceAmmount = serviceAmmount;
+    this.observations = observations;
+    this.userNumber = userNumber;
+    this.userName = userName;
+    this.userEmail = userEmail;
+    this.flightNumber = flightNumber;
+    this.methodOfPayment = methodOfPayment;
+    this.voucher = voucher;
+    this.plate = plate;
+    this.serviceNumber = serviceNumber;
+    this.driverName = driverName;
+    this.driverLastName = driverLastName;
+    this.clientName = clientName;
+    this.statusId = statusId;
+    this.idService = idService;
+    this.driverId = driverId;
+  }
+
   public static final class Builder {
+    private Integer statusIdentifier;
     private String serviceType;
     private LocalDate serviceDate;
     private LocalTime hourService;
@@ -209,6 +206,9 @@ public class ServiceByUser {
     private String driverName;
     private String driverLastName;
     private String clientName;
+    private Integer statusId;
+    private UUID idService;
+    private Integer driverId;
 
     private Builder() {
     }
@@ -219,6 +219,17 @@ public class ServiceByUser {
 
     public Builder serviceType(String val) {
       serviceType = val;
+      return this;
+    }
+
+
+    public Builder driverId(Integer val) {
+      driverId = val;
+      return this;
+    }
+
+    public Builder statusIdentifier(Integer val) {
+      statusIdentifier = val;
       return this;
     }
 
@@ -314,6 +325,16 @@ public class ServiceByUser {
 
     public Builder clientName(String val) {
       clientName = val;
+      return this;
+    }
+
+    public Builder statusId(Integer val) {
+      statusId = val;
+      return this;
+    }
+
+    public Builder idService(UUID val) {
+      idService = val;
       return this;
     }
 

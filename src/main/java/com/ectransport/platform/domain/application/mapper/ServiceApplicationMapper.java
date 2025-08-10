@@ -38,6 +38,8 @@ public class ServiceApplicationMapper {
 
   public ServiceDto serviceByUserToServiceDto(ServiceByUser serviceByUser) {
     return ServiceDto.builder()
+        .statusIdentifier(serviceByUser.getStatusIdentifier())
+        .idService(serviceByUser.getIdService())
         .serviceType(serviceByUser.getServiceType())
         .serviceDate(serviceByUser.getServiceDate())
         .hourService(serviceByUser.getHourService())
@@ -57,6 +59,9 @@ public class ServiceApplicationMapper {
         .driverName(serviceByUser.getDriverName())
         .driverLastName(serviceByUser.getDriverLastName())
         .clientName(serviceByUser.getClientName())
+        .plate(serviceByUser.getPlate())
+        .statusId(serviceByUser.getStatusId())
+        .driverId(serviceByUser.getDriverId())
         .build();
 
   }

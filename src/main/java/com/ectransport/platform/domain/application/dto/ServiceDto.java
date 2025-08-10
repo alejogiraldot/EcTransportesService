@@ -7,12 +7,14 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 
 @Builder
 @Data
 @AllArgsConstructor
 public class ServiceDto {
+  private UUID idService;
   private String serviceType;
   private LocalDate serviceDate;
   private LocalTime hourService;
@@ -33,4 +35,7 @@ public class ServiceDto {
   private String driverName;
   private String driverLastName;
   private String clientName;
+  private Integer statusId;
+  private Integer statusIdentifier;
+  private Integer driverId;
 }
