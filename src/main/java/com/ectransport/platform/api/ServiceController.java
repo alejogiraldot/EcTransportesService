@@ -7,8 +7,11 @@ import com.ectransport.platform.domain.application.ports.input.service.Transport
 import com.ectransport.platform.domain.application.ports.input.service.VehicleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("services")
@@ -52,21 +55,32 @@ public class ServiceController {
   }
 
   @PostMapping("/create-service")
-  public ResponseEntity<CreateServiceDto> saveService(@RequestBody RequestCreateServiceDto createServiceRequest){
+  public ResponseEntity<CreateServiceDto> saveService(@RequestBody RequestCreateServiceDto createServiceRequest) {
     return ResponseEntity.ok(serviceRequestService.createService(createServiceRequest));
   }
 
   @PostMapping("/find-service-by-user")
-  public ResponseEntity<List<ServiceDto>> saveService(@RequestBody FindServiceByUser findServiceByUser){
+  public ResponseEntity<List<ServiceDto>> saveService(@RequestBody FindServiceByUser findServiceByUser) {
     return ResponseEntity.ok(serviceRequestService.findServiceByUser(findServiceByUser));
   }
-  @PatchMapping("/updateStatus")
-  public ResponseEntity<StatusUpdatedDto> updateStatusService(@RequestBody UpdateStatusDto updateStatusDto){
+
+  @PatchMapping("/update-status")
+  public ResponseEntity<StatusUpdatedDto> updateStatusService(@RequestBody UpdateStatusDto updateStatusDto) {
     return ResponseEntity.ok(serviceRequestService.updateStatusService(updateStatusDto));
   }
 
-  @PatchMapping("/updateDriver")
-  public ResponseEntity<ServiceUpdatedDto> updateDriverByService(@RequestBody UpdateDriverDto updateDriverDto){
+  @PatchMapping("/update-driver")
+  public ResponseEntity<ServiceUpdatedDto> updateDriverByService(@RequestBody UpdateDriverDto updateDriverDto) {
     return ResponseEntity.ok(serviceRequestService.updateDriverByService(updateDriverDto));
+  }
+
+  @PostMapping("/upload")
+  public ResponseEntity<FileUploadResponseDto> upload(
+      @RequestParam("identification") String identification,
+      @RequestParam("file") MultipartFile file,
+      @RequestParam("fkService") UUID fkService) throws IOException {
+
+    FileUploadResponseDto result = serviceRequestService.uploadDocument(identification, file, fkService);
+    return ResponseEntity.ok(result);
   }
 }

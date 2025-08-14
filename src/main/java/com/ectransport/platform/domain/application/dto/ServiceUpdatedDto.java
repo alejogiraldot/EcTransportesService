@@ -9,4 +9,5 @@ import lombok.Data;
 @Data
 public class ServiceUpdatedDto {
   private String plate;
+  private Integer idDriver;
 }

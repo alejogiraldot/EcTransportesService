@@ -2,12 +2,17 @@ package com.ectransport.platform.domain.application.adapter;
 
 import com.ectransport.platform.domain.application.dto.*;
 import com.ectransport.platform.domain.application.mapper.ServiceApplicationMapper;
+import com.ectransport.platform.domain.application.mapper.UploadApplicationMapper;
 import com.ectransport.platform.domain.application.ports.input.service.ServiceRequestService;
 import com.ectransport.platform.domain.application.ports.output.service.ServiceRequestRepository;
+import com.ectransport.platform.domain.application.ports.output.service.UploadDocumentService;
+import com.ectransport.platform.domain.application.ports.output.service.UploadFileRepository;
 import com.ectransport.platform.domain.core.constans.StatusConstans;
 import com.ectransport.platform.domain.core.entity.DailyCounter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,10 +24,16 @@ public class ServiceImp implements ServiceRequestService {
 
   private final ServiceRequestRepository serviceRequestRepository;
   private final ServiceApplicationMapper serviceApplicationMapper;
+  private final UploadDocumentService uploadDocumentService;
+  private final UploadFileRepository uploadFileRepository;
+  private final UploadApplicationMapper uploadApplicationMapper;
 
-  public ServiceImp(ServiceRequestRepository serviceRequestRepository, ServiceApplicationMapper serviceApplicationMapper) {
+  public ServiceImp(ServiceRequestRepository serviceRequestRepository, ServiceApplicationMapper serviceApplicationMapper, UploadDocumentService uploadDocumentService, UploadFileRepository uploadFileRepository, UploadApplicationMapper uploadApplicationMapper) {
     this.serviceRequestRepository = serviceRequestRepository;
     this.serviceApplicationMapper = serviceApplicationMapper;
+    this.uploadDocumentService = uploadDocumentService;
+    this.uploadFileRepository = uploadFileRepository;
+    this.uploadApplicationMapper = uploadApplicationMapper;
   }
 
   @Override
@@ -57,9 +68,16 @@ public class ServiceImp implements ServiceRequestService {
     int statusUpdated = serviceRequestRepository.updateDriverByService(updateDriverDto);
     if (statusUpdated == 1) {
       return serviceApplicationMapper.serviceToServiceUpdatedDto(serviceRequestRepository.findServiceById(updateDriverDto.getServiceId()));
-    }else{
+    } else {
       return null;
     }
+  }
+
+  @Override
+  public FileUploadResponseDto uploadDocument(String identification, MultipartFile file, UUID fkService) throws IOException {
+    MediaManagerResponseDto responseUploadDocument = uploadDocumentService.uploadDocument(identification, file);
+    responseUploadDocument.setFkService(fkService);
+    return uploadApplicationMapper.fileUploadToFileUploadResponseDto(uploadFileRepository.saveFileUpload(responseUploadDocument));
   }
 
 

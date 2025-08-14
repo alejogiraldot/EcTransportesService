@@ -65,6 +65,7 @@ public class ServiceApplicationMapper {
   public ServiceUpdatedDto serviceToServiceUpdatedDto(Service service){
     return ServiceUpdatedDto.builder()
         .plate(service.getPlate())
+        .idDriver(service.getFkDriver())
         .build();
   }
 }

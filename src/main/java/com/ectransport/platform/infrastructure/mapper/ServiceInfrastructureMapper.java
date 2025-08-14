@@ -55,6 +55,7 @@ public class ServiceInfrastructureMapper {
 
   public Service serviceEntityToService(ServiceOrderEntity serviceOrderEntity) {
     return Service.builder()
+        .fkDriver(serviceOrderEntity.getFkDriver())
         .serviceNumber(serviceOrderEntity.getServiceNumber())
         .hourService(serviceOrderEntity.getHourService())
         .serviceDate(serviceOrderEntity.getServiceDate())
