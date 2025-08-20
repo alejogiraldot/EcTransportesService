@@ -2,20 +2,18 @@ package com.ectransport.platform.domain.application.adapter;
 
 import com.ectransport.platform.domain.application.dto.*;
 import com.ectransport.platform.domain.application.mapper.ServiceApplicationMapper;
-import com.ectransport.platform.domain.application.mapper.UploadApplicationMapper;
 import com.ectransport.platform.domain.application.ports.input.service.ServiceRequestService;
 import com.ectransport.platform.domain.application.ports.output.service.ServiceRequestRepository;
-import com.ectransport.platform.domain.application.ports.output.service.UploadDocumentService;
-import com.ectransport.platform.domain.application.ports.output.service.UploadFileRepository;
+import com.ectransport.platform.domain.application.strategy.Imp.ValidateTypeExpenseImp;
+import com.ectransport.platform.domain.application.strategy.Imp.ValidateTypePaymentImp;
 import com.ectransport.platform.domain.core.constans.StatusConstans;
 import com.ectransport.platform.domain.core.entity.DailyCounter;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,16 +22,15 @@ public class ServiceImp implements ServiceRequestService {
 
   private final ServiceRequestRepository serviceRequestRepository;
   private final ServiceApplicationMapper serviceApplicationMapper;
-  private final UploadDocumentService uploadDocumentService;
-  private final UploadFileRepository uploadFileRepository;
-  private final UploadApplicationMapper uploadApplicationMapper;
+  private final ValidateTypeExpenseImp validateTypeExpenseImp;
+  private final ValidateTypePaymentImp validateTypePaymentImp;
 
-  public ServiceImp(ServiceRequestRepository serviceRequestRepository, ServiceApplicationMapper serviceApplicationMapper, UploadDocumentService uploadDocumentService, UploadFileRepository uploadFileRepository, UploadApplicationMapper uploadApplicationMapper) {
+
+  public ServiceImp(ServiceRequestRepository serviceRequestRepository, ServiceApplicationMapper serviceApplicationMapper, ValidateTypeExpenseImp validateTypeExpenseImp, ValidateTypePaymentImp validateTypePaymentImp) {
     this.serviceRequestRepository = serviceRequestRepository;
     this.serviceApplicationMapper = serviceApplicationMapper;
-    this.uploadDocumentService = uploadDocumentService;
-    this.uploadFileRepository = uploadFileRepository;
-    this.uploadApplicationMapper = uploadApplicationMapper;
+    this.validateTypeExpenseImp = validateTypeExpenseImp;
+    this.validateTypePaymentImp = validateTypePaymentImp;
   }
 
   @Override
@@ -74,10 +71,21 @@ public class ServiceImp implements ServiceRequestService {
   }
 
   @Override
-  public FileUploadResponseDto uploadDocument(String identification, MultipartFile file, UUID fkService) throws IOException {
-    MediaManagerResponseDto responseUploadDocument = uploadDocumentService.uploadDocument(identification, file);
-    responseUploadDocument.setFkService(fkService);
-    return uploadApplicationMapper.fileUploadToFileUploadResponseDto(uploadFileRepository.saveFileUpload(responseUploadDocument));
+  public List<FileUploadResponseDto> uploadDocument(
+      String identification,
+      List<UploadDataDto> uploadData,
+      List<ExpenseDataUploadDto> expenseDataUploadDtoList,
+      UUID fkService
+  ) {
+    List<FileUploadResponseDto> fileUploadResponseDtoPayment =
+        uploadPayments(identification, uploadData, fkService);
+    List<FileUploadResponseDto> fileUploadResponseDtoExpense =
+        uploadExpense(identification, expenseDataUploadDtoList, fkService);
+    List<FileUploadResponseDto> result = new ArrayList<>();
+    result.addAll(fileUploadResponseDtoPayment);
+    result.addAll(fileUploadResponseDtoExpense);
+
+    return result;
   }
 
 
@@ -111,4 +119,28 @@ public class ServiceImp implements ServiceRequestService {
     requestCreateServiceDto.setServiceNumber(serviceNumber);
   }
 
+
+  private List<FileUploadResponseDto> uploadPayments(String identification,
+                                                     List<UploadDataDto> uploadData,
+                                                     UUID fkService) {
+    FileUploadStrategyDto fileUploadStrategyDto = FileUploadStrategyDto.builder()
+        .uploadData(uploadData)
+        .fkService(fkService)
+        .identification(identification)
+        .build();
+    validateTypePaymentImp.setParameter(fileUploadStrategyDto);
+    return validateTypePaymentImp.validateTypeUpload();
+  }
+
+  private List<FileUploadResponseDto> uploadExpense(String identification,
+                                                    List<ExpenseDataUploadDto> expenseDataUploadDtoList,
+                                                    UUID fkService) {
+    FileUploadStrategyDto fileUploadStrategyDto = FileUploadStrategyDto.builder()
+        .expenseDataUploadDtoList(expenseDataUploadDtoList)
+        .fkService(fkService)
+        .identification(identification)
+        .build();
+    validateTypeExpenseImp.setParameter(fileUploadStrategyDto);
+    return validateTypeExpenseImp.validateTypeUpload();
+  }
 }

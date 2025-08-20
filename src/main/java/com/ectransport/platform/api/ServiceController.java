@@ -1,13 +1,10 @@
 package com.ectransport.platform.api;
 
 import com.ectransport.platform.domain.application.dto.*;
-import com.ectransport.platform.domain.application.ports.input.service.PaymentService;
-import com.ectransport.platform.domain.application.ports.input.service.ServiceRequestService;
-import com.ectransport.platform.domain.application.ports.input.service.TransportService;
-import com.ectransport.platform.domain.application.ports.input.service.VehicleService;
+import com.ectransport.platform.domain.application.ports.input.service.*;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,12 +18,14 @@ public class ServiceController {
   private final TransportService transportService;
   private final PaymentService paymentService;
   private final VehicleService vehicleService;
+  private final ExpenseService expenseService;
 
-  public ServiceController(ServiceRequestService serviceRequestService, TransportService transportService, PaymentService paymentService, VehicleService vehicleService) {
+  public ServiceController(ServiceRequestService serviceRequestService, TransportService transportService, PaymentService paymentService, VehicleService vehicleService, ExpenseService expenseService) {
     this.serviceRequestService = serviceRequestService;
     this.transportService = transportService;
     this.paymentService = paymentService;
     this.vehicleService = vehicleService;
+    this.expenseService = expenseService;
   }
 
   @GetMapping(value = "/service-type")
@@ -74,13 +73,25 @@ public class ServiceController {
     return ResponseEntity.ok(serviceRequestService.updateDriverByService(updateDriverDto));
   }
 
-  @PostMapping("/upload")
-  public ResponseEntity<FileUploadResponseDto> upload(
+  @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public ResponseEntity<List<FileUploadResponseDto>> upload(
       @RequestParam("identification") String identification,
-      @RequestParam("file") MultipartFile file,
-      @RequestParam("fkService") UUID fkService) throws IOException {
+      @RequestParam("fkService") UUID fkService,
+      @ModelAttribute UploadDataListWrapperDto uploadDataWrapper,
+      @ModelAttribute ExpenseDataListWrapperDto expenseDataWrapper
+  ) throws IOException {
 
-    FileUploadResponseDto result = serviceRequestService.uploadDocument(identification, file, fkService);
+    List<FileUploadResponseDto> result = serviceRequestService.uploadDocument(
+        identification,
+        uploadDataWrapper.getUploadData(),
+        expenseDataWrapper.getExpenseDataUpload(),
+        fkService
+    );
     return ResponseEntity.ok(result);
+  }
+
+  @GetMapping("/expense")
+  public ResponseEntity<List<ExpenseDto>> getAllExpenseType() {
+    return ResponseEntity.ok(expenseService.findAllExpensesType());
   }
 }

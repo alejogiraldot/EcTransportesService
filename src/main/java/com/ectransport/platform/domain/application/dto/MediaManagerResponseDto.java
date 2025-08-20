@@ -17,4 +17,10 @@ public class MediaManagerResponseDto {
   private Long fileSize;
   private LocalDateTime uploadDate;
   private UUID fkService;
+  private String paymentType;
+  private Integer amount;
+  private Integer beeper;
+  private String description;
+  private Integer fkTypeUpload;
+  private String presignedUrl;
 }

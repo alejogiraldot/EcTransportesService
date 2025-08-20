@@ -41,7 +41,8 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
         uc.trade_name as clientName,
         ss.id_status as statusId, 
         ss.id as statusIdentifier,
-        so.fk_driver as driverId 
+        so.fk_driver as driverId,
+        umu.identification as userIdentification 
       FROM services.service_orders so
       LEFT JOIN usermanagement.users umu ON so.fk_driver = umu.id_user
       LEFT JOIN usermanagement.client uc ON so.fk_client = uc.client_id

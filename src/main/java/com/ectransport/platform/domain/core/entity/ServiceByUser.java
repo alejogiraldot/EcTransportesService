@@ -30,9 +30,41 @@ public class ServiceByUser {
   private UUID idService;
   private Integer statusIdentifier;
   private Integer driverId;
+  private String userIdentification;
+
+  public static ServiceByUser.Builder builder() {
+    return new ServiceByUser.Builder();
+  }
+
+  public ServiceByUser(String serviceType, LocalDate serviceDate, LocalTime hourService, String brandVehicle, String origin, String destination, Integer peopleNumber, BigDecimal serviceAmmount, String observations, String userNumber, String userName, String userEmail, String flightNumber, String methodOfPayment, String voucher, String plate, String serviceNumber, String driverName, String driverLastName, String clientName, Integer statusId, UUID idService, Integer statusIdentifier, Integer driverId, String userIdentification) {
+    this.serviceType = serviceType;
+    this.serviceDate = serviceDate;
+    this.hourService = hourService;
+    this.brandVehicle = brandVehicle;
+    this.origin = origin;
+    this.destination = destination;
+    this.peopleNumber = peopleNumber;
+    this.serviceAmmount = serviceAmmount;
+    this.observations = observations;
+    this.userNumber = userNumber;
+    this.userName = userName;
+    this.userEmail = userEmail;
+    this.flightNumber = flightNumber;
+    this.methodOfPayment = methodOfPayment;
+    this.voucher = voucher;
+    this.plate = plate;
+    this.serviceNumber = serviceNumber;
+    this.driverName = driverName;
+    this.driverLastName = driverLastName;
+    this.clientName = clientName;
+    this.statusId = statusId;
+    this.idService = idService;
+    this.statusIdentifier = statusIdentifier;
+    this.driverId = driverId;
+    this.userIdentification = userIdentification;
+  }
 
   private ServiceByUser(Builder builder) {
-    statusIdentifier = builder.statusIdentifier;
     serviceType = builder.serviceType;
     serviceDate = builder.serviceDate;
     hourService = builder.hourService;
@@ -55,22 +87,13 @@ public class ServiceByUser {
     clientName = builder.clientName;
     statusId = builder.statusId;
     idService = builder.idService;
+    statusIdentifier = builder.statusIdentifier;
     driverId = builder.driverId;
-  }
-
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  public Integer getDriverId() {
-    return driverId;
+    userIdentification = builder.userIdentification;
   }
 
   public String getServiceType() {
     return serviceType;
-  }
-  public Integer getStatusIdentifier() {
-    return statusIdentifier;
   }
 
   public LocalDate getServiceDate() {
@@ -93,20 +116,20 @@ public class ServiceByUser {
     return destination;
   }
 
-  public BigDecimal getServiceAmmount() {
-    return serviceAmmount;
-  }
-
   public Integer getPeopleNumber() {
     return peopleNumber;
   }
 
-  public String getObservations() {
-    return observations;
+  public BigDecimal getServiceAmmount() {
+    return serviceAmmount;
   }
 
   public String getUserNumber() {
     return userNumber;
+  }
+
+  public String getObservations() {
+    return observations;
   }
 
   public String getUserName() {
@@ -157,35 +180,20 @@ public class ServiceByUser {
     return idService;
   }
 
-  public ServiceByUser(Integer driverId, Integer statusIdentifier, String serviceType, LocalDate serviceDate, LocalTime hourService, String brandVehicle, String origin, String destination, Integer peopleNumber, BigDecimal serviceAmmount, String observations, String userNumber, String userName, String userEmail, String flightNumber, String methodOfPayment, String voucher, String plate, String serviceNumber, String driverName, String driverLastName, String clientName, Integer statusId, UUID idService) {
-    this.statusIdentifier = statusIdentifier;
-    this.serviceType = serviceType;
-    this.serviceDate = serviceDate;
-    this.hourService = hourService;
-    this.brandVehicle = brandVehicle;
-    this.origin = origin;
-    this.destination = destination;
-    this.peopleNumber = peopleNumber;
-    this.serviceAmmount = serviceAmmount;
-    this.observations = observations;
-    this.userNumber = userNumber;
-    this.userName = userName;
-    this.userEmail = userEmail;
-    this.flightNumber = flightNumber;
-    this.methodOfPayment = methodOfPayment;
-    this.voucher = voucher;
-    this.plate = plate;
-    this.serviceNumber = serviceNumber;
-    this.driverName = driverName;
-    this.driverLastName = driverLastName;
-    this.clientName = clientName;
-    this.statusId = statusId;
-    this.idService = idService;
-    this.driverId = driverId;
+  public Integer getStatusIdentifier() {
+    return statusIdentifier;
   }
 
+  public Integer getDriverId() {
+    return driverId;
+  }
+
+  public String getUserIdentification() {
+    return userIdentification;
+  }
+
+
   public static final class Builder {
-    private Integer statusIdentifier;
     private String serviceType;
     private LocalDate serviceDate;
     private LocalTime hourService;
@@ -208,7 +216,9 @@ public class ServiceByUser {
     private String clientName;
     private Integer statusId;
     private UUID idService;
+    private Integer statusIdentifier;
     private Integer driverId;
+    private String userIdentification;
 
     private Builder() {
     }
@@ -219,17 +229,6 @@ public class ServiceByUser {
 
     public Builder serviceType(String val) {
       serviceType = val;
-      return this;
-    }
-
-
-    public Builder driverId(Integer val) {
-      driverId = val;
-      return this;
-    }
-
-    public Builder statusIdentifier(Integer val) {
-      statusIdentifier = val;
       return this;
     }
 
@@ -335,6 +334,21 @@ public class ServiceByUser {
 
     public Builder idService(UUID val) {
       idService = val;
+      return this;
+    }
+
+    public Builder statusIdentifier(Integer val) {
+      statusIdentifier = val;
+      return this;
+    }
+
+    public Builder driverId(Integer val) {
+      driverId = val;
+      return this;
+    }
+
+    public Builder userIdentification(String val) {
+      userIdentification = val;
       return this;
     }
 

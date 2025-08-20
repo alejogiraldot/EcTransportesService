@@ -38,4 +38,5 @@ public class ServiceDto {
   private Integer statusId;
   private Integer statusIdentifier;
   private Integer driverId;
+  private String userIdentification;
 }

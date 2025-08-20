@@ -14,4 +14,5 @@ public class FileUploadResponseDto {
   private String route;
   private LocalDateTime uploadDate;
   private UUID fkService;
+  private String presignedUrl;
 }

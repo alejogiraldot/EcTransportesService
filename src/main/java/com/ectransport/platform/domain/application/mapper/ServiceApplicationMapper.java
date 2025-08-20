@@ -59,6 +59,7 @@ public class ServiceApplicationMapper {
         .plate(serviceByUser.getPlate())
         .statusId(serviceByUser.getStatusId())
         .driverId(serviceByUser.getDriverId())
+        .userIdentification(serviceByUser.getUserIdentification())
         .build();
   }
 

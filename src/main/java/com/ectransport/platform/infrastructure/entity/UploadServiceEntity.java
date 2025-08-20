@@ -23,10 +23,10 @@ public class UploadServiceEntity {
   @Column(name = "fk_service", nullable = false)
   private UUID fkService;
 
-  @Column(name = "file_name", nullable = false, length = 255)
+  @Column(name = "file_name",  length = 255)
   private String fileName;
 
-  @Column(name = "route", nullable = false, length = 500)
+  @Column(name = "route", length = 500)
   private String route;
 
   @Column(name = "content_type", length = 100)
@@ -37,4 +37,19 @@ public class UploadServiceEntity {
 
   @Column(name = "upload_date", insertable = false, updatable = false)
   private LocalDateTime uploadDate;
+
+  @Column(name = "payment_type", updatable = false)
+  private String paymentType;
+
+  @Column(name = "amount",  updatable = false)
+  private Integer amount;
+
+  @Column(name = "beeper", updatable = false)
+  private Integer beeper;
+
+  @Column(name = "description", updatable = false)
+  private String description;
+
+  @Column(name = "fk_type_upload", updatable = false)
+  private Integer fkTypeUpload;
 }

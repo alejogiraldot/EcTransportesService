@@ -1,7 +1,6 @@
 package com.ectransport.platform.domain.application.ports.input.service;
 
 import com.ectransport.platform.domain.application.dto.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +17,6 @@ public interface ServiceRequestService {
 
   ServiceUpdatedDto updateDriverByService(UpdateDriverDto updateDriverDto);
 
-  FileUploadResponseDto uploadDocument(String identification, MultipartFile file, UUID fkService) throws IOException;
+  List<FileUploadResponseDto> uploadDocument(String identification, List<UploadDataDto> uploadData, List<ExpenseDataUploadDto> expenseDataUploadDtoList, UUID fkService) throws IOException;
 
 }

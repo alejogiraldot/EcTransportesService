@@ -17,6 +17,11 @@ public class UploadFileStructureMapper {
         .fileSize(mediaManagerResponseDto.getFileSize())
         .route(mediaManagerResponseDto.getRoute())
         .fkService(mediaManagerResponseDto.getFkService())
+        .amount(mediaManagerResponseDto.getAmount())
+        .beeper(mediaManagerResponseDto.getBeeper())
+        .description(mediaManagerResponseDto.getDescription())
+        .paymentType(mediaManagerResponseDto.getPaymentType())
+        .fkTypeUpload(mediaManagerResponseDto.getFkTypeUpload())
         .build();
   }
 
