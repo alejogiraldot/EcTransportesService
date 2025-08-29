@@ -1,6 +1,7 @@
 package com.ectransport.platform.infrastructure.repository;
 
 import com.ectransport.platform.domain.application.ports.repository.ServiceReport;
+import com.ectransport.platform.domain.application.ports.repository.UploadDataService;
 import com.ectransport.platform.infrastructure.entity.ServiceOrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -52,6 +53,7 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
         AND (:plate IS NULL OR so.plate = :plate)
         AND (:userId IS NULL OR so.fk_driver = :userId)
         AND (:clientId IS NULL OR so.fk_client = :clientId)
+      ORDER BY so.service_date ASC, so.hour_service ASC
       """, nativeQuery = true)
   List<ServiceReport> findServiceByUser(
       @Param("initialDate") LocalDate initialDate,
@@ -60,7 +62,6 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
       @Param("userId") Integer userId,
       @Param("clientId") UUID clientId
   );
-
 
   @Modifying
   @Transactional
@@ -74,17 +75,34 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
   @Modifying
   @Transactional
   @Query(value = """
-    UPDATE services.service_orders
-    SET fk_driver = :idDriver,
-        plate = :plate,
-        fk_service_status = :statusId
-    WHERE id_service = :idService
-    """, nativeQuery = true)
+      UPDATE services.service_orders
+      SET fk_driver = :idDriver,
+          plate = :plate,
+          fk_service_status = :statusId
+      WHERE id_service = :idService
+      """, nativeQuery = true)
   int updateDriverByService(
       @Param("idService") UUID idService,
       @Param("idDriver") Integer idDriver,
       @Param("plate") String plate,
       @Param("statusId") Integer statusId
   );
+
+
+  @Query(value = """
+          select
+          uf.fk_type_upload as fkTypeUpload,
+          uf.beeper as beeper,
+          uf.amount as amount,
+          uf.description as description,
+          uf.payment_type as paymentType,
+          uf.route as route,
+          uf.file_name as fileName
+          from services.service_orders so\s
+          join services.upload_files uf on so.id_service = uf.fk_service
+          where so.service_number = :serviceNumber
+      """, nativeQuery = true)
+  List<UploadDataService> getUploadDataService(@Param("serviceNumber") String serviceNumber);
+
 
 }

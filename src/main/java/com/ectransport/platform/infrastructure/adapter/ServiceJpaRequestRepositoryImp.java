@@ -9,6 +9,7 @@ import com.ectransport.platform.domain.core.entity.ServiceType;
 import com.ectransport.platform.infrastructure.entity.DailyCounterEntity;
 import com.ectransport.platform.infrastructure.entity.ServiceOrderEntity;
 import com.ectransport.platform.infrastructure.mapper.ServiceInfrastructureMapper;
+import com.ectransport.platform.infrastructure.mapper.UploadFileStructureMapper;
 import com.ectransport.platform.infrastructure.repository.DailyCounterRepository;
 import com.ectransport.platform.infrastructure.repository.ServiceJpaRepository;
 import com.ectransport.platform.infrastructure.repository.ServiceRequestJpaRepository;
@@ -25,12 +26,14 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
   private final ServiceInfrastructureMapper serviceInfrastructureMapper;
   private final ServiceJpaRepository serviceJpaRepository;
   private final DailyCounterRepository dailyCounterRepository;
+  private final UploadFileStructureMapper uploadFileStructureMapper;
 
-  public ServiceJpaRequestRepositoryImp(ServiceRequestJpaRepository serviceRequestJpaRepository, ServiceInfrastructureMapper serviceInfrastructureMapper, ServiceJpaRepository serviceJpaRepository, DailyCounterRepository dailyCounterRepository) {
+  public ServiceJpaRequestRepositoryImp(ServiceRequestJpaRepository serviceRequestJpaRepository, ServiceInfrastructureMapper serviceInfrastructureMapper, ServiceJpaRepository serviceJpaRepository, DailyCounterRepository dailyCounterRepository, UploadFileStructureMapper uploadFileStructureMapper) {
     this.serviceRequestJpaRepository = serviceRequestJpaRepository;
     this.serviceInfrastructureMapper = serviceInfrastructureMapper;
     this.serviceJpaRepository = serviceJpaRepository;
     this.dailyCounterRepository = dailyCounterRepository;
+    this.uploadFileStructureMapper = uploadFileStructureMapper;
   }
 
   @Override
@@ -98,6 +101,11 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
     return serviceJpaRepository.findById(id)
         .map(serviceInfrastructureMapper::serviceEntityToService)
         .orElse(null);
+  }
+
+  @Override
+  public List<FileByServiceDto> finUploadDataByServiceNumber(String serviceNumber) {
+    return serviceJpaRepository.getUploadDataService(serviceNumber).stream().map(uploadFileStructureMapper::uploadDataServiceToFileByServiceDto).toList();
   }
 
 }

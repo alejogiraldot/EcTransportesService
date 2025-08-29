@@ -4,12 +4,15 @@ import com.ectransport.platform.domain.application.dto.*;
 import com.ectransport.platform.domain.application.mapper.ServiceApplicationMapper;
 import com.ectransport.platform.domain.application.ports.input.service.ServiceRequestService;
 import com.ectransport.platform.domain.application.ports.output.service.ServiceRequestRepository;
+import com.ectransport.platform.domain.application.ports.output.service.UploadDocumentService;
 import com.ectransport.platform.domain.application.strategy.Imp.ValidateTypeExpenseImp;
 import com.ectransport.platform.domain.application.strategy.Imp.ValidateTypePaymentImp;
 import com.ectransport.platform.domain.core.constans.StatusConstans;
 import com.ectransport.platform.domain.core.entity.DailyCounter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,19 +21,21 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class ServiceImp implements ServiceRequestService {
 
   private final ServiceRequestRepository serviceRequestRepository;
   private final ServiceApplicationMapper serviceApplicationMapper;
   private final ValidateTypeExpenseImp validateTypeExpenseImp;
   private final ValidateTypePaymentImp validateTypePaymentImp;
+  private final UploadDocumentService uploadDocumentService;
 
-
-  public ServiceImp(ServiceRequestRepository serviceRequestRepository, ServiceApplicationMapper serviceApplicationMapper, ValidateTypeExpenseImp validateTypeExpenseImp, ValidateTypePaymentImp validateTypePaymentImp) {
+  public ServiceImp(ServiceRequestRepository serviceRequestRepository, ServiceApplicationMapper serviceApplicationMapper, ValidateTypeExpenseImp validateTypeExpenseImp, ValidateTypePaymentImp validateTypePaymentImp, UploadDocumentService uploadDocumentService) {
     this.serviceRequestRepository = serviceRequestRepository;
     this.serviceApplicationMapper = serviceApplicationMapper;
     this.validateTypeExpenseImp = validateTypeExpenseImp;
     this.validateTypePaymentImp = validateTypePaymentImp;
+    this.uploadDocumentService = uploadDocumentService;
   }
 
   @Override
@@ -77,6 +82,8 @@ public class ServiceImp implements ServiceRequestService {
       List<ExpenseDataUploadDto> expenseDataUploadDtoList,
       UUID fkService
   ) {
+    log.info("Iniciando Solicitud");
+
     List<FileUploadResponseDto> fileUploadResponseDtoPayment =
         uploadPayments(identification, uploadData, fkService);
     List<FileUploadResponseDto> fileUploadResponseDtoExpense =
@@ -87,7 +94,6 @@ public class ServiceImp implements ServiceRequestService {
 
     return result;
   }
-
 
   private void validateDriver(RequestCreateServiceDto requestCreateServiceDto) {
     if ((requestCreateServiceDto.getStatus() == null)) {
@@ -123,6 +129,7 @@ public class ServiceImp implements ServiceRequestService {
   private List<FileUploadResponseDto> uploadPayments(String identification,
                                                      List<UploadDataDto> uploadData,
                                                      UUID fkService) {
+    log.info("Iniciando Strategy Uploap");
     FileUploadStrategyDto fileUploadStrategyDto = FileUploadStrategyDto.builder()
         .uploadData(uploadData)
         .fkService(fkService)
@@ -142,5 +149,20 @@ public class ServiceImp implements ServiceRequestService {
         .build();
     validateTypeExpenseImp.setParameter(fileUploadStrategyDto);
     return validateTypeExpenseImp.validateTypeUpload();
+  }
+
+
+  @Override
+  public List<FileInfoByServiceDto> downloadDocument(String serviceNumber) throws IOException {
+    List<FileByServiceDto> fileByServiceDto = serviceRequestRepository.finUploadDataByServiceNumber(serviceNumber);
+    if (fileByServiceDto.isEmpty()) {
+      return null;
+    } else {
+      return getFilesFromCloud(fileByServiceDto);
+    }
+  }
+
+  private List<FileInfoByServiceDto> getFilesFromCloud(List<FileByServiceDto> fileByServiceDto) throws IOException {
+    return uploadDocumentService.downloadDocument(fileByServiceDto);
   }
 }

@@ -9,6 +9,7 @@ import com.ectransport.platform.domain.application.ports.output.service.UploadDo
 import com.ectransport.platform.domain.application.ports.output.service.UploadFileRepository;
 import com.ectransport.platform.domain.application.strategy.AbstractValidateTypeUpload;
 import com.ectransport.platform.domain.core.constans.UploadConstant;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
+@Slf4j
 public class ValidateTypePaymentImp extends AbstractValidateTypeUpload<FileUploadStrategyDto> {
 
   private final UploadDocumentService uploadDocumentService;
@@ -50,6 +52,7 @@ public class ValidateTypePaymentImp extends AbstractValidateTypeUpload<FileUploa
       UUID fkService
   ) {
     try {
+      log.info("Iniciando Proceso de consumo de enpoint");
       MediaManagerResponseDto response;
 
       if (uploadDataDto.getFileName() != null) {
@@ -69,6 +72,8 @@ public class ValidateTypePaymentImp extends AbstractValidateTypeUpload<FileUploa
       UploadDataDto uploadDataDto,
       UUID fkService
   ) throws IOException {
+    log.info("Iniciando Proceso de envio a media manager");
+
     MediaManagerResponseDto responseUploadDocument =
         uploadDocumentService.uploadDocument(identification, uploadDataDto.getFileName(), uploadDataDto.getContentType());
 

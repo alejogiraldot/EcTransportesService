@@ -19,5 +19,5 @@ public interface ServiceRequestRepository {
   void updateStatusService(UpdateStatusDto updateStatusDto);
   int updateDriverByService (UpdateDriverDto updateDriverDto);
   Service findServiceById(UUID id);
-
+  List<FileByServiceDto> finUploadDataByServiceNumber(String serviceNumber);
 }

@@ -2,17 +2,17 @@ package com.ectransport.platform.api;
 
 import com.ectransport.platform.domain.application.dto.*;
 import com.ectransport.platform.domain.application.ports.input.service.*;
-import org.springframework.http.MediaType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("services")
 @CrossOrigin("*")
+@Slf4j
 public class ServiceController {
   private final ServiceRequestService serviceRequestService;
   private final TransportService transportService;
@@ -73,19 +73,15 @@ public class ServiceController {
     return ResponseEntity.ok(serviceRequestService.updateDriverByService(updateDriverDto));
   }
 
-  @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @PostMapping(value = "/upload")
   public ResponseEntity<List<FileUploadResponseDto>> upload(
-      @RequestParam("identification") String identification,
-      @RequestParam("fkService") UUID fkService,
-      @ModelAttribute UploadDataListWrapperDto uploadDataWrapper,
-      @ModelAttribute ExpenseDataListWrapperDto expenseDataWrapper
+      @RequestBody CombinedUploadRequestDto requestBody
   ) throws IOException {
-
     List<FileUploadResponseDto> result = serviceRequestService.uploadDocument(
-        identification,
-        uploadDataWrapper.getUploadData(),
-        expenseDataWrapper.getExpenseDataUpload(),
-        fkService
+        requestBody.getIdentification(),
+        requestBody.getUploadData(),
+        requestBody.getExpenseDataUpload(),
+        requestBody.getFkService()
     );
     return ResponseEntity.ok(result);
   }
@@ -93,5 +89,13 @@ public class ServiceController {
   @GetMapping("/expense")
   public ResponseEntity<List<ExpenseDto>> getAllExpenseType() {
     return ResponseEntity.ok(expenseService.findAllExpensesType());
+  }
+
+  @PostMapping(value = "/download-data")
+  public ResponseEntity<List<FileInfoByServiceDto>> downloadService(
+      @RequestBody UploadData uploadData
+  ) throws IOException {
+    List<FileInfoByServiceDto> result = serviceRequestService.downloadDocument(uploadData.getServiceNumber());
+    return ResponseEntity.ok(result);
   }
 }

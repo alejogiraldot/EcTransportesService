@@ -1,6 +1,8 @@
 package com.ectransport.platform.infrastructure.mapper;
 
+import com.ectransport.platform.domain.application.dto.FileByServiceDto;
 import com.ectransport.platform.domain.application.dto.MediaManagerResponseDto;
+import com.ectransport.platform.domain.application.ports.repository.UploadDataService;
 import com.ectransport.platform.domain.core.entity.FileUpload;
 import com.ectransport.platform.infrastructure.entity.UploadServiceEntity;
 import org.springframework.stereotype.Component;
@@ -31,6 +33,18 @@ public class UploadFileStructureMapper {
         .fileName(uploadServiceEntity.getFileName())
         .fileSize(uploadServiceEntity.getFileSize())
         .route(uploadServiceEntity.getRoute())
+        .build();
+  }
+
+  public FileByServiceDto uploadDataServiceToFileByServiceDto(UploadDataService fileUpload) {
+    return FileByServiceDto.builder()
+        .fkTypeUpload(fileUpload.getFkTypeUpload())
+        .amount(fileUpload.getAmount())
+        .beeper(fileUpload.getBeeper())
+        .description(fileUpload.getDescription())
+        .fileName(fileUpload.getFileName())
+        .paymentType(fileUpload.getPaymentType())
+        .route(fileUpload.getRoute())
         .build();
   }
 }
