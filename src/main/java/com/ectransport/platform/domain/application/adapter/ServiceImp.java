@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -165,4 +166,13 @@ public class ServiceImp implements ServiceRequestService {
   private List<FileInfoByServiceDto> getFilesFromCloud(List<FileByServiceDto> fileByServiceDto) throws IOException {
     return uploadDocumentService.downloadDocument(fileByServiceDto);
   }
+
+  @Override
+  public ServiceByDayDto getServiceByDay() {
+    return ServiceByDayDto.builder()
+        .totalServiceToday(serviceRequestRepository.serviceByDay())
+        .usersInService(serviceRequestRepository.usersInService())
+        .build();
+  }
+
 }

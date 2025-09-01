@@ -16,6 +16,7 @@ import com.ectransport.platform.infrastructure.repository.ServiceRequestJpaRepos
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 
@@ -106,6 +107,21 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
   @Override
   public List<FileByServiceDto> finUploadDataByServiceNumber(String serviceNumber) {
     return serviceJpaRepository.getUploadDataService(serviceNumber).stream().map(uploadFileStructureMapper::uploadDataServiceToFileByServiceDto).toList();
+  }
+
+
+  @Override
+  public Integer serviceByDay() {
+    ZoneId bogotaZone = ZoneId.of("America/Bogota");
+    LocalDate todayBogota = LocalDate.now(bogotaZone);
+    return serviceJpaRepository.serviceByDay(todayBogota);
+  }
+
+  @Override
+  public Integer usersInService() {
+    ZoneId bogotaZone = ZoneId.of("America/Bogota");
+    LocalDate todayBogota = LocalDate.now(bogotaZone);
+    return serviceJpaRepository.usersInService(todayBogota);
   }
 
 }

@@ -20,4 +20,6 @@ public interface ServiceRequestService {
   List<FileUploadResponseDto> uploadDocument(String identification, List<UploadDataDto> uploadData, List<ExpenseDataUploadDto> expenseDataUploadDtoList, UUID fkService) throws IOException;
 
   List<FileInfoByServiceDto> downloadDocument(String serviceNumber) throws IOException;
+
+  ServiceByDayDto getServiceByDay();
 }

@@ -7,6 +7,8 @@ import com.ectransport.platform.domain.core.entity.ServiceByUser;
 import com.ectransport.platform.domain.core.entity.ServiceType;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,4 +22,6 @@ public interface ServiceRequestRepository {
   int updateDriverByService (UpdateDriverDto updateDriverDto);
   Service findServiceById(UUID id);
   List<FileByServiceDto> finUploadDataByServiceNumber(String serviceNumber);
+  Integer serviceByDay();
+  Integer usersInService();
 }

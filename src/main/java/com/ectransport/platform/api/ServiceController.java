@@ -98,4 +98,9 @@ public class ServiceController {
     List<FileInfoByServiceDto> result = serviceRequestService.downloadDocument(uploadData.getServiceNumber());
     return ResponseEntity.ok(result);
   }
+
+  @GetMapping("/service-by-day")
+  public ResponseEntity<ServiceByDayDto> getServiceByDay() {
+    return ResponseEntity.ok(serviceRequestService.getServiceByDay());
+  }
 }

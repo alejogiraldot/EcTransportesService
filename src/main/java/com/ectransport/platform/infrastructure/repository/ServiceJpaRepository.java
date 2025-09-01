@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -105,4 +107,17 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
   List<UploadDataService> getUploadDataService(@Param("serviceNumber") String serviceNumber);
 
 
+  @Query(value = """
+    SELECT COUNT(*) 
+    FROM services.service_orders s
+    WHERE s.service_date = :date
+  """, nativeQuery = true)
+  int serviceByDay(@Param("date") LocalDate date);
+
+  @Query(value = """
+    SELECT COUNT(*) 
+    FROM services.service_orders s
+    WHERE s.service_date = :date
+  """, nativeQuery = true)
+  int usersInService(@Param("date") LocalDate date);
 }
