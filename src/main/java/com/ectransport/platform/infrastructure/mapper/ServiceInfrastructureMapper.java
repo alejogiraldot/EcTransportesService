@@ -107,6 +107,7 @@ public class ServiceInfrastructureMapper {
         .statusId(serviceReport.getStatusId())
         .driverId(serviceReport.getDriverId())
         .userIdentification(serviceReport.getUserIdentification())
+        .clientType(serviceReport.getClientType())
         .build();
   }
 }

@@ -7,8 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class FileByServiceDto {
-  private CompanyDto companyDto;
+public class FileDataDto {
   private String fileName;
   private String route;
   private String beeper;
@@ -16,10 +15,8 @@ public class FileByServiceDto {
   private String description;
   private String amount;
   private Integer fkTypeUpload;
-  private String legalName;
-  private Integer clientType;
+  private String companyName;
+  private String clientType;
   private String plate;
-  private Integer serviceAmount;
-  private String driver;
+  private String serviceValue;
 }
-

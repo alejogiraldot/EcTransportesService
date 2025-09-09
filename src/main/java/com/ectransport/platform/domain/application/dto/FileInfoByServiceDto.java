@@ -20,5 +20,10 @@ public class FileInfoByServiceDto {
   private String description;
   private String amount;
   private Integer fkTypeUpload;
-
+  private String companyName;
+  private String clientType;
+  private String plate;
+  private Integer serviceAmount;
+  private String legalName;
+  private String driver;
 }

@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -157,7 +158,7 @@ public class ServiceImp implements ServiceRequestService {
   public List<FileInfoByServiceDto> downloadDocument(String serviceNumber) throws IOException {
     List<FileByServiceDto> fileByServiceDto = serviceRequestRepository.finUploadDataByServiceNumber(serviceNumber);
     if (fileByServiceDto.isEmpty()) {
-      return null;
+      return Collections.emptyList();
     } else {
       return getFilesFromCloud(fileByServiceDto);
     }

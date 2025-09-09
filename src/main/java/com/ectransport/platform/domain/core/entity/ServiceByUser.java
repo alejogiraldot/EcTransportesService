@@ -31,13 +31,15 @@ public class ServiceByUser {
   private Integer statusIdentifier;
   private Integer driverId;
   private String userIdentification;
+  private Integer clientType;
 
   public static ServiceByUser.Builder builder() {
     return new ServiceByUser.Builder();
   }
 
-  public ServiceByUser(String serviceType, LocalDate serviceDate, LocalTime hourService, String brandVehicle, String origin, String destination, Integer peopleNumber, BigDecimal serviceAmmount, String observations, String userNumber, String userName, String userEmail, String flightNumber, String methodOfPayment, String voucher, String plate, String serviceNumber, String driverName, String driverLastName, String clientName, Integer statusId, UUID idService, Integer statusIdentifier, Integer driverId, String userIdentification) {
+  public ServiceByUser(String serviceType, LocalDate serviceDate, LocalTime hourService, String brandVehicle, String origin, String destination, Integer peopleNumber, BigDecimal serviceAmmount, String observations, String userNumber, String userName, String userEmail, String flightNumber, String methodOfPayment, String voucher, String plate, String serviceNumber, String driverName, String driverLastName, String clientName, Integer statusId, UUID idService, Integer statusIdentifier, Integer driverId, String userIdentification, Integer clientType) {
     this.serviceType = serviceType;
+    this.clientType =clientType;
     this.serviceDate = serviceDate;
     this.hourService = hourService;
     this.brandVehicle = brandVehicle;
@@ -90,12 +92,16 @@ public class ServiceByUser {
     statusIdentifier = builder.statusIdentifier;
     driverId = builder.driverId;
     userIdentification = builder.userIdentification;
+    clientType = builder.clientType;
   }
 
   public String getServiceType() {
     return serviceType;
   }
 
+  public Integer getClientType() {
+    return clientType;
+  }
   public LocalDate getServiceDate() {
     return serviceDate;
   }
@@ -219,6 +225,7 @@ public class ServiceByUser {
     private Integer statusIdentifier;
     private Integer driverId;
     private String userIdentification;
+    private Integer clientType;
 
     private Builder() {
     }
@@ -229,6 +236,11 @@ public class ServiceByUser {
 
     public Builder serviceType(String val) {
       serviceType = val;
+      return this;
+    }
+
+    public Builder clientType(Integer val) {
+      clientType = val;
       return this;
     }
 

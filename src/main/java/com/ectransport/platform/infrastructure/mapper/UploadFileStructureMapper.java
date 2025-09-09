@@ -38,6 +38,7 @@ public class UploadFileStructureMapper {
 
   public FileByServiceDto uploadDataServiceToFileByServiceDto(UploadDataService fileUpload) {
     return FileByServiceDto.builder()
+        .legalName(fileUpload.getLegalName())
         .fkTypeUpload(fileUpload.getFkTypeUpload())
         .amount(fileUpload.getAmount())
         .beeper(fileUpload.getBeeper())
@@ -45,6 +46,11 @@ public class UploadFileStructureMapper {
         .fileName(fileUpload.getFileName())
         .paymentType(fileUpload.getPaymentType())
         .route(fileUpload.getRoute())
+        .plate(fileUpload.getPlate())
+        .amount(fileUpload.getAmount())
+        .clientType(fileUpload.getClientType())
+        .serviceAmount(fileUpload.getServiceAmount())
+        .driver(fileUpload.getName() + " " + fileUpload.getLastname())
         .build();
   }
 }

@@ -60,6 +60,7 @@ public class ServiceApplicationMapper {
         .statusId(serviceByUser.getStatusId())
         .driverId(serviceByUser.getDriverId())
         .userIdentification(serviceByUser.getUserIdentification())
+        .clientType(serviceByUser.getClientType())
         .build();
   }
 

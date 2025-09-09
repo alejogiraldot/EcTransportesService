@@ -31,4 +31,5 @@ public interface ServiceReport {
   Integer getStatusIdentifier();
   Integer getDriverId();
   String getUserIdentification();
+  Integer getClientType();
 }
