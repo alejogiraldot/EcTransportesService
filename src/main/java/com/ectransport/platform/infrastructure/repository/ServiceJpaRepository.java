@@ -44,11 +44,13 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
         ss.id as statusIdentifier,
         so.fk_driver as driverId,
         uc.fk_client_type as clientType,
-        umu.identification as userIdentification 
+        umu.identification as userIdentification,
+        tra.code as transportId
       FROM services.service_orders so
       LEFT JOIN usermanagement.users umu ON so.fk_driver = umu.id_user
       LEFT JOIN usermanagement.client uc ON so.fk_client = uc.client_id
       LEFT JOIN services.service_status ss on so.fk_service_status = ss.id
+      LEFT JOIN services.transport tra on tra.id  = so.fk_transport 
       WHERE so.service_date >= :initialDate
         AND so.service_date <= :finalDate
         AND (:plate IS NULL OR so.plate = :plate)

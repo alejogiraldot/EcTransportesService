@@ -40,4 +40,5 @@ public class ServiceDto {
   private Integer driverId;
   private String userIdentification;
   private Integer clientType;
+  private String transportId;
 }

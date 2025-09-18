@@ -32,12 +32,14 @@ public class ServiceByUser {
   private Integer driverId;
   private String userIdentification;
   private Integer clientType;
+  private String transportId;
 
   public static ServiceByUser.Builder builder() {
     return new ServiceByUser.Builder();
   }
 
-  public ServiceByUser(String serviceType, LocalDate serviceDate, LocalTime hourService, String brandVehicle, String origin, String destination, Integer peopleNumber, BigDecimal serviceAmmount, String observations, String userNumber, String userName, String userEmail, String flightNumber, String methodOfPayment, String voucher, String plate, String serviceNumber, String driverName, String driverLastName, String clientName, Integer statusId, UUID idService, Integer statusIdentifier, Integer driverId, String userIdentification, Integer clientType) {
+  public ServiceByUser(String transportId, String serviceType, LocalDate serviceDate, LocalTime hourService, String brandVehicle, String origin, String destination, Integer peopleNumber, BigDecimal serviceAmmount, String observations, String userNumber, String userName, String userEmail, String flightNumber, String methodOfPayment, String voucher, String plate, String serviceNumber, String driverName, String driverLastName, String clientName, Integer statusId, UUID idService, Integer statusIdentifier, Integer driverId, String userIdentification, Integer clientType) {
+    this.transportId = transportId;
     this.serviceType = serviceType;
     this.clientType =clientType;
     this.serviceDate = serviceDate;
@@ -67,6 +69,7 @@ public class ServiceByUser {
   }
 
   private ServiceByUser(Builder builder) {
+    transportId = builder.transportId;
     serviceType = builder.serviceType;
     serviceDate = builder.serviceDate;
     hourService = builder.hourService;
@@ -97,6 +100,9 @@ public class ServiceByUser {
 
   public String getServiceType() {
     return serviceType;
+  }
+  public String getTransportId() {
+    return transportId;
   }
 
   public Integer getClientType() {
@@ -200,6 +206,7 @@ public class ServiceByUser {
 
 
   public static final class Builder {
+    private String transportId;
     private String serviceType;
     private LocalDate serviceDate;
     private LocalTime hourService;
@@ -236,6 +243,10 @@ public class ServiceByUser {
 
     public Builder serviceType(String val) {
       serviceType = val;
+      return this;
+    }
+    public Builder transportId(String val) {
+      transportId = val;
       return this;
     }
 

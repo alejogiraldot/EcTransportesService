@@ -61,6 +61,7 @@ public class ServiceApplicationMapper {
         .driverId(serviceByUser.getDriverId())
         .userIdentification(serviceByUser.getUserIdentification())
         .clientType(serviceByUser.getClientType())
+        .transportId(serviceByUser.getTransportId())
         .build();
   }
 

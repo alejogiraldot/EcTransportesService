@@ -9,6 +9,7 @@ public class TransportApplicationMapper {
   public TransportDto transportToTransportDto(Transport transport) {
     return TransportDto.builder()
         .name(transport.getName())
+        .id(transport.getId())
         .code(transport.getCode())
         .build();
   }

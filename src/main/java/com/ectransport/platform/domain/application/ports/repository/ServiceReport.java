@@ -32,4 +32,5 @@ public interface ServiceReport {
   Integer getDriverId();
   String getUserIdentification();
   Integer getClientType();
+  String getTransportId();
 }

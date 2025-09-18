@@ -108,6 +108,7 @@ public class ServiceInfrastructureMapper {
         .driverId(serviceReport.getDriverId())
         .userIdentification(serviceReport.getUserIdentification())
         .clientType(serviceReport.getClientType())
+        .transportId(serviceReport.getTransportId())
         .build();
   }
 }

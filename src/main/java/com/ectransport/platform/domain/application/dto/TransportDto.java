@@ -10,4 +10,5 @@ import lombok.Data;
 public class TransportDto {
   private String name;
   private String code;
+  private Integer id;
 }
