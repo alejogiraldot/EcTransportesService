@@ -38,4 +38,8 @@ public class RequestCreateServiceDto {
   private String serviceNumber;
   private String flightNumber;
   private Integer status;
+  private Double originLatitude;
+  private Double originLongitude;
+  private Double destinationLatitude;
+  private Double destinationLongitude;
 }

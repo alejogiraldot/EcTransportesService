@@ -33,4 +33,8 @@ public interface ServiceReport {
   String getUserIdentification();
   Integer getClientType();
   String getTransportId();
+  Double getOriginLatitude();
+  Double getOriginLongitude();
+  Double getDestinationLatitude();
+  Double getDestinationLongitude();
 }

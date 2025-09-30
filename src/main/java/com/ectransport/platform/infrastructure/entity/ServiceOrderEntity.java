@@ -89,4 +89,16 @@ public class ServiceOrderEntity {
 
   @Column(name = "fk_service_status")
   private Integer fkServiceStatus;
+
+  @Column(name = "origin_latitude")
+  private Double originLatitude;
+
+  @Column(name = "origin_longitude")
+  private Double originLongitude;
+
+  @Column(name = "destination_latitude")
+  private Double destinationLatitude;
+
+  @Column(name = "destination_longitude")
+  private Double destinationLongitude;
 }

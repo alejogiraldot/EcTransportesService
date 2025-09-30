@@ -41,4 +41,8 @@ public class ServiceDto {
   private String userIdentification;
   private Integer clientType;
   private String transportId;
+  private Double originLatitude;
+  private Double originLongitude;
+  private Double destinationLatitude;
+  private Double destinationLongitude;
 }

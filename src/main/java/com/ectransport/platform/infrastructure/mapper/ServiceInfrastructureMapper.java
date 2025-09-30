@@ -50,6 +50,10 @@ public class ServiceInfrastructureMapper {
         .serviceNumber(requestCreateServiceDto.getServiceNumber())
         .fkTransport(requestCreateServiceDto.getFkTransport())
         .fkServiceStatus(requestCreateServiceDto.getStatus())
+        .originLatitude(requestCreateServiceDto.getOriginLatitude())
+        .originLongitude(requestCreateServiceDto.getOriginLongitude())
+        .destinationLatitude(requestCreateServiceDto.getDestinationLatitude())
+        .destinationLongitude(requestCreateServiceDto.getDestinationLongitude())
         .build();
   }
 
@@ -109,6 +113,10 @@ public class ServiceInfrastructureMapper {
         .userIdentification(serviceReport.getUserIdentification())
         .clientType(serviceReport.getClientType())
         .transportId(serviceReport.getTransportId())
+        .originLatitude(serviceReport.getOriginLatitude())
+        .originLongitude(serviceReport.getOriginLongitude())
+        .destinationLatitude(serviceReport.getDestinationLatitude())
+        .destinationLongitude(serviceReport.getDestinationLongitude())
         .build();
-  }
+    }
 }

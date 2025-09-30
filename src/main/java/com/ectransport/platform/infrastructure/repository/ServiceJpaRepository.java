@@ -45,7 +45,11 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
         so.fk_driver as driverId,
         uc.fk_client_type as clientType,
         umu.identification as userIdentification,
-        tra.code as transportId
+        tra.code as transportId,
+        so.origin_latitude as originLatitude,
+        so.origin_longitude as originLongitude,
+        so.destination_latitude as destinationLatitude,
+        so.destination_longitude as destinationLongitude
       FROM services.service_orders so
       LEFT JOIN usermanagement.users umu ON so.fk_driver = umu.id_user
       LEFT JOIN usermanagement.client uc ON so.fk_client = uc.client_id

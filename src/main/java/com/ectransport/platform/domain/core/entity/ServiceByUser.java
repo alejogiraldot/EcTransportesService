@@ -33,43 +33,12 @@ public class ServiceByUser {
   private String userIdentification;
   private Integer clientType;
   private String transportId;
-
-  public static ServiceByUser.Builder builder() {
-    return new ServiceByUser.Builder();
-  }
-
-  public ServiceByUser(String transportId, String serviceType, LocalDate serviceDate, LocalTime hourService, String brandVehicle, String origin, String destination, Integer peopleNumber, BigDecimal serviceAmmount, String observations, String userNumber, String userName, String userEmail, String flightNumber, String methodOfPayment, String voucher, String plate, String serviceNumber, String driverName, String driverLastName, String clientName, Integer statusId, UUID idService, Integer statusIdentifier, Integer driverId, String userIdentification, Integer clientType) {
-    this.transportId = transportId;
-    this.serviceType = serviceType;
-    this.clientType =clientType;
-    this.serviceDate = serviceDate;
-    this.hourService = hourService;
-    this.brandVehicle = brandVehicle;
-    this.origin = origin;
-    this.destination = destination;
-    this.peopleNumber = peopleNumber;
-    this.serviceAmmount = serviceAmmount;
-    this.observations = observations;
-    this.userNumber = userNumber;
-    this.userName = userName;
-    this.userEmail = userEmail;
-    this.flightNumber = flightNumber;
-    this.methodOfPayment = methodOfPayment;
-    this.voucher = voucher;
-    this.plate = plate;
-    this.serviceNumber = serviceNumber;
-    this.driverName = driverName;
-    this.driverLastName = driverLastName;
-    this.clientName = clientName;
-    this.statusId = statusId;
-    this.idService = idService;
-    this.statusIdentifier = statusIdentifier;
-    this.driverId = driverId;
-    this.userIdentification = userIdentification;
-  }
+  private Double originLatitude;
+  private Double originLongitude;
+  private Double destinationLatitude;
+  private Double destinationLongitude;
 
   private ServiceByUser(Builder builder) {
-    transportId = builder.transportId;
     serviceType = builder.serviceType;
     serviceDate = builder.serviceDate;
     hourService = builder.hourService;
@@ -96,56 +65,11 @@ public class ServiceByUser {
     driverId = builder.driverId;
     userIdentification = builder.userIdentification;
     clientType = builder.clientType;
-  }
-
-  public String getServiceType() {
-    return serviceType;
-  }
-  public String getTransportId() {
-    return transportId;
-  }
-
-  public Integer getClientType() {
-    return clientType;
-  }
-  public LocalDate getServiceDate() {
-    return serviceDate;
-  }
-
-  public LocalTime getHourService() {
-    return hourService;
-  }
-
-  public String getBrandVehicle() {
-    return brandVehicle;
-  }
-
-  public String getOrigin() {
-    return origin;
-  }
-
-  public String getDestination() {
-    return destination;
-  }
-
-  public Integer getPeopleNumber() {
-    return peopleNumber;
-  }
-
-  public BigDecimal getServiceAmmount() {
-    return serviceAmmount;
-  }
-
-  public String getUserNumber() {
-    return userNumber;
-  }
-
-  public String getObservations() {
-    return observations;
-  }
-
-  public String getUserName() {
-    return userName;
+    transportId = builder.transportId;
+    originLatitude = builder.originLatitude;
+    originLongitude = builder.originLongitude;
+    destinationLatitude = builder.destinationLatitude;
+    destinationLongitude = builder.destinationLongitude;
   }
 
   public String getUserEmail() {
@@ -160,12 +84,12 @@ public class ServiceByUser {
     return methodOfPayment;
   }
 
-  public String getVoucher() {
-    return voucher;
-  }
-
   public String getPlate() {
     return plate;
+  }
+
+  public String getVoucher() {
+    return voucher;
   }
 
   public String getServiceNumber() {
@@ -204,9 +128,81 @@ public class ServiceByUser {
     return userIdentification;
   }
 
+  public Integer getClientType() {
+    return clientType;
+  }
+
+  public Double getOriginLatitude() {
+    return originLatitude;
+  }
+
+  public String getTransportId() {
+    return transportId;
+  }
+
+  public Double getOriginLongitude() {
+    return originLongitude;
+  }
+
+  public Double getDestinationLatitude() {
+    return destinationLatitude;
+  }
+
+  public Double getDestinationLongitude() {
+    return destinationLongitude;
+  }
+
+  public String getServiceType() {
+    return serviceType;
+  }
+
+  public LocalDate getServiceDate() {
+    return serviceDate;
+  }
+
+  public LocalTime getHourService() {
+    return hourService;
+  }
+
+  public String getBrandVehicle() {
+    return brandVehicle;
+  }
+
+  public String getOrigin() {
+    return origin;
+  }
+
+  public String getDestination() {
+    return destination;
+  }
+
+  public Integer getPeopleNumber() {
+    return peopleNumber;
+  }
+
+  public BigDecimal getServiceAmmount() {
+    return serviceAmmount;
+  }
+
+  public String getObservations() {
+    return observations;
+  }
+
+  public String getUserNumber() {
+    return userNumber;
+  }
+
+  public String getUserName() {
+    return userName;
+  }
+
+
+
+  public static Builder builder() {
+    return new Builder();
+  }
 
   public static final class Builder {
-    private String transportId;
     private String serviceType;
     private LocalDate serviceDate;
     private LocalTime hourService;
@@ -233,6 +229,11 @@ public class ServiceByUser {
     private Integer driverId;
     private String userIdentification;
     private Integer clientType;
+    private String transportId;
+    private Double originLatitude;
+    private Double originLongitude;
+    private Double destinationLatitude;
+    private Double destinationLongitude;
 
     private Builder() {
     }
@@ -243,15 +244,6 @@ public class ServiceByUser {
 
     public Builder serviceType(String val) {
       serviceType = val;
-      return this;
-    }
-    public Builder transportId(String val) {
-      transportId = val;
-      return this;
-    }
-
-    public Builder clientType(Integer val) {
-      clientType = val;
       return this;
     }
 
@@ -372,6 +364,36 @@ public class ServiceByUser {
 
     public Builder userIdentification(String val) {
       userIdentification = val;
+      return this;
+    }
+
+    public Builder clientType(Integer val) {
+      clientType = val;
+      return this;
+    }
+
+    public Builder transportId(String val) {
+      transportId = val;
+      return this;
+    }
+
+    public Builder originLatitude(Double val) {
+      originLatitude = val;
+      return this;
+    }
+
+    public Builder originLongitude(Double val) {
+      originLongitude = val;
+      return this;
+    }
+
+    public Builder destinationLatitude(Double val) {
+      destinationLatitude = val;
+      return this;
+    }
+
+    public Builder destinationLongitude(Double val) {
+      destinationLongitude = val;
       return this;
     }
 

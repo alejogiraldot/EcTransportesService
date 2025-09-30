@@ -62,6 +62,10 @@ public class ServiceApplicationMapper {
         .userIdentification(serviceByUser.getUserIdentification())
         .clientType(serviceByUser.getClientType())
         .transportId(serviceByUser.getTransportId())
+        .originLongitude(serviceByUser.getOriginLongitude())
+        .originLatitude(serviceByUser.getOriginLatitude())
+        .destinationLongitude(serviceByUser.getDestinationLongitude())
+        .destinationLatitude(serviceByUser.getDestinationLatitude())
         .build();
   }
 
