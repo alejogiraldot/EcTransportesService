@@ -101,4 +101,7 @@ public class ServiceOrderEntity {
 
   @Column(name = "destination_longitude")
   private Double destinationLongitude;
+
+  @Column(name = "reference")
+  private String reference;
 }

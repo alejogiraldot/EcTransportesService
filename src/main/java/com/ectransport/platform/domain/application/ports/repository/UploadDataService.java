@@ -1,5 +1,7 @@
 package com.ectransport.platform.domain.application.ports.repository;
 
+import java.util.UUID;
+
 public interface UploadDataService {
   String getFileName();
   String getRoute();
@@ -14,5 +16,6 @@ public interface UploadDataService {
   Integer getServiceAmount();
   String getName();
   String getLastname();
+  UUID getIdFile();
 
 }

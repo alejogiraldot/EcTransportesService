@@ -4,6 +4,7 @@ import com.ectransport.platform.domain.application.dto.*;
 import com.ectransport.platform.domain.application.mapper.ServiceApplicationMapper;
 import com.ectransport.platform.domain.application.ports.input.service.ServiceRequestService;
 import com.ectransport.platform.domain.application.ports.output.service.ServiceRequestRepository;
+import com.ectransport.platform.domain.application.ports.output.service.UpdateDataRepository;
 import com.ectransport.platform.domain.application.ports.output.service.UploadDocumentService;
 import com.ectransport.platform.domain.application.strategy.Imp.ValidateTypeExpenseImp;
 import com.ectransport.platform.domain.application.strategy.Imp.ValidateTypePaymentImp;
@@ -31,13 +32,14 @@ public class ServiceImp implements ServiceRequestService {
   private final ValidateTypeExpenseImp validateTypeExpenseImp;
   private final ValidateTypePaymentImp validateTypePaymentImp;
   private final UploadDocumentService uploadDocumentService;
-
-  public ServiceImp(ServiceRequestRepository serviceRequestRepository, ServiceApplicationMapper serviceApplicationMapper, ValidateTypeExpenseImp validateTypeExpenseImp, ValidateTypePaymentImp validateTypePaymentImp, UploadDocumentService uploadDocumentService) {
+  private final UpdateDataRepository updateDataRepository;
+  public ServiceImp(ServiceRequestRepository serviceRequestRepository, ServiceApplicationMapper serviceApplicationMapper, ValidateTypeExpenseImp validateTypeExpenseImp, ValidateTypePaymentImp validateTypePaymentImp, UploadDocumentService uploadDocumentService, UpdateDataRepository updateDataRepository) {
     this.serviceRequestRepository = serviceRequestRepository;
     this.serviceApplicationMapper = serviceApplicationMapper;
     this.validateTypeExpenseImp = validateTypeExpenseImp;
     this.validateTypePaymentImp = validateTypePaymentImp;
     this.uploadDocumentService = uploadDocumentService;
+    this.updateDataRepository = updateDataRepository;
   }
 
   @Override
@@ -176,4 +178,20 @@ public class ServiceImp implements ServiceRequestService {
         .build();
   }
 
+  @Override
+  public ServiceDto findServiceByTransactionId(UUID transactionId) {
+    return serviceApplicationMapper.serviceByUserToServiceDto(serviceRequestRepository.findServiceByTransactionId(transactionId));
+  }
+
+  @Override
+  public List<ServiceBySettlementDto> findServiceBySettlement(FindServiceByUser findServiceByUser) {
+    return serviceRequestRepository.findServiceBySettlement(findServiceByUser);
+  }
+
+  @Override
+  public List<FileUploadResponseDto> uploadSettlement(String identification, List<UploadDataDto> uploadData, List<ExpenseDataUploadDto> expenseDataUploadDtoList, UUID fkService) throws IOException {
+    updateDataRepository.updateSettlement(uploadData);
+    updateDataRepository.updateExpenseSettlement(expenseDataUploadDtoList);
+    return List.of();
+  }
 }

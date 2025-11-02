@@ -42,4 +42,5 @@ public class RequestCreateServiceDto {
   private Double originLongitude;
   private Double destinationLatitude;
   private Double destinationLongitude;
+  private String reference;
 }

@@ -1,5 +1,6 @@
 package com.ectransport.platform.domain.application.ports.input.service;
 
+import com.ectransport.platform.domain.application.dto.ServiceDto;
 import com.ectransport.platform.domain.application.dto.TransportDto;
 
 import java.util.List;

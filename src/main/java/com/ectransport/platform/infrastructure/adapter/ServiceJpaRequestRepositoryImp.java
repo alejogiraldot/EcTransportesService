@@ -59,7 +59,10 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
         findServiceByUser.getFinalDate(),
         findServiceByUser.getPlate(),
         findServiceByUser.getUserId(),
-        findServiceByUser.getClientId()
+        findServiceByUser.getClientId(),
+        findServiceByUser.getStatus(),
+        findServiceByUser.getDriverId(),
+        findServiceByUser.getReference()
     ).stream().map(serviceInfrastructureMapper::serviceReportToService).toList();
   }
 
@@ -122,6 +125,24 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
     ZoneId bogotaZone = ZoneId.of("America/Bogota");
     LocalDate todayBogota = LocalDate.now(bogotaZone);
     return serviceJpaRepository.usersInService(todayBogota);
+  }
+
+  @Override
+  public ServiceByUser findServiceByTransactionId(UUID transactionId) {
+    return serviceInfrastructureMapper.serviceReportToService(serviceJpaRepository.findServiceByTransactionId(transactionId));
+  }
+
+  @Override
+  public List<ServiceBySettlementDto> findServiceBySettlement(FindServiceByUser findServiceByUser) {
+    return serviceJpaRepository.findServiceBySettlement(
+        findServiceByUser.getInitialDate(),
+        findServiceByUser.getFinalDate(),
+        findServiceByUser.getPlate(),
+        findServiceByUser.getUserId(),
+        findServiceByUser.getClientId(),
+        findServiceByUser.getStatus(),
+        findServiceByUser.getDriverId()
+    ).stream().map(serviceInfrastructureMapper::serviceSettlementToServiceSettlementDto).toList();
   }
 
 }

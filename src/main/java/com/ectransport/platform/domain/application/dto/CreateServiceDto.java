@@ -12,4 +12,5 @@ import java.util.UUID;
 @Builder
 public class CreateServiceDto {
   private String serviceId;
+  private UUID transactionService;
 }

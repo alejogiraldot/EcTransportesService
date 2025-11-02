@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("services")
@@ -103,4 +104,27 @@ public class ServiceController {
   public ResponseEntity<ServiceByDayDto> getServiceByDay() {
     return ResponseEntity.ok(serviceRequestService.getServiceByDay());
   }
+
+  @GetMapping("/service-by-number/{transactionId}")
+  public ResponseEntity<ServiceDto> getServiceTypes(@PathVariable("transactionId") UUID transactionId) {
+    return ResponseEntity.ok(serviceRequestService.findServiceByTransactionId(transactionId));
+  }
+
+  @PostMapping("/find-service-by-settlement")
+  public ResponseEntity<List<ServiceBySettlementDto>> findServiceBySettlement(@RequestBody FindServiceByUser findServiceByUser) {
+    return ResponseEntity.ok(serviceRequestService.findServiceBySettlement(findServiceByUser));
+  }
+  @PostMapping("/update-settlement")
+  public ResponseEntity<List<FileUploadResponseDto>> uploadSettlement(
+      @RequestBody CombinedUploadRequestDto requestBody
+  ) throws IOException {
+    List<FileUploadResponseDto> result = serviceRequestService.uploadSettlement(
+        requestBody.getIdentification(),
+        requestBody.getUploadData(),
+        requestBody.getExpenseDataUpload(),
+        requestBody.getFkService()
+    );
+    return ResponseEntity.ok(result);
+  }
+
 }

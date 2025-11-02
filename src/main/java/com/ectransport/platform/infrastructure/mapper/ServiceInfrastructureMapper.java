@@ -1,6 +1,8 @@
 package com.ectransport.platform.infrastructure.mapper;
 
 import com.ectransport.platform.domain.application.dto.RequestCreateServiceDto;
+import com.ectransport.platform.domain.application.dto.ServiceBySettlementDto;
+import com.ectransport.platform.domain.application.ports.repository.ServiceBySettlement;
 import com.ectransport.platform.domain.application.ports.repository.ServiceReport;
 import com.ectransport.platform.domain.core.entity.DailyCounter;
 import com.ectransport.platform.domain.core.entity.Service;
@@ -54,6 +56,7 @@ public class ServiceInfrastructureMapper {
         .originLongitude(requestCreateServiceDto.getOriginLongitude())
         .destinationLatitude(requestCreateServiceDto.getDestinationLatitude())
         .destinationLongitude(requestCreateServiceDto.getDestinationLongitude())
+        .reference(requestCreateServiceDto.getReference())
         .build();
   }
 
@@ -67,6 +70,7 @@ public class ServiceInfrastructureMapper {
         .destination(serviceOrderEntity.getDestination())
         .idService(serviceOrderEntity.getIdService())
         .plate(serviceOrderEntity.getPlate())
+        .reference(serviceOrderEntity.getReference())
         .build();
   }
 
@@ -117,6 +121,39 @@ public class ServiceInfrastructureMapper {
         .originLongitude(serviceReport.getOriginLongitude())
         .destinationLatitude(serviceReport.getDestinationLatitude())
         .destinationLongitude(serviceReport.getDestinationLongitude())
+        .reference(serviceReport.getReference())
         .build();
     }
+
+  public ServiceBySettlementDto serviceSettlementToServiceSettlementDto(ServiceBySettlement serviceBySettlement) {
+    return ServiceBySettlementDto.builder()
+        .serviceNumber(serviceBySettlement.getServiceNumber())
+        .methodOfPayment(serviceBySettlement.getMethodOfPayment())
+        .clientName(serviceBySettlement.getClientName())
+        .clientType(serviceBySettlement.getClientType())
+        .origin(serviceBySettlement.getOrigin())
+        .destination(serviceBySettlement.getDestination())
+        .driverName(serviceBySettlement.getDriverName())
+        .driverLastName(serviceBySettlement.getDriverLastName())
+        .plate(serviceBySettlement.getPlate())
+        .serviceType(serviceBySettlement.getServiceType())
+        .brand(serviceBySettlement.getBrand())
+        .serviceAmount(serviceBySettlement.getServiceAmmount())
+        .beeper(serviceBySettlement.getBeeper())
+        .tollAmount(serviceBySettlement.getTollAmount())
+        .parking(serviceBySettlement.getParking())
+        .wash(serviceBySettlement.getWash())
+        .gasoline(serviceBySettlement.getGasoline())
+        .extra(serviceBySettlement.getExtra())
+        .tip(serviceBySettlement.getTip())
+        .flypass(serviceBySettlement.getFlypass())
+        .washShip(serviceBySettlement.getWashShip())
+        .gasolineShip(serviceBySettlement.getGasolineShip())
+        .serviceType(serviceBySettlement.getServiceType())
+        .idService(serviceBySettlement.getIdService())
+        .serviceDate(serviceBySettlement.getServiceDate())
+        .hourService(serviceBySettlement.getHourService())
+        .idFile(serviceBySettlement.getIdFile())
+        .build();
+  }
 }

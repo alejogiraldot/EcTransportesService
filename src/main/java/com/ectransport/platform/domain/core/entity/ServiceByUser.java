@@ -37,6 +37,7 @@ public class ServiceByUser {
   private Double originLongitude;
   private Double destinationLatitude;
   private Double destinationLongitude;
+  private String reference;
 
   private ServiceByUser(Builder builder) {
     serviceType = builder.serviceType;
@@ -70,6 +71,11 @@ public class ServiceByUser {
     originLongitude = builder.originLongitude;
     destinationLatitude = builder.destinationLatitude;
     destinationLongitude = builder.destinationLongitude;
+    reference = builder.reference;
+  }
+
+  public String getReference() {
+    return reference;
   }
 
   public String getUserEmail() {
@@ -197,7 +203,6 @@ public class ServiceByUser {
   }
 
 
-
   public static Builder builder() {
     return new Builder();
   }
@@ -234,6 +239,7 @@ public class ServiceByUser {
     private Double originLongitude;
     private Double destinationLatitude;
     private Double destinationLongitude;
+    private String reference;
 
     private Builder() {
     }
@@ -244,6 +250,10 @@ public class ServiceByUser {
 
     public Builder serviceType(String val) {
       serviceType = val;
+      return this;
+    }
+    public Builder reference(String val) {
+      reference = val;
       return this;
     }
 

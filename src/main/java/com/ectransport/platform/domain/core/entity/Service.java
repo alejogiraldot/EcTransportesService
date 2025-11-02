@@ -36,6 +36,7 @@ public class Service {
   private Integer fkDriver;
   private String plate;
   private String serviceNumber;
+  private String reference;
 
   private Service(Builder builder) {
     setIdService(builder.idService);
@@ -60,6 +61,11 @@ public class Service {
     setFkDriver(builder.fkDriver);
     setPlate(builder.plate);
     setServiceNumber(builder.serviceNumber);
+    setReference(builder.reference);
+  }
+
+  public String getReference() {
+    return reference;
   }
 
   public UUID getIdService() {
@@ -173,6 +179,7 @@ public class Service {
     private Integer fkDriver;
     private String plate;
     private String serviceNumber;
+    private String reference;
 
     private Builder() {
     }
@@ -183,6 +190,10 @@ public class Service {
 
     public Builder idService(UUID val) {
       idService = val;
+      return this;
+    }
+    public Builder reference(String val) {
+      reference = val;
       return this;
     }
 

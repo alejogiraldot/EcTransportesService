@@ -3,6 +3,7 @@ package com.ectransport.platform.domain.application.ports.output.service;
 import com.ectransport.platform.domain.application.dto.FileByServiceDto;
 import com.ectransport.platform.domain.application.dto.FileInfoByServiceDto;
 import com.ectransport.platform.domain.application.dto.MediaManagerResponseDto;
+import com.ectransport.platform.domain.application.dto.UploadDataDto;
 
 import java.io.IOException;
 import java.util.List;

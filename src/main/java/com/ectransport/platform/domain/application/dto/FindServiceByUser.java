@@ -16,4 +16,7 @@ public class FindServiceByUser {
   private UUID clientId;
   private String plate;
   private Integer userId;
+  private Integer status;
+  private Integer driverId;
+  private String reference;
 }

@@ -22,4 +22,11 @@ public interface ServiceRequestService {
   List<FileInfoByServiceDto> downloadDocument(String serviceNumber) throws IOException;
 
   ServiceByDayDto getServiceByDay();
+
+  ServiceDto findServiceByTransactionId(UUID transactionId);
+
+  List<ServiceBySettlementDto> findServiceBySettlement(FindServiceByUser findServiceByUser);
+
+  List<FileUploadResponseDto> uploadSettlement(String identification, List<UploadDataDto> uploadData, List<ExpenseDataUploadDto> expenseDataUploadDtoList, UUID fkService) throws IOException;
+
 }

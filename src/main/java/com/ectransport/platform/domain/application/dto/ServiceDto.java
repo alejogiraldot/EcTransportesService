@@ -45,4 +45,5 @@ public class ServiceDto {
   private Double originLongitude;
   private Double destinationLatitude;
   private Double destinationLongitude;
+  private String reference;
 }

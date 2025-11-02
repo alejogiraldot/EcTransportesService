@@ -37,4 +37,5 @@ public interface ServiceReport {
   Double getOriginLongitude();
   Double getDestinationLatitude();
   Double getDestinationLongitude();
+  String getReference();
 }

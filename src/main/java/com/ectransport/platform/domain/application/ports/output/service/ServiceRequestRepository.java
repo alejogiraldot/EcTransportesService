@@ -24,4 +24,6 @@ public interface ServiceRequestRepository {
   List<FileByServiceDto> finUploadDataByServiceNumber(String serviceNumber);
   Integer serviceByDay();
   Integer usersInService();
+  ServiceByUser findServiceByTransactionId(UUID transactionId);
+  List<ServiceBySettlementDto> findServiceBySettlement(FindServiceByUser findServiceByUser);
 }

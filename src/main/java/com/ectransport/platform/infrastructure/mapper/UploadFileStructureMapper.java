@@ -51,6 +51,7 @@ public class UploadFileStructureMapper {
         .clientType(fileUpload.getClientType())
         .serviceAmount(fileUpload.getServiceAmount())
         .driver(fileUpload.getName() + " " + fileUpload.getLastname())
+        .idFile(fileUpload.getIdFile())
         .build();
   }
 }

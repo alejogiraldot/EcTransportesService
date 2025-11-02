@@ -19,6 +19,7 @@ public class ServiceApplicationMapper {
 
   public CreateServiceDto createServiceToCreateServiceDto(Service service) {
     return CreateServiceDto.builder()
+        .transactionService(service.getIdService())
         .serviceId(service.getServiceNumber())
         .build();
   }
@@ -66,6 +67,7 @@ public class ServiceApplicationMapper {
         .originLatitude(serviceByUser.getOriginLatitude())
         .destinationLongitude(serviceByUser.getDestinationLongitude())
         .destinationLatitude(serviceByUser.getDestinationLatitude())
+        .reference(serviceByUser.getReference())
         .build();
   }
 

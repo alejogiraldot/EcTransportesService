@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Builder
 @Data
 @AllArgsConstructor
@@ -17,4 +19,5 @@ public class ExpenseDataUploadDto {
   private String description;
   private String identification;
   private String fileUrl;
+  private UUID idFile;
 }

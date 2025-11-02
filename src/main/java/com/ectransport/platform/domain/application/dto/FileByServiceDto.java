@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -21,5 +23,6 @@ public class FileByServiceDto {
   private String plate;
   private Integer serviceAmount;
   private String driver;
+  private UUID idFile;
 }
 

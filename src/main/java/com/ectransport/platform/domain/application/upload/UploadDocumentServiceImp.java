@@ -3,6 +3,7 @@ package com.ectransport.platform.domain.application.upload;
 import com.ectransport.platform.domain.application.dto.FileByServiceDto;
 import com.ectransport.platform.domain.application.dto.FileInfoByServiceDto;
 import com.ectransport.platform.domain.application.dto.MediaManagerResponseDto;
+import com.ectransport.platform.domain.application.dto.UploadDataDto;
 import com.ectransport.platform.domain.application.ports.output.service.UploadDocumentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,5 +64,6 @@ public class UploadDocumentServiceImp implements UploadDocumentService {
       return Collections.emptyList();
     }
   }
+
 }
 

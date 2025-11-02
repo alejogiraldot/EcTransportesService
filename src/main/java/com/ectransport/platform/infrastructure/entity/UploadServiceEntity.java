@@ -17,7 +17,7 @@ public class UploadServiceEntity {
 
   @Id
   @GeneratedValue
-  @Column(name = "id_file", nullable = false, updatable = false)
+  @Column(name = "id_file", nullable = false)
   private UUID idFile;
 
   @Column(name = "fk_service", nullable = false)
@@ -35,21 +35,21 @@ public class UploadServiceEntity {
   @Column(name = "file_size")
   private Long fileSize;
 
-  @Column(name = "upload_date", insertable = false, updatable = false)
+  @Column(name = "upload_date", insertable = false)
   private LocalDateTime uploadDate;
 
-  @Column(name = "payment_type", updatable = false)
+  @Column(name = "payment_type")
   private String paymentType;
 
-  @Column(name = "amount",  updatable = false)
+  @Column(name = "amount")
   private Integer amount;
 
-  @Column(name = "beeper", updatable = false)
+  @Column(name = "beeper")
   private Integer beeper;
 
-  @Column(name = "description", updatable = false)
+  @Column(name = "description")
   private String description;
 
-  @Column(name = "fk_type_upload", updatable = false)
+  @Column(name = "fk_type_upload")
   private Integer fkTypeUpload;
 }
