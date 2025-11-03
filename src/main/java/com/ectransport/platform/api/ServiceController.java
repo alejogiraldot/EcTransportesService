@@ -126,5 +126,8 @@ public class ServiceController {
     );
     return ResponseEntity.ok(result);
   }
-
+  @PostMapping("/edit-service")
+  public ResponseEntity<CreateServiceDto> editService(@RequestBody RequestCreateServiceDto createServiceRequest) {
+    return ResponseEntity.ok(serviceRequestService.editService(createServiceRequest));
+  }
 }

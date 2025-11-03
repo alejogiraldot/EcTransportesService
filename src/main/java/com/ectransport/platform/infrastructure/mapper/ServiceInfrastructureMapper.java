@@ -123,7 +123,7 @@ public class ServiceInfrastructureMapper {
         .destinationLongitude(serviceReport.getDestinationLongitude())
         .reference(serviceReport.getReference())
         .build();
-    }
+  }
 
   public ServiceBySettlementDto serviceSettlementToServiceSettlementDto(ServiceBySettlement serviceBySettlement) {
     return ServiceBySettlementDto.builder()
@@ -149,11 +149,23 @@ public class ServiceInfrastructureMapper {
         .flypass(serviceBySettlement.getFlypass())
         .washShip(serviceBySettlement.getWashShip())
         .gasolineShip(serviceBySettlement.getGasolineShip())
-        .serviceType(serviceBySettlement.getServiceType())
         .idService(serviceBySettlement.getIdService())
         .serviceDate(serviceBySettlement.getServiceDate())
         .hourService(serviceBySettlement.getHourService())
         .idFile(serviceBySettlement.getIdFile())
+        .peopleNumber(serviceBySettlement.getPeopleNumber())
+        .observations(serviceBySettlement.getObservations())
+        .userNumber(serviceBySettlement.getUserNumber())
+        .userName(serviceBySettlement.getUserName())
+        .userEmail(serviceBySettlement.getUserEmail())
+        .flightNumber(serviceBySettlement.getFlightNumber())
+        .voucher(serviceBySettlement.getVoucher())
+        .statusId(serviceBySettlement.getStatusId())
+        .statusIdentifier(serviceBySettlement.getStatusIdentifier())
+        .driverId(serviceBySettlement.getDriverId())
+        .userIdentification(serviceBySettlement.getUserIdentification())
+        .transportId(serviceBySettlement.getTransportId())
+        .reference(serviceBySettlement.getReference())
         .build();
   }
 }

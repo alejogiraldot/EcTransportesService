@@ -57,4 +57,29 @@ public interface ServiceBySettlement {
 
   UUID getIdFile();
 
+  Integer getPeopleNumber();
+
+  String getObservations();
+
+  String getUserNumber();
+
+  String getUserName();
+
+  String getUserEmail();
+
+  String getFlightNumber();
+
+  String getVoucher();
+
+  Integer getStatusId();
+
+  Integer getStatusIdentifier();
+
+  Integer getDriverId();
+
+  String getUserIdentification();
+
+  String getTransportId();
+
+  String getReference();
 }

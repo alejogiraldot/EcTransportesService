@@ -202,12 +202,30 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
           umu.last_name AS "driverLastName",
           so.plate AS "plate",
           so.brand_vehicle AS "brand",
-          so.service_ammount AS "serviceAmmount",
+              (SUM(CASE WHEN uf.payment_type = 'EFECTIVO' THEN uf.amount ELSE 0 END) +
+               SUM(CASE WHEN uf.payment_type = 'NO FIRMA / NO PAGA' THEN uf.amount ELSE 0 END) +
+               SUM(CASE WHEN uf.payment_type = 'VOUCHER' THEN uf.amount ELSE 0 END) +
+               SUM(CASE WHEN uf.payment_type = 'LINK DE PAGO' THEN uf.amount ELSE 0 END) +
+               SUM(CASE WHEN uf.payment_type = 'TRANSFERENCIA' THEN uf.amount ELSE 0 END) +
+               SUM(CASE WHEN uf.payment_type = 'DATÁFONO' THEN uf.amount ELSE 0 END)) AS "serviceAmmount",
           so.id_service AS "idService",
           so.service_type AS "serviceType",
           so.service_date AS "serviceDate",
-          SUM(uf.beeper) AS beeper,
-             
+          so.people_number AS "peopleNumber",
+          so.observations AS "observations",
+          so.user_number AS "userNumber",
+          so.user_name AS "userName",
+          so.user_email AS "userEmail",
+          so.flight_number AS "flightNumber",
+          so.voucher AS "voucher",
+          ss.id_status AS "statusId",\s
+          ss.id AS "statusIdentifier",
+          so.fk_driver AS "driverId",
+          uc.fk_client_type AS "clientType",
+          umu.identification AS "userIdentification",
+          tra.code AS "transportId",
+          so.reference AS "reference",
+          SUM(uf.beeper) AS "beeper",
           SUM(CASE WHEN uf.payment_type = 'PEAJES' THEN uf.amount ELSE 0 END) AS "tollAmount",
           SUM(CASE WHEN uf.payment_type = 'PARQUEADEROS' THEN uf.amount ELSE 0 END) AS "parking",
           SUM(CASE WHEN uf.payment_type = 'LAVADA' THEN uf.amount ELSE 0 END) AS "wash",
@@ -216,7 +234,7 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
           SUM(CASE WHEN uf.payment_type = 'PROPINAS' THEN uf.amount ELSE 0 END) AS "tip",
           SUM(CASE WHEN uf.payment_type = 'FLYPASS' THEN uf.amount ELSE 0 END) AS "flypass",
           SUM(CASE WHEN uf.payment_type = 'LAVADA SHIP' THEN uf.amount ELSE 0 END) AS "washShip",
-          SUM(CASE WHEN uf.payment_type = 'GASOLINA SHIP' THEN uf.amount ELSE 0 END) AS "gasolineShip"
+          SUM(CASE WHEN uf.payment_type = 'GASOLINA SHIP' THEN uf.amount ELSE 0 END) AS "gasolineShip" 
       
       FROM services.service_orders so
       LEFT JOIN usermanagement.users umu ON so.fk_driver = umu.id_user
@@ -249,7 +267,21 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
           so.service_ammount,
           so.id_service,
           so.service_type,
-          so.service_date
+          so.service_date,
+          so.people_number,
+          so.observations,
+          so.user_number,
+          so.user_name,
+          so.user_email,
+          so.flight_number,
+          so.voucher,
+          ss.id_status,
+          ss.id,
+          so.fk_driver,
+          uc.fk_client_type,
+          umu.identification,
+          tra.code,
+          so.reference
       
       ORDER BY so.service_date ASC, so.hour_service ASC;
       """, nativeQuery = true)

@@ -29,4 +29,6 @@ public interface ServiceRequestService {
 
   List<FileUploadResponseDto> uploadSettlement(String identification, List<UploadDataDto> uploadData, List<ExpenseDataUploadDto> expenseDataUploadDtoList, UUID fkService) throws IOException;
 
+  CreateServiceDto editService(RequestCreateServiceDto requestCreateServiceDto);
+
 }

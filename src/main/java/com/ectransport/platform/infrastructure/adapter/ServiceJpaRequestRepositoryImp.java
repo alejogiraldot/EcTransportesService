@@ -145,4 +145,14 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
     ).stream().map(serviceInfrastructureMapper::serviceSettlementToServiceSettlementDto).toList();
   }
 
+  @Override
+  public Service editService(RequestCreateServiceDto requestCreateServiceDto) {
+    ServiceOrderEntity serviceOrderEntity = serviceInfrastructureMapper.requestCreateServiceDtoToServiceOrderEntity(requestCreateServiceDto);
+    ServiceOrderEntity oldServiceOrderEntity = serviceJpaRepository.findById(serviceOrderEntity.getIdService())
+        .orElseThrow(() -> new RuntimeException("Servicio no encontrado con ID: " + serviceOrderEntity.getIdService()));
+    serviceOrderEntity.setCreationService(oldServiceOrderEntity.getCreationService());
+    serviceOrderEntity.setServiceNumber(oldServiceOrderEntity.getServiceNumber());
+    serviceOrderEntity.setFkServiceStatus(oldServiceOrderEntity.getFkServiceStatus());
+    return serviceInfrastructureMapper.serviceEntityToService(serviceJpaRepository.save(serviceOrderEntity));
+  }
 }

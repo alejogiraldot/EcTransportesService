@@ -194,4 +194,9 @@ public class ServiceImp implements ServiceRequestService {
     updateDataRepository.updateExpenseSettlement(expenseDataUploadDtoList);
     return List.of();
   }
+
+  @Override
+  public CreateServiceDto editService(RequestCreateServiceDto requestCreateServiceDto) {
+    return serviceApplicationMapper.createServiceToCreateServiceDto(serviceRequestRepository.editService(requestCreateServiceDto));
+  }
 }

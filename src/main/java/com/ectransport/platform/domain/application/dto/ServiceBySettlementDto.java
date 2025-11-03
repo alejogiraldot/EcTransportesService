@@ -38,4 +38,17 @@ public class ServiceBySettlementDto {
   private LocalDate serviceDate;
   private LocalTime hourService;
   private UUID idFile;
+  private Integer peopleNumber;
+  private String observations;
+  private String userNumber;
+  private String userName;
+  private String userEmail;
+  private String flightNumber;
+  private String voucher;
+  private Integer statusId;
+  private Integer statusIdentifier;
+  private Integer driverId;
+  private String userIdentification;
+  private String transportId;
+  private String reference;
 }

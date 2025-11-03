@@ -26,4 +26,6 @@ public interface ServiceRequestRepository {
   Integer usersInService();
   ServiceByUser findServiceByTransactionId(UUID transactionId);
   List<ServiceBySettlementDto> findServiceBySettlement(FindServiceByUser findServiceByUser);
+  Service editService(RequestCreateServiceDto requestCreateServiceDto);
+
 }
