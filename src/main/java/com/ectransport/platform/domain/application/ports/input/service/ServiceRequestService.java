@@ -27,8 +27,8 @@ public interface ServiceRequestService {
 
   List<ServiceBySettlementDto> findServiceBySettlement(FindServiceByUser findServiceByUser);
 
-  List<FileUploadResponseDto> uploadSettlement(String identification, List<UploadDataDto> uploadData, List<ExpenseDataUploadDto> expenseDataUploadDtoList, UUID fkService) throws IOException;
-
   CreateServiceDto editService(RequestCreateServiceDto requestCreateServiceDto);
+
+  ServiceNumberDto serviceNumber();
 
 }

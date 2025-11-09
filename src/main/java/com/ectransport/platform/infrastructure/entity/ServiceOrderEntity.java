@@ -54,7 +54,7 @@ public class ServiceOrderEntity {
   @Column(name = "service_ammount")
   private BigDecimal serviceAmmount;
 
-  @Column(name = "observations")
+  @Column(name = "observations" , length = 3000)
   private String observations;
 
   @Column(name = "user_name")
@@ -102,6 +102,6 @@ public class ServiceOrderEntity {
   @Column(name = "destination_longitude")
   private Double destinationLongitude;
 
-  @Column(name = "reference")
+  @Column(name = "reference", length = 3000)
   private String reference;
 }

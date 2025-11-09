@@ -4,17 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @Builder
-public class FileUploadResponseDto {
+public class FileUploadedData {
   private UUID idFile;
-  private String fileName;
-  private String route;
-  private LocalDateTime uploadDate;
   private UUID fkService;
-  private String presignedUrl;
-  private String oldRoute;
+  private String fileName;
+
+
 }

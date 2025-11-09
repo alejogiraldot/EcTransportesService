@@ -1,9 +1,6 @@
 package com.ectransport.platform.domain.application.upload;
 
-import com.ectransport.platform.domain.application.dto.FileByServiceDto;
-import com.ectransport.platform.domain.application.dto.FileInfoByServiceDto;
-import com.ectransport.platform.domain.application.dto.MediaManagerResponseDto;
-import com.ectransport.platform.domain.application.dto.UploadDataDto;
+import com.ectransport.platform.domain.application.dto.*;
 import com.ectransport.platform.domain.application.ports.output.service.UploadDocumentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +23,9 @@ public class UploadDocumentServiceImp implements UploadDocumentService {
 
   @Value("${download.document.url}")
   private String downloadFile;
+
+  @Value("${update.document.url}")
+  private String updateDocumentUrl;
 
   public UploadDocumentServiceImp(RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
@@ -63,6 +63,15 @@ public class UploadDocumentServiceImp implements UploadDocumentService {
     } else {
       return Collections.emptyList();
     }
+  }
+
+  @Override
+  public void updateFile(UpdateFileDto route) {
+    restTemplate.postForEntity(
+        updateDocumentUrl,
+        route,
+        Void.class
+    );
   }
 
 }

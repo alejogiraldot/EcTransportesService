@@ -62,7 +62,8 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
         findServiceByUser.getClientId(),
         findServiceByUser.getStatus(),
         findServiceByUser.getDriverId(),
-        findServiceByUser.getReference()
+        findServiceByUser.getReference(),
+        findServiceByUser.getServiceNumber()
     ).stream().map(serviceInfrastructureMapper::serviceReportToService).toList();
   }
 
@@ -152,7 +153,11 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
         .orElseThrow(() -> new RuntimeException("Servicio no encontrado con ID: " + serviceOrderEntity.getIdService()));
     serviceOrderEntity.setCreationService(oldServiceOrderEntity.getCreationService());
     serviceOrderEntity.setServiceNumber(oldServiceOrderEntity.getServiceNumber());
-    serviceOrderEntity.setFkServiceStatus(oldServiceOrderEntity.getFkServiceStatus());
+    if(requestCreateServiceDto.getStatus() == 1 || requestCreateServiceDto.getStatus() == 2 ){
+      serviceOrderEntity.setFkServiceStatus(requestCreateServiceDto.getStatus());
+    }else{
+      serviceOrderEntity.setFkServiceStatus(oldServiceOrderEntity.getFkServiceStatus());
+    }
     return serviceInfrastructureMapper.serviceEntityToService(serviceJpaRepository.save(serviceOrderEntity));
   }
 }

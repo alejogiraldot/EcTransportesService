@@ -20,13 +20,15 @@ public class ServiceController {
   private final PaymentService paymentService;
   private final VehicleService vehicleService;
   private final ExpenseService expenseService;
+  private final UploadService uploadService;
 
-  public ServiceController(ServiceRequestService serviceRequestService, TransportService transportService, PaymentService paymentService, VehicleService vehicleService, ExpenseService expenseService) {
+  public ServiceController(ServiceRequestService serviceRequestService, TransportService transportService, PaymentService paymentService, VehicleService vehicleService, ExpenseService expenseService, UploadService uploadService) {
     this.serviceRequestService = serviceRequestService;
     this.transportService = transportService;
     this.paymentService = paymentService;
     this.vehicleService = vehicleService;
     this.expenseService = expenseService;
+    this.uploadService = uploadService;
   }
 
   @GetMapping(value = "/service-type")
@@ -118,7 +120,7 @@ public class ServiceController {
   public ResponseEntity<List<FileUploadResponseDto>> uploadSettlement(
       @RequestBody CombinedUploadRequestDto requestBody
   ) throws IOException {
-    List<FileUploadResponseDto> result = serviceRequestService.uploadSettlement(
+    List<FileUploadResponseDto> result = uploadService.uploadSettlement(
         requestBody.getIdentification(),
         requestBody.getUploadData(),
         requestBody.getExpenseDataUpload(),
@@ -126,8 +128,14 @@ public class ServiceController {
     );
     return ResponseEntity.ok(result);
   }
+
   @PostMapping("/edit-service")
   public ResponseEntity<CreateServiceDto> editService(@RequestBody RequestCreateServiceDto createServiceRequest) {
     return ResponseEntity.ok(serviceRequestService.editService(createServiceRequest));
+  }
+
+  @GetMapping("/service-number")
+  public ResponseEntity<ServiceNumberDto> getServiceNumber() {
+    return ResponseEntity.ok(serviceRequestService.serviceNumber());
   }
 }

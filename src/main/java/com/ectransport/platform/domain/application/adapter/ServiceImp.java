@@ -4,7 +4,6 @@ import com.ectransport.platform.domain.application.dto.*;
 import com.ectransport.platform.domain.application.mapper.ServiceApplicationMapper;
 import com.ectransport.platform.domain.application.ports.input.service.ServiceRequestService;
 import com.ectransport.platform.domain.application.ports.output.service.ServiceRequestRepository;
-import com.ectransport.platform.domain.application.ports.output.service.UpdateDataRepository;
 import com.ectransport.platform.domain.application.ports.output.service.UploadDocumentService;
 import com.ectransport.platform.domain.application.strategy.Imp.ValidateTypeExpenseImp;
 import com.ectransport.platform.domain.application.strategy.Imp.ValidateTypePaymentImp;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,14 +30,13 @@ public class ServiceImp implements ServiceRequestService {
   private final ValidateTypeExpenseImp validateTypeExpenseImp;
   private final ValidateTypePaymentImp validateTypePaymentImp;
   private final UploadDocumentService uploadDocumentService;
-  private final UpdateDataRepository updateDataRepository;
-  public ServiceImp(ServiceRequestRepository serviceRequestRepository, ServiceApplicationMapper serviceApplicationMapper, ValidateTypeExpenseImp validateTypeExpenseImp, ValidateTypePaymentImp validateTypePaymentImp, UploadDocumentService uploadDocumentService, UpdateDataRepository updateDataRepository) {
+
+  public ServiceImp(ServiceRequestRepository serviceRequestRepository, ServiceApplicationMapper serviceApplicationMapper, ValidateTypeExpenseImp validateTypeExpenseImp, ValidateTypePaymentImp validateTypePaymentImp, UploadDocumentService uploadDocumentService) {
     this.serviceRequestRepository = serviceRequestRepository;
     this.serviceApplicationMapper = serviceApplicationMapper;
     this.validateTypeExpenseImp = validateTypeExpenseImp;
     this.validateTypePaymentImp = validateTypePaymentImp;
     this.uploadDocumentService = uploadDocumentService;
-    this.updateDataRepository = updateDataRepository;
   }
 
   @Override
@@ -102,6 +99,8 @@ public class ServiceImp implements ServiceRequestService {
   private void validateDriver(RequestCreateServiceDto requestCreateServiceDto) {
     if ((requestCreateServiceDto.getStatus() == null)) {
       requestCreateServiceDto.setStatus(StatusConstans.CREATED);
+    } else if (requestCreateServiceDto.getStatus() == 201) {
+      requestCreateServiceDto.setStatus(StatusConstans.ASSIGNED);
     } else {
       requestCreateServiceDto.setStatus(StatusConstans.ASSIGNED);
     }
@@ -188,15 +187,34 @@ public class ServiceImp implements ServiceRequestService {
     return serviceRequestRepository.findServiceBySettlement(findServiceByUser);
   }
 
-  @Override
-  public List<FileUploadResponseDto> uploadSettlement(String identification, List<UploadDataDto> uploadData, List<ExpenseDataUploadDto> expenseDataUploadDtoList, UUID fkService) throws IOException {
-    updateDataRepository.updateSettlement(uploadData);
-    updateDataRepository.updateExpenseSettlement(expenseDataUploadDtoList);
-    return List.of();
-  }
 
   @Override
   public CreateServiceDto editService(RequestCreateServiceDto requestCreateServiceDto) {
+    validateUpdateDriver(requestCreateServiceDto);
     return serviceApplicationMapper.createServiceToCreateServiceDto(serviceRequestRepository.editService(requestCreateServiceDto));
   }
+
+  @Override
+  public ServiceNumberDto serviceNumber() {
+    LocalDate today = LocalDate.now();
+    DailyCounter dailyCounter = serviceRequestRepository.findDailyCounterByDate(today);
+    int counter = dailyCounter.getCounter() + 1;
+    dailyCounter.setCounter(counter);
+    String datePart = today.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+    String counterPart = String.format("%03d", counter);
+    String serviceNumber = "Servicio-" + datePart + "-" + counterPart;
+    return ServiceNumberDto.builder()
+        .serviceNumber(serviceNumber)
+        .build();
+  }
+
+  private void validateUpdateDriver(RequestCreateServiceDto requestCreateServiceDto) {
+    if (requestCreateServiceDto.getStatus() == null) {
+      requestCreateServiceDto.setStatus(StatusConstans.CREATED);
+    } else if (requestCreateServiceDto.getStatus() == 201) {
+      requestCreateServiceDto.setStatus(StatusConstans.ASSIGNED);
+    }
+  }
+
+
 }

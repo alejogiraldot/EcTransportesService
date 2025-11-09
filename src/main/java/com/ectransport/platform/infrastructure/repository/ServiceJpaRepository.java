@@ -64,7 +64,8 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
         AND (:clientId IS NULL OR so.fk_client = :clientId)
         AND (:serviceStatus IS NULL OR so.fk_service_status = :serviceStatus)
         AND (:driverId IS NULL OR so.fk_driver = :driverId)
-        AND (:reference IS NULL OR so.reference = :reference)
+        AND (:reference IS NULL OR LOWER(so.reference) = LOWER(:reference))
+        AND (:serviceNumber IS NULL OR LOWER(so.service_number) = LOWER(:serviceNumber))
       ORDER BY so.service_date ASC, so.hour_service ASC
       """, nativeQuery = true)
   List<ServiceReport> findServiceByUser(
@@ -75,7 +76,8 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
       @Param("clientId") UUID clientId,
       @Param("serviceStatus") Integer serviceStatus,
       @Param("driverId") Integer driverId,
-      @Param("reference") String reference
+      @Param("reference") String reference,
+      @Param("serviceNumber") String serviceNumber
   );
 
   @Modifying

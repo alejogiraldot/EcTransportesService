@@ -19,4 +19,5 @@ public class FindServiceByUser {
   private Integer status;
   private Integer driverId;
   private String reference;
+  private String serviceNumber;
 }

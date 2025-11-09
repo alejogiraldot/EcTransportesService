@@ -20,4 +20,5 @@ public class ExpenseDataUploadDto {
   private String identification;
   private String fileUrl;
   private UUID idFile;
+  private String route;
 }

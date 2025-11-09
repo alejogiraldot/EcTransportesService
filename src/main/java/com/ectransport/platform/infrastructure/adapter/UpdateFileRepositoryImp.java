@@ -32,6 +32,17 @@ public class UpdateFileRepositoryImp implements UpdateDataRepository {
             entityToUpdate.setAmount(dto.getAmount());
             entityToUpdate.setPaymentType(dto.getPaymentType());
             entityToUpdate.setBeeper(dto.getBeeper());
+            if (dto.getFileName() != null && !dto.getFileName().isEmpty()) {
+              String newRoute = dto.getRoute();
+              if (newRoute != null) {
+                entityToUpdate.setRoute(newRoute);
+                entityToUpdate.setFileName(dto.getFileName());
+                entityToUpdate.setContentType(dto.getContentType());
+              }
+            }
+            if (dto.getDescription() != null) {
+              entityToUpdate.setDescription(dto.getDescription());
+            }
           });
     }
   }
@@ -49,6 +60,17 @@ public class UpdateFileRepositoryImp implements UpdateDataRepository {
           .ifPresent(entityToUpdate -> {
             entityToUpdate.setAmount(dto.getAmount());
             entityToUpdate.setPaymentType(dto.getExpense());
+            if (dto.getFileName() != null && !dto.getFileName().isEmpty()) {
+              String newRoute = dto.getRoute();
+              if (newRoute != null) {
+                entityToUpdate.setRoute(newRoute);
+                entityToUpdate.setFileName(dto.getFileName());
+                entityToUpdate.setContentType(dto.getContentType());
+              }
+            }
+            if (dto.getDescription() != null) {
+              entityToUpdate.setDescription(dto.getDescription());
+            }
           });
     }
   }
