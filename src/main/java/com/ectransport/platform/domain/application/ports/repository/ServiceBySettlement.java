@@ -82,4 +82,8 @@ public interface ServiceBySettlement {
   String getTransportId();
 
   String getReference();
+
+  Integer getTotalService();
+
+  String getProduct();
 }

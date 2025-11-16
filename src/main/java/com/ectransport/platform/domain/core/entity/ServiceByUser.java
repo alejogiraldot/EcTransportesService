@@ -38,6 +38,9 @@ public class ServiceByUser {
   private Double destinationLatitude;
   private Double destinationLongitude;
   private String reference;
+  private String product;
+
+
 
   private ServiceByUser(Builder builder) {
     serviceType = builder.serviceType;
@@ -72,12 +75,15 @@ public class ServiceByUser {
     destinationLatitude = builder.destinationLatitude;
     destinationLongitude = builder.destinationLongitude;
     reference = builder.reference;
+    product = builder.product;
   }
 
   public String getReference() {
     return reference;
   }
-
+  public String getProduct() {
+    return product;
+  }
   public String getUserEmail() {
     return userEmail;
   }
@@ -208,6 +214,7 @@ public class ServiceByUser {
   }
 
   public static final class Builder {
+    private String product;
     private String serviceType;
     private LocalDate serviceDate;
     private LocalTime hourService;
@@ -250,6 +257,10 @@ public class ServiceByUser {
 
     public Builder serviceType(String val) {
       serviceType = val;
+      return this;
+    }
+    public Builder product(String val) {
+      product = val;
       return this;
     }
     public Builder reference(String val) {

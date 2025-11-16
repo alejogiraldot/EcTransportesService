@@ -46,4 +46,5 @@ public class ServiceDto {
   private Double destinationLatitude;
   private Double destinationLongitude;
   private String reference;
+  private String product;
 }

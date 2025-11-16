@@ -47,6 +47,7 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
         uc.fk_client_type as clientType,
         umu.identification as userIdentification,
         tra.code as transportId,
+        tra.name as product,
         so.origin_latitude as originLatitude,
         so.origin_longitude as originLongitude,
         so.destination_latitude as destinationLatitude,
@@ -211,6 +212,7 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
                SUM(CASE WHEN uf.payment_type = 'TRANSFERENCIA' THEN uf.amount ELSE 0 END) +
                SUM(CASE WHEN uf.payment_type = 'DATÁFONO' THEN uf.amount ELSE 0 END)) AS "serviceAmmount",
           so.id_service AS "idService",
+          so.service_ammount as totalService,
           so.service_type AS "serviceType",
           so.service_date AS "serviceDate",
           so.people_number AS "peopleNumber",
@@ -227,6 +229,7 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
           umu.identification AS "userIdentification",
           tra.code AS "transportId",
           so.reference AS "reference",
+          tra.name AS product,
           SUM(uf.beeper) AS "beeper",
           SUM(CASE WHEN uf.payment_type = 'PEAJES' THEN uf.amount ELSE 0 END) AS "tollAmount",
           SUM(CASE WHEN uf.payment_type = 'PARQUEADEROS' THEN uf.amount ELSE 0 END) AS "parking",
@@ -245,7 +248,6 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
       LEFT JOIN services.transport tra ON tra.id = so.fk_transport
       LEFT JOIN usermanagement.client_type ct ON uc.fk_client_type = ct.id
       LEFT JOIN services.upload_files uf ON so.id_service = uf.fk_service
-      
       WHERE so.service_date >= :initialDate
         AND so.service_date <= :finalDate
         AND (:plate IS NULL OR so.plate = :plate)
@@ -253,6 +255,8 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
         AND (:clientId IS NULL OR so.fk_client = :clientId)
         AND (:serviceStatus IS NULL OR so.fk_service_status = :serviceStatus)
         AND (:driverId IS NULL OR so.fk_driver = :driverId)
+        AND (:serviceNumber IS NULL OR LOWER(so.service_number) = LOWER(:serviceNumber))
+
       
       GROUP BY
           so.service_number,
@@ -283,7 +287,8 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
           uc.fk_client_type,
           umu.identification,
           tra.code,
-          so.reference
+          so.reference,
+          tra.name
       
       ORDER BY so.service_date ASC, so.hour_service ASC;
       """, nativeQuery = true)
@@ -294,6 +299,7 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
       @Param("userId") Integer userId,
       @Param("clientId") UUID clientId,
       @Param("serviceStatus") Integer serviceStatus,
-      @Param("driverId") Integer driverId
+      @Param("driverId") Integer driverId,
+      @Param("serviceNumber") String serviceNumber
   );
 }

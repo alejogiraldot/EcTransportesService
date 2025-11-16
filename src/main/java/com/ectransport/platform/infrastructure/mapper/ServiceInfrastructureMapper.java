@@ -122,6 +122,7 @@ public class ServiceInfrastructureMapper {
         .destinationLatitude(serviceReport.getDestinationLatitude())
         .destinationLongitude(serviceReport.getDestinationLongitude())
         .reference(serviceReport.getReference())
+        .product(serviceReport.getProduct())
         .build();
   }
 
@@ -166,6 +167,8 @@ public class ServiceInfrastructureMapper {
         .userIdentification(serviceBySettlement.getUserIdentification())
         .transportId(serviceBySettlement.getTransportId())
         .reference(serviceBySettlement.getReference())
+        .totalService(serviceBySettlement.getTotalService())
+        .product(serviceBySettlement.getProduct())
         .build();
   }
 }

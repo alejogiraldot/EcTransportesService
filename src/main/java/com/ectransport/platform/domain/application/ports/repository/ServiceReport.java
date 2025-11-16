@@ -38,4 +38,5 @@ public interface ServiceReport {
   Double getDestinationLatitude();
   Double getDestinationLongitude();
   String getReference();
+  String getProduct();
 }

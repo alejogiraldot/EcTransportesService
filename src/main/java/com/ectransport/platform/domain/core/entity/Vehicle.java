@@ -8,6 +8,7 @@ public class Vehicle {
   private String plate;
   private String ownerStatus;
   private VehicleBrand vehicleBrand;
+  private String status;
 
   private Vehicle(Builder builder) {
     id = builder.id;
@@ -15,6 +16,11 @@ public class Vehicle {
     plate = builder.plate;
     ownerStatus = builder.ownerStatus;
     vehicleBrand = builder.vehicleBrand;
+    status = builder.status;
+  }
+
+  public String getStatus() {
+    return status;
   }
 
   public static Vehicle.Builder builder() {
@@ -47,6 +53,7 @@ public class Vehicle {
     private String plate;
     private String ownerStatus;
     private VehicleBrand vehicleBrand;
+    private String status;
 
     private Builder() {
     }
@@ -57,6 +64,11 @@ public class Vehicle {
 
     public Builder id(Integer val) {
       id = val;
+      return this;
+    }
+
+    public Builder status(String val) {
+      status = val;
       return this;
     }
 

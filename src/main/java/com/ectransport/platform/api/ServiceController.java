@@ -2,12 +2,16 @@ package com.ectransport.platform.api;
 
 import com.ectransport.platform.domain.application.dto.*;
 import com.ectransport.platform.domain.application.ports.input.service.*;
+import com.ectransport.platform.domain.core.constans.AuxiliarConstants;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -52,8 +56,8 @@ public class ServiceController {
   }
 
   @GetMapping("/vehicles")
-  public ResponseEntity<List<VehicleDto>> getAllVehicles() {
-    return ResponseEntity.ok(vehicleService.findAllVehhicle());
+  public ResponseEntity<List<VehicleDto>> getAllVehicles(@RequestParam(required = false) String status)  {
+    return ResponseEntity.ok(vehicleService.findAllVehhicle(status));
   }
 
   @PostMapping("/create-service")
@@ -137,5 +141,30 @@ public class ServiceController {
   @GetMapping("/service-number")
   public ResponseEntity<ServiceNumberDto> getServiceNumber() {
     return ResponseEntity.ok(serviceRequestService.serviceNumber());
+  }
+
+  @PostMapping("/create-vehicle")
+  public ResponseEntity<VehicleDto> createVehicle(@RequestBody CreateVehicleDto createVehicleDto) {
+    return ResponseEntity.ok(vehicleService.createVehicle(createVehicleDto));
+  }
+
+
+  @PostMapping("/edit-vehicle")
+  public ResponseEntity<VehicleDto> editVehicle(@RequestBody UpdateVehicleDto updateVehicleDto) {
+    return ResponseEntity.ok(vehicleService.updateVehicle(updateVehicleDto));
+  }
+
+  @PutMapping(value = "/update-status-vehicle")
+  public ResponseEntity<Map<String, String>> updateStatusClient(@RequestBody UpdateStatusVehicleDto updateStatusVehicleDto) {
+    try {
+      vehicleService.updateVehicleStatus(updateStatusVehicleDto);
+      Map<String, String> response = new HashMap<>();
+      response.put(AuxiliarConstants.MESSAGE_RESPONSE, AuxiliarConstants.UPDATED_STATUS);
+      response.put(AuxiliarConstants.STATUS, updateStatusVehicleDto.getStatus());
+      return ResponseEntity.ok(response);
+    } catch (Exception e) {
+      Map<String, String> errorResponse = new HashMap<>();
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
   }
 }

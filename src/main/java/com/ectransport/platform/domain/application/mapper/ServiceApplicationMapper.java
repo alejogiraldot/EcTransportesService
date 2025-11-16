@@ -68,6 +68,7 @@ public class ServiceApplicationMapper {
         .destinationLongitude(serviceByUser.getDestinationLongitude())
         .destinationLatitude(serviceByUser.getDestinationLatitude())
         .reference(serviceByUser.getReference())
+        .product(serviceByUser.getProduct())
         .build();
   }
 

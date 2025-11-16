@@ -39,4 +39,7 @@ public class VehicleEntity {
   @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
   private LocalDateTime createdAt;
 
+  @Builder.Default
+  @Column(name = "status", nullable = false, length = 20)
+  private String status = "active";
 }

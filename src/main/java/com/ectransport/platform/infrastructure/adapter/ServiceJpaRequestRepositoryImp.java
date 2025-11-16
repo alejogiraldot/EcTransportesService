@@ -142,7 +142,8 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
         findServiceByUser.getUserId(),
         findServiceByUser.getClientId(),
         findServiceByUser.getStatus(),
-        findServiceByUser.getDriverId()
+        findServiceByUser.getDriverId(),
+        findServiceByUser.getServiceNumber()
     ).stream().map(serviceInfrastructureMapper::serviceSettlementToServiceSettlementDto).toList();
   }
 

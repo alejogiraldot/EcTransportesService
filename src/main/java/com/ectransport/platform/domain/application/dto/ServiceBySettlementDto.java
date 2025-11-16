@@ -51,4 +51,6 @@ public class ServiceBySettlementDto {
   private String userIdentification;
   private String transportId;
   private String reference;
+  private Integer totalService;
+  private String product;
 }

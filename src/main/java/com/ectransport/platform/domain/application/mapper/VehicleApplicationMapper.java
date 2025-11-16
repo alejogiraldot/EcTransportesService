@@ -22,6 +22,8 @@ public class VehicleApplicationMapper {
         .id(vehicle.getId())
         .name(vehicle.getName())
         .plate(vehicle.getPlate())
+        .ownerStatus(vehicle.getOwnerStatus())
+        .status(vehicle.getStatus())
         .build();
   }
 }

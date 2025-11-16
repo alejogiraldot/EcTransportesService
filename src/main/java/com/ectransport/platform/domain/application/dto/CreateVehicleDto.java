@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
-@AllArgsConstructor
 @Data
-public class VehicleDto {
-  private Integer id;
+@AllArgsConstructor
+@Builder
+public class CreateVehicleDto {
   private String name;
   private String plate;
-  private String ownerStatus;
-  private VehicleBrandDto vehicleBrand;
-  private String status;
+  private String ownerShipStatus;
+  private VehicleBrandDto vehicleBrandDto;
 }
