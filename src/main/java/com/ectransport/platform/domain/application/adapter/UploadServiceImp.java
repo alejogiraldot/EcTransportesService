@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -33,6 +34,7 @@ public class UploadServiceImp implements UploadService {
     updateDataRepository.updateExpenseSettlement(expenseDataUploadDtoList);
     return responses;
   }
+
 
   private void deleteRoutesPayments(List<UploadDataDto> uploadData) {
     List<String> routesToDelete = new ArrayList<>();
@@ -125,5 +127,29 @@ public class UploadServiceImp implements UploadService {
     });
 
     return responses;
+  }
+
+
+  @Override
+  public DeleteUploadedDataResponseDto deleteUploadedData(DeleteUploadedDataDto deleteUploadedDataDto) {
+    manageDeleteFromBucket(deleteUploadedDataDto);
+    return manageDeleFromDatabase(deleteUploadedDataDto);
+  }
+
+  public Void manageDeleteFromBucket(DeleteUploadedDataDto deleteUploadedDataDto) {
+    if(Objects.nonNull(deleteUploadedDataDto.getIdFile()) && Objects.nonNull(deleteUploadedDataDto.getPresignedUrl())) {
+      uploadDocumentService.deleteFile(deleteUploadedDataDto);
+    }
+    return null;
+  }
+
+  public DeleteUploadedDataResponseDto manageDeleFromDatabase(DeleteUploadedDataDto deleteUploadedDataDto) {
+    boolean deleted = updateDataRepository.deleteFileUploaded(deleteUploadedDataDto.getIdFile());
+
+    if (deleted) {
+      return new DeleteUploadedDataResponseDto(true, "Archivo eliminado exitosamente");
+    } else {
+      return new DeleteUploadedDataResponseDto(false, "No se encontró el archivo para eliminar");
+    }
   }
 }

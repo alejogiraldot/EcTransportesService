@@ -27,6 +27,9 @@ public class UploadDocumentServiceImp implements UploadDocumentService {
   @Value("${update.document.url}")
   private String updateDocumentUrl;
 
+  @Value("${delete.document.url}")
+  private String deleteUrl;
+
   public UploadDocumentServiceImp(RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
   }
@@ -74,5 +77,13 @@ public class UploadDocumentServiceImp implements UploadDocumentService {
     );
   }
 
+  @Override
+  public void deleteFile(DeleteUploadedDataDto deleteUploadedDataDto) {
+    restTemplate.postForEntity(
+        deleteUrl,
+        deleteUploadedDataDto.getRoute(),
+        Void.class
+    );
+  }
 }
 

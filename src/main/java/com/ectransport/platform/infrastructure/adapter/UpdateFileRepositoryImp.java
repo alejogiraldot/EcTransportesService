@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Repository
 public class UpdateFileRepositoryImp implements UpdateDataRepository {
@@ -73,5 +74,15 @@ public class UpdateFileRepositoryImp implements UpdateDataRepository {
             }
           });
     }
+  }
+
+  @Override
+  public boolean deleteFileUploaded(UUID idFile) {
+    AtomicBoolean deleted = new AtomicBoolean(false);
+    uploadRepository.findById(idFile).ifPresent(upload -> {
+      uploadRepository.delete(upload);
+      deleted.set(true);
+    });
+    return deleted.get();
   }
 }

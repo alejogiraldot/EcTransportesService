@@ -11,4 +11,6 @@ public interface UploadDocumentService {
   List<FileInfoByServiceDto> downloadDocument(List<FileByServiceDto> fileInfoByServiceDtoList) throws IOException;
 
   void updateFile(UpdateFileDto route);
+
+  void deleteFile(DeleteUploadedDataDto deleteUploadedDataDto);
 }
