@@ -7,6 +7,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -47,4 +48,5 @@ public class ServiceDto {
   private Double destinationLongitude;
   private String reference;
   private String product;
+  private List<Integer> requeriments;
 }

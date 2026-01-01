@@ -3,6 +3,7 @@ package com.ectransport.platform.domain.core.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 public class ServiceByUser {
@@ -39,7 +40,7 @@ public class ServiceByUser {
   private Double destinationLongitude;
   private String reference;
   private String product;
-
+  private List<Integer> requeriment; // ✅ Cambiado a List<Integer>
 
 
   private ServiceByUser(Builder builder) {
@@ -76,6 +77,11 @@ public class ServiceByUser {
     destinationLongitude = builder.destinationLongitude;
     reference = builder.reference;
     product = builder.product;
+    requeriment = builder.requeriment;
+  }
+
+  public List<Integer> getRequeriment() { // ✅ Cambiado a List<Integer>
+    return requeriment;
   }
 
   public String getReference() {
@@ -247,6 +253,7 @@ public class ServiceByUser {
     private Double destinationLatitude;
     private Double destinationLongitude;
     private String reference;
+    private List<Integer> requeriment; // ✅ Cambiado a List<Integer>
 
     private Builder() {
     }
@@ -259,10 +266,17 @@ public class ServiceByUser {
       serviceType = val;
       return this;
     }
+
+    public Builder requeriment(List<Integer> val) { // ✅ Cambiado a List<Integer>
+      requeriment = val;
+      return this;
+    }
+
     public Builder product(String val) {
       product = val;
       return this;
     }
+
     public Builder reference(String val) {
       reference = val;
       return this;

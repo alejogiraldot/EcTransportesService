@@ -31,4 +31,8 @@ public interface ServiceRequestService {
 
   ServiceNumberDto serviceNumber();
 
+  List<RequerimentsDto> getRequeriments();
+
+  List<HistoryData> getHistoryById(UUID serviceId);
+
 }

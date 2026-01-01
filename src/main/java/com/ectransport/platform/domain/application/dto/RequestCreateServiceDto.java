@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -43,4 +44,9 @@ public class RequestCreateServiceDto {
   private Double destinationLatitude;
   private Double destinationLongitude;
   private String reference;
+  private List<Integer> requeriments;
+  private String userInSession;
+  private String driverName;
+  private String clientName;
+  private String productType;
 }

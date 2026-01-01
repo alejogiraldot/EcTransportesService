@@ -7,6 +7,7 @@ import com.ectransport.platform.infrastructure.repository.TransportJpaRepository
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class TransportJpaRequestRepositoryImp implements TransportRequestRepository {
@@ -22,5 +23,10 @@ public class TransportJpaRequestRepositoryImp implements TransportRequestReposit
   @Override
   public List<Transport> findById(Integer id) {
     return transportJpaRepository.findByServiceType_Id(id).stream().map(transportInfrastructureMapper::transportEntityToTransport).toList();
+  }
+
+  public Optional<Transport> findTransportById(Integer id) {
+    return transportJpaRepository.findById(id)
+        .map(transportInfrastructureMapper::transportEntityToTransport);
   }
 }

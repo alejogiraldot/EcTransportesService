@@ -19,56 +19,67 @@ import java.util.UUID;
 public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, UUID> {
 
   @Query(value = """
-      SELECT 
-        so.id_service  as idService,
-        so.service_type as serviceType,
-        so.service_date as serviceDate,
-        so.hour_service as hourService,
-        so.brand_vehicle as brandVehicle,
-        so.origin as origin,
-        so.destination as destination,
-        so.people_number as peopleNumber,
-        so.service_ammount as serviceAmmount,
-        so.observations as observations,
-        so.user_number as userNumber,
-        so.user_name as userName,
-        so.user_email as userEmail,
-        so.flight_number as flightNumber,
-        so.method_of_payment as methodOfPayment,
-        so.voucher as voucher,
-        so.plate as plate,
-        so.service_number as serviceNumber,
-        umu.name as driverName,
-        umu.last_name as driverLastName,
-        uc.trade_name as clientName,
-        ss.id_status as statusId, 
-        ss.id as statusIdentifier,
-        so.fk_driver as driverId,
-        uc.fk_client_type as clientType,
-        umu.identification as userIdentification,
-        tra.code as transportId,
-        tra.name as product,
-        so.origin_latitude as originLatitude,
-        so.origin_longitude as originLongitude,
-        so.destination_latitude as destinationLatitude,
-        so.destination_longitude as destinationLongitude,
-        so.reference as reference
-      FROM services.service_orders so
-      LEFT JOIN usermanagement.users umu ON so.fk_driver = umu.id_user
-      LEFT JOIN usermanagement.client uc ON so.fk_client = uc.client_id
-      LEFT JOIN services.service_status ss on so.fk_service_status = ss.id
-      LEFT JOIN services.transport tra on tra.id  = so.fk_transport 
-      WHERE so.service_date >= :initialDate
-        AND so.service_date <= :finalDate
-        AND (:plate IS NULL OR so.plate = :plate)
-        AND (:userId IS NULL OR so.fk_driver = :userId)
-        AND (:clientId IS NULL OR so.fk_client = :clientId)
-        AND (:serviceStatus IS NULL OR so.fk_service_status = :serviceStatus)
-        AND (:driverId IS NULL OR so.fk_driver = :driverId)
-        AND (:reference IS NULL OR LOWER(so.reference) = LOWER(:reference))
-        AND (:serviceNumber IS NULL OR LOWER(so.service_number) = LOWER(:serviceNumber))
-      ORDER BY so.service_date ASC, so.hour_service ASC
-      """, nativeQuery = true)
+    SELECT 
+      so.id_service as idService,
+      so.service_type as serviceType,
+      so.service_date as serviceDate,
+      so.hour_service as hourService,
+      so.brand_vehicle as brandVehicle,
+      so.origin as origin,
+      so.destination as destination,
+      so.people_number as peopleNumber,
+      so.service_ammount as serviceAmmount,
+      so.observations as observations,
+      so.user_number as userNumber,
+      so.user_name as userName,
+      so.user_email as userEmail,
+      so.flight_number as flightNumber,
+      so.method_of_payment as methodOfPayment,
+      so.voucher as voucher,
+      so.plate as plate,
+      so.service_number as serviceNumber,
+      umu.name as driverName,
+      umu.last_name as driverLastName,
+      uc.trade_name as clientName,
+      ss.id_status as statusId, 
+      ss.id as statusIdentifier,
+      so.fk_driver as driverId,
+      uc.fk_client_type as clientType,
+      umu.identification as userIdentification,
+      tra.code as transportId,
+      tra.name as product,
+      so.origin_latitude as originLatitude,
+      so.origin_longitude as originLongitude,
+      so.destination_latitude as destinationLatitude,
+      so.destination_longitude as destinationLongitude,
+      so.reference as reference,
+      COALESCE(string_agg(CAST(sr.id_requirement AS VARCHAR), ','), '') as requirementIds
+    FROM services.service_orders so
+    LEFT JOIN usermanagement.users umu ON so.fk_driver = umu.id_user
+    LEFT JOIN usermanagement.client uc ON so.fk_client = uc.client_id
+    LEFT JOIN services.service_status ss ON so.fk_service_status = ss.id
+    LEFT JOIN services.transport tra ON tra.id = so.fk_transport
+    LEFT JOIN services.service_requirement sr ON sr.id_service = so.id_service
+    WHERE so.service_date >= :initialDate
+      AND so.service_date <= :finalDate
+      AND (:plate IS NULL OR so.plate = :plate)
+      AND (:userId IS NULL OR so.fk_driver = :userId)
+      AND (:clientId IS NULL OR so.fk_client = :clientId)
+      AND (:serviceStatus IS NULL OR so.fk_service_status = :serviceStatus)
+      AND (:driverId IS NULL OR so.fk_driver = :driverId)
+      AND (:reference IS NULL OR LOWER(so.reference) = LOWER(:reference))
+      AND (:serviceNumber IS NULL OR LOWER(so.service_number) = LOWER(:serviceNumber))
+    GROUP BY 
+      so.id_service, so.service_type, so.service_date, so.hour_service,
+      so.brand_vehicle, so.origin, so.destination, so.people_number,
+      so.service_ammount, so.observations, so.user_number, so.user_name,
+      so.user_email, so.flight_number, so.method_of_payment, so.voucher,
+      so.plate, so.service_number, umu.name, umu.last_name, uc.trade_name,
+      ss.id_status, ss.id, so.fk_driver, uc.fk_client_type, umu.identification,
+      tra.code, tra.name, so.origin_latitude, so.origin_longitude,
+      so.destination_latitude, so.destination_longitude, so.reference
+    ORDER BY so.service_date ASC, so.hour_service ASC
+    """, nativeQuery = true)
   List<ServiceReport> findServiceByUser(
       @Param("initialDate") LocalDate initialDate,
       @Param("finalDate") LocalDate finalDate,
@@ -148,46 +159,58 @@ public interface ServiceJpaRepository extends JpaRepository<ServiceOrderEntity, 
 
 
   @Query(value = """
-      SELECT 
-        so.id_service  as idService,
-        so.service_type as serviceType,
-        so.service_date as serviceDate,
-        so.hour_service as hourService,
-        so.brand_vehicle as brandVehicle,
-        so.origin as origin,
-        so.destination as destination,
-        so.people_number as peopleNumber,
-        so.service_ammount as serviceAmmount,
-        so.observations as observations,
-        so.user_number as userNumber,
-        so.user_name as userName,
-        so.user_email as userEmail,
-        so.flight_number as flightNumber,
-        so.method_of_payment as methodOfPayment,
-        so.voucher as voucher,
-        so.plate as plate,
-        so.service_number as serviceNumber,
-        umu.name as driverName,
-        umu.last_name as driverLastName,
-        uc.trade_name as clientName,
-        ss.id_status as statusId, 
-        ss.id as statusIdentifier,
-        so.fk_driver as driverId,
-        uc.fk_client_type as clientType,
-        umu.identification as userIdentification,
-        tra.code as transportId,
-        so.origin_latitude as originLatitude,
-        so.origin_longitude as originLongitude,
-        so.destination_latitude as destinationLatitude,
-        so.destination_longitude as destinationLongitude,
-        so.reference as reference 
-      FROM services.service_orders so
-      LEFT JOIN usermanagement.users umu ON so.fk_driver = umu.id_user
-      LEFT JOIN usermanagement.client uc ON so.fk_client = uc.client_id
-      LEFT JOIN services.service_status ss on so.fk_service_status = ss.id
-      LEFT JOIN services.transport tra on tra.id  = so.fk_transport 
-      WHERE so.id_service = :transactionId
-      """, nativeQuery = true)
+    SELECT 
+      so.id_service as idService,
+      so.service_type as serviceType,
+      so.service_date as serviceDate,
+      so.hour_service as hourService,
+      so.brand_vehicle as brandVehicle,
+      so.origin as origin,
+      so.destination as destination,
+      so.people_number as peopleNumber,
+      so.service_ammount as serviceAmmount,
+      so.observations as observations,
+      so.user_number as userNumber,
+      so.user_name as userName,
+      so.user_email as userEmail,
+      so.flight_number as flightNumber,
+      so.method_of_payment as methodOfPayment,
+      so.voucher as voucher,
+      so.plate as plate,
+      so.service_number as serviceNumber,
+      umu.name as driverName,
+      umu.last_name as driverLastName,
+      uc.trade_name as clientName,
+      ss.id_status as statusId, 
+      ss.id as statusIdentifier,
+      so.fk_driver as driverId,
+      uc.fk_client_type as clientType,
+      umu.identification as userIdentification,
+      tra.code as transportId,
+      tra.name as product,
+      so.origin_latitude as originLatitude,
+      so.origin_longitude as originLongitude,
+      so.destination_latitude as destinationLatitude,
+      so.destination_longitude as destinationLongitude,
+      so.reference as reference,
+      COALESCE(string_agg(CAST(sr.id_requirement AS VARCHAR), ','), '') as requirementIds
+    FROM services.service_orders so
+    LEFT JOIN usermanagement.users umu ON so.fk_driver = umu.id_user
+    LEFT JOIN usermanagement.client uc ON so.fk_client = uc.client_id
+    LEFT JOIN services.service_status ss ON so.fk_service_status = ss.id
+    LEFT JOIN services.transport tra ON tra.id = so.fk_transport
+    LEFT JOIN services.service_requirement sr ON sr.id_service = so.id_service
+    WHERE so.id_service = :transactionId
+    GROUP BY 
+      so.id_service, so.service_type, so.service_date, so.hour_service,
+      so.brand_vehicle, so.origin, so.destination, so.people_number,
+      so.service_ammount, so.observations, so.user_number, so.user_name,
+      so.user_email, so.flight_number, so.method_of_payment, so.voucher,
+      so.plate, so.service_number, umu.name, umu.last_name, uc.trade_name,
+      ss.id_status, ss.id, so.fk_driver, uc.fk_client_type, umu.identification,
+      tra.code, tra.name, so.origin_latitude, so.origin_longitude,
+      so.destination_latitude, so.destination_longitude, so.reference
+    """, nativeQuery = true)
   ServiceReport findServiceByTransactionId(
       @Param("transactionId") UUID transactionId
   );

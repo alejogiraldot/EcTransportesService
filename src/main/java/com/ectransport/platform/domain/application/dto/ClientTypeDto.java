@@ -4,14 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.UUID;
-
-@Data
 @Builder
+@Data
 @AllArgsConstructor
-public class UpdateStatusDto {
+public class ClientTypeDto {
   private Integer id;
-  private UUID serviceId;
-  private String userInSession;
-  private String commit;
+  private String name;
+  private String code;
 }

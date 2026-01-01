@@ -1,14 +1,22 @@
 package com.ectransport.platform.domain.application.adapter;
 
 import com.ectransport.platform.domain.application.dto.*;
+import com.ectransport.platform.domain.application.helpers.ServiceDataEnrichmentService;
+import com.ectransport.platform.domain.application.mapper.HistoryApplicationMapper;
 import com.ectransport.platform.domain.application.mapper.ServiceApplicationMapper;
 import com.ectransport.platform.domain.application.ports.input.service.ServiceRequestService;
+import com.ectransport.platform.domain.application.ports.output.service.EventDataService;
 import com.ectransport.platform.domain.application.ports.output.service.ServiceRequestRepository;
 import com.ectransport.platform.domain.application.ports.output.service.UploadDocumentService;
 import com.ectransport.platform.domain.application.strategy.Imp.ValidateTypeExpenseImp;
 import com.ectransport.platform.domain.application.strategy.Imp.ValidateTypePaymentImp;
 import com.ectransport.platform.domain.core.constans.StatusConstans;
 import com.ectransport.platform.domain.core.entity.DailyCounter;
+import com.ectransport.platform.infrastructure.entity.EventType;
+import com.ectransport.platform.infrastructure.entity.ServiceEventLog;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -30,13 +38,21 @@ public class ServiceImp implements ServiceRequestService {
   private final ValidateTypeExpenseImp validateTypeExpenseImp;
   private final ValidateTypePaymentImp validateTypePaymentImp;
   private final UploadDocumentService uploadDocumentService;
+  private final EventDataService eventDataService;
+  private final ObjectMapper objectMapper;
+  private final HistoryApplicationMapper historyApplicationMapper;
+  private final ServiceDataEnrichmentService serviceDataEnrichmentService;
 
-  public ServiceImp(ServiceRequestRepository serviceRequestRepository, ServiceApplicationMapper serviceApplicationMapper, ValidateTypeExpenseImp validateTypeExpenseImp, ValidateTypePaymentImp validateTypePaymentImp, UploadDocumentService uploadDocumentService) {
+  public ServiceImp(ServiceRequestRepository serviceRequestRepository, ServiceApplicationMapper serviceApplicationMapper, ValidateTypeExpenseImp validateTypeExpenseImp, ValidateTypePaymentImp validateTypePaymentImp, UploadDocumentService uploadDocumentService, EventDataService eventDataService, ObjectMapper objectMapper, HistoryApplicationMapper historyApplicationMapper, ServiceDataEnrichmentService serviceDataEnrichmentService) {
     this.serviceRequestRepository = serviceRequestRepository;
     this.serviceApplicationMapper = serviceApplicationMapper;
     this.validateTypeExpenseImp = validateTypeExpenseImp;
     this.validateTypePaymentImp = validateTypePaymentImp;
     this.uploadDocumentService = uploadDocumentService;
+    this.eventDataService = eventDataService;
+    this.objectMapper = objectMapper;
+    this.historyApplicationMapper = historyApplicationMapper;
+    this.serviceDataEnrichmentService = serviceDataEnrichmentService;
   }
 
   @Override
@@ -50,8 +66,13 @@ public class ServiceImp implements ServiceRequestService {
     generateCreationDate(requestCreateServiceDto);
     validateDriver(requestCreateServiceDto);
     generateServiceIdentification(requestCreateServiceDto);
-    return serviceApplicationMapper.createServiceToCreateServiceDto(serviceRequestRepository.saveService(requestCreateServiceDto));
+    serviceDataEnrichmentService.enrichServiceData(requestCreateServiceDto);
+    CreateServiceDto response = serviceApplicationMapper.createServiceToCreateServiceDto(serviceRequestRepository.saveService(requestCreateServiceDto));
+    saveRequeriment(requestCreateServiceDto);
+    createTraceability(requestCreateServiceDto);
+    return response;
   }
+
 
   @Override
   public List<ServiceDto> findServiceByUser(FindServiceByUser findServiceByUser) {
@@ -70,7 +91,9 @@ public class ServiceImp implements ServiceRequestService {
   public ServiceUpdatedDto updateDriverByService(UpdateDriverDto updateDriverDto) {
     int statusUpdated = serviceRequestRepository.updateDriverByService(updateDriverDto);
     if (statusUpdated == 1) {
-      return serviceApplicationMapper.serviceToServiceUpdatedDto(serviceRequestRepository.findServiceById(updateDriverDto.getServiceId()));
+      return serviceApplicationMapper.serviceToServiceUpdatedDto(
+          serviceRequestRepository.findServiceById(updateDriverDto.getServiceId())
+      );
     } else {
       return null;
     }
@@ -208,6 +231,11 @@ public class ServiceImp implements ServiceRequestService {
         .build();
   }
 
+  @Override
+  public List<RequerimentsDto> getRequeriments() {
+    return serviceRequestRepository.getRequeriments();
+  }
+
   private void validateUpdateDriver(RequestCreateServiceDto requestCreateServiceDto) {
     if (requestCreateServiceDto.getStatus() == null) {
       requestCreateServiceDto.setStatus(StatusConstans.CREATED);
@@ -216,5 +244,34 @@ public class ServiceImp implements ServiceRequestService {
     }
   }
 
+  public void createTraceability(RequestCreateServiceDto requestCreateServiceDto) {
+    try {
+      EventType eventType = eventDataService.getEventByCode("CREATED");
 
+      ServiceEventLog eventLog = ServiceEventLog.builder()
+          .fkService(requestCreateServiceDto.getIdService())
+          .eventType(eventType.getIdEventType())
+          .eventPayload(objectMapper.writeValueAsString(requestCreateServiceDto))
+          .createdBy(requestCreateServiceDto.getUserInSession())
+          .createdAt(LocalDateTime.now())
+
+          .build();
+      eventDataService.saveEventDataLog(eventLog);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException("Error serializando payload de trazabilidad", e);
+    }
+  }
+
+  public void saveRequeriment(RequestCreateServiceDto requestCreateServiceDto) {
+    serviceRequestRepository.saveRequeriments(
+        requestCreateServiceDto.getIdService(),
+        requestCreateServiceDto.getRequeriments()
+    );
+  }
+
+
+  @Override
+  public List<HistoryData> getHistoryById(UUID serviceId) {
+    return eventDataService.findHistoryById(serviceId).stream().map(historyApplicationMapper::serviceEventHistoryToHistoryData).toList();
+  }
 }

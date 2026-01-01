@@ -1,5 +1,6 @@
 package com.ectransport.platform.infrastructure.mapper;
 
+import com.ectransport.platform.domain.application.dto.RequerimentsDto;
 import com.ectransport.platform.domain.application.dto.RequestCreateServiceDto;
 import com.ectransport.platform.domain.application.dto.ServiceBySettlementDto;
 import com.ectransport.platform.domain.application.ports.repository.ServiceBySettlement;
@@ -9,9 +10,15 @@ import com.ectransport.platform.domain.core.entity.Service;
 import com.ectransport.platform.domain.core.entity.ServiceByUser;
 import com.ectransport.platform.domain.core.entity.ServiceType;
 import com.ectransport.platform.infrastructure.entity.DailyCounterEntity;
+import com.ectransport.platform.infrastructure.entity.Requeriment;
 import com.ectransport.platform.infrastructure.entity.ServiceOrderEntity;
 import com.ectransport.platform.infrastructure.entity.ServiceTypeEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ServiceInfrastructureMapper {
@@ -123,6 +130,7 @@ public class ServiceInfrastructureMapper {
         .destinationLongitude(serviceReport.getDestinationLongitude())
         .reference(serviceReport.getReference())
         .product(serviceReport.getProduct())
+        .requeriment(requerimentEntityToRequeriment(serviceReport.getRequirementIds()))
         .build();
   }
 
@@ -170,5 +178,25 @@ public class ServiceInfrastructureMapper {
         .totalService(serviceBySettlement.getTotalService())
         .product(serviceBySettlement.getProduct())
         .build();
+  }
+
+  public RequerimentsDto requerimentsToRequerimentsDto(Requeriment requeriment) {
+    return RequerimentsDto.builder()
+        .code(requeriment.getCode())
+        .id(requeriment.getIdRequirement())
+        .name(requeriment.getName())
+        .build();
+  }
+
+  private List<Integer> requerimentEntityToRequeriment(String requirementIds) {
+    if (requirementIds == null || requirementIds.isEmpty()) {
+      return Collections.emptyList();
+    }
+
+    return Arrays.stream(requirementIds.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .map(Integer::parseInt)
+        .collect(Collectors.toList());
   }
 }

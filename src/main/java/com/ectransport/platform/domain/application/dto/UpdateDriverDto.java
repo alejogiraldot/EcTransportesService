@@ -14,4 +14,5 @@ public class UpdateDriverDto {
   private UUID serviceId;
   private String plate;
   private Integer idStatus;
+  private String userInSession;
 }

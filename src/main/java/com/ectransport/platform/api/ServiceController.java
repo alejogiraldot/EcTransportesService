@@ -66,7 +66,7 @@ public class ServiceController {
   }
 
   @PostMapping("/find-service-by-user")
-  public ResponseEntity<List<ServiceDto>> saveService(@RequestBody FindServiceByUser findServiceByUser) {
+  public ResponseEntity<List<ServiceDto>> findServiceByUser(@RequestBody FindServiceByUser findServiceByUser) {
     return ResponseEntity.ok(serviceRequestService.findServiceByUser(findServiceByUser));
   }
 
@@ -166,5 +166,16 @@ public class ServiceController {
       Map<String, String> errorResponse = new HashMap<>();
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
+  }
+
+  @GetMapping("/requeriments")
+  public ResponseEntity<List<RequerimentsDto>> requeriments() {
+    return ResponseEntity.ok(serviceRequestService.getRequeriments());
+  }
+
+
+  @GetMapping("/find-history/{id}")
+  public ResponseEntity<List<HistoryData>> getHistory(@PathVariable("id") UUID serviceId) {
+    return ResponseEntity.ok(serviceRequestService.getHistoryById(serviceId));
   }
 }
