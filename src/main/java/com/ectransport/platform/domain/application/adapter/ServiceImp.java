@@ -94,6 +94,7 @@ public class ServiceImp implements ServiceRequestService {
       return serviceApplicationMapper.serviceToServiceUpdatedDto(
           serviceRequestRepository.findServiceById(updateDriverDto.getServiceId())
       );
+
     } else {
       return null;
     }

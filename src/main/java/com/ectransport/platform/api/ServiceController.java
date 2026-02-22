@@ -67,7 +67,7 @@ public class ServiceController {
 
   @PostMapping("/find-service-by-user")
   public ResponseEntity<List<ServiceDto>> findServiceByUser(@RequestBody FindServiceByUser findServiceByUser) {
-    return ResponseEntity.ok(serviceRequestService.findServiceByUser(findServiceByUser));
+      return ResponseEntity.ok(serviceRequestService.findServiceByUser(findServiceByUser));
   }
 
   @PatchMapping("/update-status")
