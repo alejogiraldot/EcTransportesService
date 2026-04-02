@@ -41,7 +41,7 @@ public class ServiceDto {
   private Integer driverId;
   private String userIdentification;
   private Integer clientType;
-  private String transportId;
+  private String transportCode;
   private Double originLatitude;
   private Double originLongitude;
   private Double destinationLatitude;
@@ -49,4 +49,5 @@ public class ServiceDto {
   private String reference;
   private String product;
   private List<Integer> requeriments;
+  private String driverNumber;
 }

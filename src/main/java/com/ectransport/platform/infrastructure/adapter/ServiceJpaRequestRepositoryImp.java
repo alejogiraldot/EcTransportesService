@@ -11,6 +11,7 @@ import com.ectransport.platform.domain.core.entity.ServiceByUser;
 import com.ectransport.platform.domain.core.entity.ServiceType;
 import com.ectransport.platform.infrastructure.entity.*;
 import com.ectransport.platform.infrastructure.mapper.ServiceInfrastructureMapper;
+import com.ectransport.platform.infrastructure.mapper.ServiceStatusMapper;
 import com.ectransport.platform.infrastructure.mapper.UploadFileStructureMapper;
 import com.ectransport.platform.infrastructure.repository.*;
 import jakarta.persistence.EntityManager;
@@ -29,6 +30,7 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
   private final ServiceRequestJpaRepository serviceRequestJpaRepository;
   private final ServiceInfrastructureMapper serviceInfrastructureMapper;
   private final ServiceJpaRepository serviceJpaRepository;
+  private final StatusJpaRepository statusJpaRepository;
   private final DailyCounterRepository dailyCounterRepository;
   private final UploadFileStructureMapper uploadFileStructureMapper;
   private final RequerimentJpaRepository requerimentJpaRepository;
@@ -36,12 +38,13 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
   private final ChangeDetectionService changeDetectionService;
   private final EventDataService eventDataService;
   private final ChangeEnrichmentService changeEnrichmentService;
-  private final EntityManager entityManager; // ✅ NUEVO
-
-  public ServiceJpaRequestRepositoryImp(ServiceRequestJpaRepository serviceRequestJpaRepository, ServiceInfrastructureMapper serviceInfrastructureMapper, ServiceJpaRepository serviceJpaRepository, DailyCounterRepository dailyCounterRepository, UploadFileStructureMapper uploadFileStructureMapper, RequerimentJpaRepository requerimentJpaRepository, ServiceRequirementJpaRepository serviceRequirementJpaRepository, ChangeDetectionService changeDetectionService, EventDataService eventDataService, ChangeEnrichmentService changeEnrichmentService, EntityManager entityManager) {
+  private final EntityManager entityManager;
+  private final ServiceStatusMapper serviceStatusMapper;
+  public ServiceJpaRequestRepositoryImp(ServiceRequestJpaRepository serviceRequestJpaRepository, ServiceInfrastructureMapper serviceInfrastructureMapper, ServiceJpaRepository serviceJpaRepository, StatusJpaRepository statusJpaRepository, DailyCounterRepository dailyCounterRepository, UploadFileStructureMapper uploadFileStructureMapper, RequerimentJpaRepository requerimentJpaRepository, ServiceRequirementJpaRepository serviceRequirementJpaRepository, ChangeDetectionService changeDetectionService, EventDataService eventDataService, ChangeEnrichmentService changeEnrichmentService, EntityManager entityManager, ServiceStatusMapper serviceStatusMapper) {
     this.serviceRequestJpaRepository = serviceRequestJpaRepository;
     this.serviceInfrastructureMapper = serviceInfrastructureMapper;
     this.serviceJpaRepository = serviceJpaRepository;
+    this.statusJpaRepository = statusJpaRepository;
     this.dailyCounterRepository = dailyCounterRepository;
     this.uploadFileStructureMapper = uploadFileStructureMapper;
     this.requerimentJpaRepository = requerimentJpaRepository;
@@ -50,6 +53,7 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
     this.eventDataService = eventDataService;
     this.changeEnrichmentService = changeEnrichmentService;
     this.entityManager = entityManager;
+    this.serviceStatusMapper = serviceStatusMapper;
   }
 
   @Override
@@ -383,6 +387,11 @@ public class ServiceJpaRequestRepositoryImp implements ServiceRequestRepository 
         )
         .toList();
     serviceRequirementJpaRepository.saveAll(entities);
+  }
+
+  @Override
+  public List<StatusDto> getStatus() {
+    return statusJpaRepository.findAll().stream().map(serviceStatusMapper::statusEntityToStatusDto).toList();
   }
 
   void validateSaveTraceability(Map<String, Map<String, Object>> changes, ServiceOrderEntity serviceOrderEntity, RequestCreateServiceDto requestCreateServiceDto) {

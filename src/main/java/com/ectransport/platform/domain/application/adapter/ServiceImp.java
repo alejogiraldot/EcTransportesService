@@ -16,7 +16,6 @@ import com.ectransport.platform.infrastructure.entity.EventType;
 import com.ectransport.platform.infrastructure.entity.ServiceEventLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -274,5 +273,10 @@ public class ServiceImp implements ServiceRequestService {
   @Override
   public List<HistoryData> getHistoryById(UUID serviceId) {
     return eventDataService.findHistoryById(serviceId).stream().map(historyApplicationMapper::serviceEventHistoryToHistoryData).toList();
+  }
+
+  @Override
+  public List<StatusDto> getStatus() {
+    return serviceRequestRepository.getStatus();
   }
 }

@@ -35,4 +35,6 @@ public interface ServiceRequestService {
 
   List<HistoryData> getHistoryById(UUID serviceId);
 
+  List<StatusDto> getStatus();
+
 }

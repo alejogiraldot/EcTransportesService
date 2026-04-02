@@ -21,6 +21,7 @@ public class ServiceApplicationMapper {
     return CreateServiceDto.builder()
         .transactionService(service.getIdService())
         .serviceId(service.getServiceNumber())
+        .statusId(service.getStatusId())
         .build();
   }
 
@@ -62,7 +63,7 @@ public class ServiceApplicationMapper {
         .driverId(serviceByUser.getDriverId())
         .userIdentification(serviceByUser.getUserIdentification())
         .clientType(serviceByUser.getClientType())
-        .transportId(serviceByUser.getTransportId())
+        .transportCode(serviceByUser.getTransportId())
         .originLongitude(serviceByUser.getOriginLongitude())
         .originLatitude(serviceByUser.getOriginLatitude())
         .destinationLongitude(serviceByUser.getDestinationLongitude())
@@ -70,6 +71,7 @@ public class ServiceApplicationMapper {
         .reference(serviceByUser.getReference())
         .product(serviceByUser.getProduct())
         .requeriments(serviceByUser.getRequeriment())
+        .driverNumber(serviceByUser.getDriverNumber())
         .build();
   }
 

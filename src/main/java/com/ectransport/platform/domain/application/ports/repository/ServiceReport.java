@@ -73,4 +73,6 @@ public interface ServiceReport {
   String getProduct();
 
   String getRequirementIds();
+
+  String getDriverNumber();
 }

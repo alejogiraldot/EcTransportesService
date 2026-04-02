@@ -178,4 +178,11 @@ public class ServiceController {
   public ResponseEntity<List<HistoryData>> getHistory(@PathVariable("id") UUID serviceId) {
     return ResponseEntity.ok(serviceRequestService.getHistoryById(serviceId));
   }
+
+
+  @GetMapping("/status-service")
+  public ResponseEntity<List<StatusDto>> getHistory() {
+    return ResponseEntity.ok(serviceRequestService.getStatus());
+  }
+
 }

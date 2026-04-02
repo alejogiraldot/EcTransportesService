@@ -40,7 +40,8 @@ public class ServiceByUser {
   private Double destinationLongitude;
   private String reference;
   private String product;
-  private List<Integer> requeriment; // ✅ Cambiado a List<Integer>
+  private List<Integer> requeriment;
+  private String driverNumber;
 
 
   private ServiceByUser(Builder builder) {
@@ -78,12 +79,16 @@ public class ServiceByUser {
     reference = builder.reference;
     product = builder.product;
     requeriment = builder.requeriment;
+    driverNumber = builder.driverNumber;
   }
 
-  public List<Integer> getRequeriment() { // ✅ Cambiado a List<Integer>
+  public List<Integer> getRequeriment() {
     return requeriment;
   }
 
+  public String getDriverNumber() {
+    return driverNumber;
+  }
   public String getReference() {
     return reference;
   }
@@ -253,7 +258,8 @@ public class ServiceByUser {
     private Double destinationLatitude;
     private Double destinationLongitude;
     private String reference;
-    private List<Integer> requeriment; // ✅ Cambiado a List<Integer>
+    private List<Integer> requeriment;
+    private String driverNumber;
 
     private Builder() {
     }
@@ -267,7 +273,12 @@ public class ServiceByUser {
       return this;
     }
 
-    public Builder requeriment(List<Integer> val) { // ✅ Cambiado a List<Integer>
+
+    public Builder driverNumber(String val) {
+      driverNumber = val;
+      return this;
+    }
+    public Builder requeriment(List<Integer> val) {
       requeriment = val;
       return this;
     }

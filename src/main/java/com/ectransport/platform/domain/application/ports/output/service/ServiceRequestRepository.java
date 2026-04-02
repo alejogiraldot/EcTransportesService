@@ -29,4 +29,5 @@ public interface ServiceRequestRepository {
   Service editService(RequestCreateServiceDto requestCreateServiceDto);
   List<RequerimentsDto> getRequeriments();
   void saveRequeriments(UUID getIdService,List<Integer> requeriments);
+  List<StatusDto> getStatus();
 }

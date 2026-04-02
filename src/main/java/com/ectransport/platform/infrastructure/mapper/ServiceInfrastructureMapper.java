@@ -131,6 +131,7 @@ public class ServiceInfrastructureMapper {
         .reference(serviceReport.getReference())
         .product(serviceReport.getProduct())
         .requeriment(requerimentEntityToRequeriment(serviceReport.getRequirementIds()))
+        .driverNumber(serviceReport.getDriverNumber())
         .build();
   }
 

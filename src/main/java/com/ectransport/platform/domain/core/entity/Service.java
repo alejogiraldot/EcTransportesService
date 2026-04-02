@@ -37,6 +37,7 @@ public class Service {
   private String plate;
   private String serviceNumber;
   private String reference;
+  private Integer statusId;
 
   private Service(Builder builder) {
     setIdService(builder.idService);
@@ -62,11 +63,17 @@ public class Service {
     setPlate(builder.plate);
     setServiceNumber(builder.serviceNumber);
     setReference(builder.reference);
+    setStatusId(builder.statusId);
   }
 
   public String getReference() {
     return reference;
   }
+
+  public Integer getStatusId() {
+    return statusId;
+  }
+
 
   public UUID getIdService() {
     return idService;
@@ -180,6 +187,7 @@ public class Service {
     private String plate;
     private String serviceNumber;
     private String reference;
+    private Integer statusId;
 
     private Builder() {
     }
@@ -190,6 +198,11 @@ public class Service {
 
     public Builder idService(UUID val) {
       idService = val;
+      return this;
+    }
+
+    public Builder idService(Integer val) {
+      statusId = val;
       return this;
     }
     public Builder reference(String val) {

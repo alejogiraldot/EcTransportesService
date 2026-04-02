@@ -4,14 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDate;
-import java.util.UUID;
-
-@Data
-@AllArgsConstructor
 @Builder
-public class CreateServiceDto {
-  private String serviceId;
-  private UUID transactionService;
+@AllArgsConstructor
+@Data
+public class StatusDto {
+  private Integer id;
+  private String name;
   private Integer statusId;
 }
